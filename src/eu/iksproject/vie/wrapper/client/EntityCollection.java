@@ -49,7 +49,7 @@ public final class EntityCollection extends JavaScriptObject {
      * @return the new entity collection
      */
     public static native EntityCollection createCollection(JavaScriptObject vieInstance) /*-{
-        return new vieInstance.Collection();
+		return new vieInstance.Collection();
     }-*/;
 
     /**
@@ -58,7 +58,7 @@ public final class EntityCollection extends JavaScriptObject {
      * @param entity the entity to add
      */
     public native void addOrUpdate(Entity entity) /*-{
-        this.addOrUpdate(entity);
+		this.addOrUpdate(entity);
     }-*/;
 
     /**
@@ -68,8 +68,13 @@ public final class EntityCollection extends JavaScriptObject {
      * 
      * @return the entity
      */
-    public native Entity getEntity(String uri) /*-{
-        return this.get(uri);
+    public native Entity getEntityByUri(String uri) /*-{
+		return this.getByCid(uri);
+    }-*/;
+
+    public native Entity getEntity(int index) /*-{
+
+		return this.at(index);
     }-*/;
 
     /**
@@ -78,6 +83,6 @@ public final class EntityCollection extends JavaScriptObject {
      * @return the size
      */
     public native int size() /*-{
-        this.size();
+		return this.length;
     }-*/;
 }

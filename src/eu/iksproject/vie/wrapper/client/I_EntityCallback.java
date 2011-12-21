@@ -31,17 +31,8 @@
 
 package eu.iksproject.vie.wrapper.client;
 
-import com.google.gwt.core.client.JsArray;
+public interface I_EntityCallback {
 
-/**
- * A simple call-back interface.<p>
- */
-public interface I_Callback {
+    void execute(Entity entity);
 
-    /**
-     * Method executed on call-back.<p>
-     * 
-     * @param arg the argument
-     */
-    void execute(JsArray<Entity> arg);
 }

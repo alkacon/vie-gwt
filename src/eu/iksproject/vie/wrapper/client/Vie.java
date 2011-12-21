@@ -28,11 +28,12 @@
 package eu.iksproject.vie.wrapper.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 
 /**
  * The VIE wrapper singleton.<p>
  */
-public class Vie extends JavaScriptObject implements I_Vie {
+public final class Vie extends JavaScriptObject implements I_Vie {
 
     /** The singleton Vie instance. */
     private static Vie m_instance;
@@ -61,10 +62,47 @@ public class Vie extends JavaScriptObject implements I_Vie {
     /**
      * @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_Callback)
      */
-    public final void load(String service, String selector, I_Callback callback) {
+    public final void load(String service, String selector, I_EntityArrayCallback callback) {
 
         loadInternal(service, selector, callback);
     }
+
+    public native void bindAddEntities(String functionName, I_EntityCallback callback)/*-{
+		this.entities
+				.bind(
+						functionName,
+						function(entity) {
+							callback.@eu.iksproject.vie.wrapper.client.I_EntityCallback::execute(Leu/iksproject/vie/wrapper/client/Entity;)(entity);
+						});
+    }-*/;
+
+    public native EntityCollection getEntities() /*-{
+		return this.entities;
+    }-*/;
+
+    /**
+     * Returns the element subject.<p>
+     * 
+     * @param element the DOM element
+     * 
+     * @return the elements subject
+     */
+    public final native String getElementSubject(Element element) /*-{
+
+		return this.services.rdfa.getElementSubject(element);
+    }-*/;
+
+    /**
+     * Returns the element subject.<p>
+     * 
+     * @param element the DOM element
+     * 
+     * @return the elements subject
+     */
+    public final native String getElementPredicate(Element element) /*-{
+
+		return this.services.rdfa.getElementPredicate(element);
+    }-*/;
 
     /**
      * Creates a new JS VIE object instance.<p>
@@ -87,11 +125,11 @@ public class Vie extends JavaScriptObject implements I_Vie {
      * 
      *  @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_Callback)
      */
-    private final native void loadInternal(String service, String selector, I_Callback callback) /*-{
+    private final native void loadInternal(String service, String selector, I_EntityArrayCallback callback) /*-{
 
 		var vie = @eu.iksproject.vie.wrapper.client.Vie::m_instance;
 		var call = function(entities) {
-			callback.@eu.iksproject.vie.wrapper.client.I_Callback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
+			callback.@eu.iksproject.vie.wrapper.client.I_EntityArrayCallback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
 		}
 		vie.load({
 			element : $wnd.jQuery(selector)

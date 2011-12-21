@@ -31,19 +31,17 @@
 
 package eu.iksproject.vie.wrapper.client;
 
+import com.google.gwt.core.client.JsArray;
 
 /**
- * The interface for VIE implementations.<p>
+ * A simple call-back interface.<p>
  */
-public interface I_Vie {
+public interface I_EntityArrayCallback {
 
     /**
-     * Executes the load function on the VIE instance.<p>
+     * Method executed on call-back.<p>
      * 
-     * @param service the name of the service to use
-     * @param selector the jQuery selector to specify the HTML-Elements inside the DOM to search for entities
-     * @param callback the callback that is executed on success 
+     * @param arg the argument
      */
-    void load(String service, String selector, I_EntityArrayCallback callback);
-
+    void execute(JsArray<Entity> arg);
 }

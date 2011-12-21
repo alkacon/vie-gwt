@@ -27,9 +27,10 @@
 
 package eu.iksproject.vie.wrapper.client;
 
+import eu.iksproject.vie.wrapper.client.widget.SimpleEditWidget;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArray;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -46,18 +47,22 @@ public class VieEntryPoint implements EntryPoint {
      */
     public void onModuleLoad() {
 
-        Vie vie = Vie.getInstance();
-        vie.load("rdfa", "body [about]", new I_Callback() {
-
-            public void execute(JsArray<Entity> entities) {
-
-                for (int i = 0; i < entities.length(); ++i) {
-                    Entity entity = entities.get(i);
-                    logEntity(entity);
-                }
-            }
-        });
+        SimpleEditWidget.makeEditable();
     }
+
+    /**
+     * Writes the given entity to the browsers log.<p>
+     * 
+     * Can only used in browsers that support a log.<p>
+     * 
+     * @param entity the found entities
+     */
+    protected native void logEntity(Object entity) /*-{
+
+		if ($wnd.console) {
+			$wnd.console.log(entity);
+		}
+    }-*/;
 
     /**
      * Writes the given entity to the browsers log.<p>
