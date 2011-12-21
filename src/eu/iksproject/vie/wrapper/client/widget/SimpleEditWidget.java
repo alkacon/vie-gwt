@@ -37,6 +37,8 @@ import eu.iksproject.vie.wrapper.client.I_EntityCallback;
 import eu.iksproject.vie.wrapper.client.Vie;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
 /**
  * Implements an easy version of editable widget.<p>
@@ -64,17 +66,18 @@ public class SimpleEditWidget {
             public void execute(Entity entity) {
 
                 editable(entity, vie);
+                entity.addValueChangeHandler(new ValueChangeHandler<Entity>() {
+
+                    public void onValueChange(ValueChangeEvent<Entity> event) {
+
+                        save(event.getValue(), vie);
+
+                    }
+                });
 
             }
         });
-        vie.bindFunctionToEntities("change", new I_EntityCallback() {
 
-            public void execute(Entity entity) {
-
-                save(entity, vie);
-
-            }
-        });
         vie.load("rdfa", "body [about]", new I_EntityArrayCallback() {
 
             public void execute(JsArray<Entity> entities) {
@@ -89,8 +92,8 @@ public class SimpleEditWidget {
      * Initialize.<p>
      */
     protected static final native void init() /*-{
-		$wnd.changedEntities = [];
-		$wnd.saveButton = null;
+        $wnd.changedEntities = [];
+        $wnd.saveButton = null;
     }-*/;
 
     /**
@@ -101,29 +104,29 @@ public class SimpleEditWidget {
      */
     protected static final native void editable(Entity entity, Vie v) /*-{
 
-		$wnd.jQuery('[about="' + entity.getSubjectUri() + '"] [property]')
-				.each(function() {
-					if (v.services.rdfa.getElementSubject(this) !== entity.id) {
-						return;
-					}
-					var editableElement = $wnd.jQuery(this);
-					var property = v.services.rdfa.getElementPredicate(this);
-					// To use Hallo, replace next line with:
-					// editableElement.hallo();
-					// Note: you'll also want to configure Hallo to include some plugins
-					editableElement.attr('contenteditable', true);
-					// To use Hallo, replace next 2 lines with:
-					// editableElement.bind('hallomodified', function(event, data) {
-					//   var content = data.content;   
-					editableElement.bind('keyup click change', function() {
-						var content = editableElement.html();
-						if (content !== entity.get(property)) {
-							var changedProps = {};
-							changedProps[property] = content;
-							entity.set(changedProps);
-						}
-					});
-				})
+        $wnd.jQuery('[about="' + entity.getSubjectUri() + '"] [property]')
+                .each(function() {
+                    if (v.services.rdfa.getElementSubject(this) !== entity.id) {
+                        return;
+                    }
+                    var editableElement = $wnd.jQuery(this);
+                    var property = v.services.rdfa.getElementPredicate(this);
+                    // To use Hallo, replace next line with:
+                    // editableElement.hallo();
+                    // Note: you'll also want to configure Hallo to include some plugins
+                    editableElement.attr('contenteditable', true);
+                    // To use Hallo, replace next 2 lines with:
+                    // editableElement.bind('hallomodified', function(event, data) {
+                    //   var content = data.content;   
+                    editableElement.bind('keyup click change', function() {
+                        var content = editableElement.html();
+                        if (content !== entity.get(property)) {
+                            var changedProps = {};
+                            changedProps[property] = content;
+                            entity.set(changedProps);
+                        }
+                    });
+                })
     }-*/;
 
     /**
@@ -134,24 +137,24 @@ public class SimpleEditWidget {
      */
     protected static final native void save(Entity entity, Vie v) /*-{
 
-		$wnd.console.log(entity.previousAttributes(), entity.attributes);
-		if ($wnd.changedEntities.indexOf(entity) === -1) {
-			$wnd.changedEntities.push(entity);
-		}
-		if ($wnd.saveButton) {
-			return;
-		}
+        $wnd.console.log(entity.previousAttributes(), entity.attributes);
+        if ($wnd.changedEntities.indexOf(entity) === -1) {
+            $wnd.changedEntities.push(entity);
+        }
+        if ($wnd.saveButton) {
+            return;
+        }
 
-		$wnd.saveButton = $wnd.jQuery('<button>Save</button>');
-		$wnd.saveButton.click(function() {
-			alert('We would save ' + $wnd.changedEntities.length
-					+ ' changed entities');
-			$wnd._.each($wnd.changedEntities, function(entity) {
-				//entity.save();
-			});
-			$wnd.changedEntities = [];
-		});
-		$wnd.jQuery('body').append($wnd.saveButton);
+        $wnd.saveButton = $wnd.jQuery('<button>Save</button>');
+        $wnd.saveButton.click(function() {
+            alert('We would save ' + $wnd.changedEntities.length
+                    + ' changed entities');
+            $wnd._.each($wnd.changedEntities, function(entity) {
+                //entity.save();
+            });
+            $wnd.changedEntities = [];
+        });
+        $wnd.jQuery('body').append($wnd.saveButton);
     }-*/;
 
 }
