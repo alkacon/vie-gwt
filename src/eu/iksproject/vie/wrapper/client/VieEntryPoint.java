@@ -47,7 +47,7 @@ public class VieEntryPoint implements EntryPoint {
     public void onModuleLoad() {
 
         Vie vie = Vie.getInstance();
-        vie.load("rdfa", "[typeof][about]", new I_Callback() {
+        vie.load("rdfa", "body [about]", new I_Callback() {
 
             public void execute(JsArray<Entity> entities) {
 

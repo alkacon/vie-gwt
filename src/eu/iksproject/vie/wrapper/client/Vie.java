@@ -93,6 +93,8 @@ public class Vie extends JavaScriptObject implements I_Vie {
 		var call = function(entities) {
 			callback.@eu.iksproject.vie.wrapper.client.I_Callback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
 		}
-		vie.load($wnd.jQuery(selector)).from(service).execute().success(call);
+		vie.load({
+			element : $wnd.jQuery(selector)
+		}).using(service).execute().success(call);
     }-*/;
 }
