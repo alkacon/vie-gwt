@@ -31,7 +31,7 @@
 
 package eu.iksproject.vie.wrapper.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 
 /**
  * A simple call-back interface.<p>
@@ -43,5 +43,5 @@ public interface I_Callback {
      * 
      * @param arg the argument
      */
-    void execute(JavaScriptObject[] arg);
+    void execute(JsArray<Entity> arg);
 }

@@ -30,18 +30,19 @@ package eu.iksproject.vie.wrapper.client;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * The VIE wrapper singelton.<p>
+ * The VIE wrapper singleton.<p>
  */
 public class Vie extends JavaScriptObject implements I_Vie {
 
-    /** The instance this class vie. */
+    /** The singleton Vie instance. */
     private static Vie m_instance;
 
     /**
-     * Hide the constructor.<p>
+     * Protected constructor, needed for sub classes of GWT-JavaScriptObjects.<p>
      */
     protected Vie() {
 
+        // noop
     }
 
     /**
@@ -58,7 +59,15 @@ public class Vie extends JavaScriptObject implements I_Vie {
     }
 
     /**
-     * Creates a new JS VIE Object.<p>
+     * @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_Callback)
+     */
+    public final void load(String service, String selector, I_Callback callback) {
+
+        loadInternal(service, selector, callback);
+    }
+
+    /**
+     * Creates a new JS VIE object instance.<p>
      * 
      * @return the JS VIE object
      */
@@ -70,80 +79,20 @@ public class Vie extends JavaScriptObject implements I_Vie {
     }-*/;
 
     /**
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_Callback)
-     */
-    public final void load(String service, String selector, I_Callback callback) {
-
-        loadInternal(service, selector, callback);
-    }
-
-    /**
+     * Executes the load function on the VIE instance.<p>
      * 
-     * @param service
-     * @param selector
-     * @param callback
+     * @param service the name of the service to use
+     * @param selector the jQuery selector to specify the HTML-Elements inside the DOM to search for entities
+     * @param callback the callback that is executed on success
+     * 
+     *  @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_Callback)
      */
     private final native void loadInternal(String service, String selector, I_Callback callback) /*-{
 
-		$wnd.console.log(service);
-		$wnd.console.log(selector);
-		if (callback) {
-			$wnd.console.log("callback is there");
-		}
-
 		var vie = @eu.iksproject.vie.wrapper.client.Vie::m_instance;
-		if (vie) {
-			$wnd.console.log("vie is there");
-		}
-
-		var selection = $wnd.jQuery(selector);
-		if (selection) {
-			$wnd.console.log(selection);
-		}
-
-		var load = vie.load(selection);
-		if (load) {
-			$wnd.console.log("load", load);
-		}
-
-		var from = load.from(service);
-		if (from) {
-			$wnd.console.log("from", from);
-		}
-
-		var execute = from.execute();
-		if (execute) {
-			$wnd.console.log("execute", execute);
-		}
-
-		function typeOf(obj) {
-			if (typeof (obj) == 'object') {
-				if (obj.length) {
-					return 'array';
-				} else {
-					return 'object';
-				}
-			} else {
-				return typeof (obj);
-			}
-		}
 		var call = function(entities) {
-			$wnd.console.log(entities);
-			$wnd.console.log(typeOf(entities));
-			for (entity in entities) {
-				$wnd.console.log(entity);
-			}
-			// callback.@eu.iksproject.vie.wrapper.client.I_Callback::execute([Lcom/google/gwt/core/client/JavaScriptObject;)(entities);
+			callback.@eu.iksproject.vie.wrapper.client.I_Callback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
 		}
-		if (typeof call === 'function') {
-			$wnd.console.log("call function", call);
-			// call();
-		}
-		if (typeof execute.success === 'function') {
-			$wnd.console.log("success function", execute.success);
-		}
-
-		execute.success(call);
-
+		vie.load($wnd.jQuery(selector)).from(service).execute().success(call);
     }-*/;
 }

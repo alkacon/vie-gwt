@@ -29,9 +29,7 @@ package eu.iksproject.vie.wrapper.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.core.client.JsArray;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -39,43 +37,39 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 public class VieEntryPoint implements EntryPoint {
 
     /**
-     * Create a remote service proxy to talk to the server-side Greeting service.<p>
+     * Create a remote service proxy to talk to the server-side service.<p>
      */
     private final I_VieServiceAsync vieService = GWT.create(I_VieService.class);
-
-    /**
-     * The success method.<p>
-     * 
-     * @param entity the found entities
-     */
-    protected native void logEntity(JavaScriptObject entity) /*-{
-
-		$wnd.console.log(entity.as("JSON"));
-    }-*/;
 
     /**
      * This is the entry point method.<p>
      */
     public void onModuleLoad() {
 
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+        Vie vie = Vie.getInstance();
+        vie.load("rdfa", "[typeof][about]", new I_Callback() {
 
-            /**
-             * @see com.google.gwt.core.client.Scheduler.ScheduledCommand#execute()
-             */
-            public void execute() {
+            public void execute(JsArray<Entity> entities) {
 
-                Vie vie = Vie.getInstance();
-                vie.load("rdfa", "[typeof][about]", new I_Callback() {
-
-                    public void execute(JavaScriptObject[] entities) {
-
-                        for (JavaScriptObject entity : entities) {
-                            logEntity(entity);
-                        }
-                    }
-                });
+                for (int i = 0; i < entities.length(); ++i) {
+                    Entity entity = entities.get(i);
+                    logEntity(entity);
+                }
             }
         });
     }
+
+    /**
+     * Writes the given entity to the browsers log.<p>
+     * 
+     * Can only used in browsers that support a log.<p>
+     * 
+     * @param entity the found entities
+     */
+    protected native void logEntity(Entity entity) /*-{
+
+		if ($wnd.console) {
+			$wnd.console.log(entity.as("JSON"));
+		}
+    }-*/;
 }

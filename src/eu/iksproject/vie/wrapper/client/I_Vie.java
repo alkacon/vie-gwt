@@ -33,16 +33,16 @@ package eu.iksproject.vie.wrapper.client;
 
 
 /**
- * The interface for vie.<p>
+ * The interface for VIE implementations.<p>
  */
 public interface I_Vie {
 
     /**
-     * The load function to get vie entities.<p>
+     * Executes the load function on the VIE instance.<p>
      * 
      * @param service the name of the service to use
-     * @param selector the "jquery" selector to use
-     * @param callback the callback that is executed
+     * @param selector the jQuery selector to specify the HTML-Elements inside the DOM to search for entities
+     * @param callback the callback that is executed on success 
      */
     void load(String service, String selector, I_Callback callback);
 
