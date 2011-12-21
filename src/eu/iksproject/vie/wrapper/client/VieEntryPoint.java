@@ -27,6 +27,7 @@
 
 package eu.iksproject.vie.wrapper.client;
 
+import eu.iksproject.vie.wrapper.client.widget.HalloWidget;
 import eu.iksproject.vie.wrapper.client.widget.SimpleEditWidget;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -47,8 +48,25 @@ public class VieEntryPoint implements EntryPoint {
      */
     public void onModuleLoad() {
 
-        SimpleEditWidget.makeEditable();
+        if (useHallo()) {
+            HalloWidget.makeEditable();
+        } else {
+            SimpleEditWidget.makeEditable();
+        }
     }
+
+    /**
+     * Returns <code>true</code> if we should use hallo.<p>
+     * 
+     * @return <code>true</code> if we should use hallo
+     */
+    private native boolean useHallo()/*-{
+
+		if ($wnd.useHallo) {
+			return $wnd.useHallo;
+		}
+		return false;
+    }-*/;
 
     /**
      * Writes the given entity to the browsers log.<p>
