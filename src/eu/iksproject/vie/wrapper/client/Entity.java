@@ -41,6 +41,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  */
 public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<Entity> {
 
+    /** The event handler manager. */
     private HandlerManager m_handlerManager;
 
     /**
@@ -63,11 +64,17 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
         return ensureHandlers().addHandler(type, handler);
     }
 
+    /**
+     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+     */
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Entity> handler) {
 
         return addHandler(handler, ValueChangeEvent.getType());
     }
 
+    /**
+     * @see com.google.gwt.event.shared.HasHandlers#fireEvent(com.google.gwt.event.shared.GwtEvent)
+     */
     public void fireEvent(GwtEvent<?> event) {
 
         if (m_handlerManager != null) {
@@ -199,6 +206,9 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
         return m_handlerManager;
     }
 
+    /**
+     * Binds the {@link #fireValueChangeEvent} method to the native change function.<p> 
+     */
     private native void bindChange()/*-{
         this
                 .bind(
