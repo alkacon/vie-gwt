@@ -60,14 +60,20 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }
 
     /**
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_Callback)
+     * @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_EntityArrayCallback)
      */
     public final void load(String service, String selector, I_EntityArrayCallback callback) {
 
         loadInternal(service, selector, callback);
     }
 
-    public native void bindAddEntities(String functionName, I_EntityCallback callback)/*-{
+    /**
+     * Binds a given callback to the entities of vie.<p>
+     * 
+     * @param functionName the name of the function
+     * @param callback the function that should be executed
+     */
+    public native void bindFunctionToEntities(String functionName, I_EntityCallback callback)/*-{
 		this.entities
 				.bind(
 						functionName,
@@ -76,6 +82,11 @@ public final class Vie extends JavaScriptObject implements I_Vie {
 						});
     }-*/;
 
+    /**
+     * Returns the entities of vie
+     * 
+     * @return the entities
+     */
     public native EntityCollection getEntities() /*-{
 		return this.entities;
     }-*/;
@@ -123,7 +134,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @param selector the jQuery selector to specify the HTML-Elements inside the DOM to search for entities
      * @param callback the callback that is executed on success
      * 
-     *  @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_Callback)
+     * @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_EntityArrayCallback)
      */
     private final native void loadInternal(String service, String selector, I_EntityArrayCallback callback) /*-{
 

@@ -39,7 +39,7 @@ import eu.iksproject.vie.wrapper.client.Vie;
 import com.google.gwt.core.client.JsArray;
 
 /**
- * 
+ * Implements an easy version of editable widget.<p>
  */
 public class SimpleEditWidget {
 
@@ -48,13 +48,18 @@ public class SimpleEditWidget {
      */
     private SimpleEditWidget() {
 
+        // noop
     }
 
+    /**
+     * Makes it editable.<p>
+     */
     public static void makeEditable() {
 
         init();
+
         final Vie vie = Vie.getInstance();
-        vie.bindAddEntities("add", new I_EntityCallback() {
+        vie.bindFunctionToEntities("add", new I_EntityCallback() {
 
             public void execute(Entity entity) {
 
@@ -62,11 +67,11 @@ public class SimpleEditWidget {
 
             }
         });
-        vie.bindAddEntities("change", new I_EntityCallback() {
+        vie.bindFunctionToEntities("change", new I_EntityCallback() {
 
             public void execute(Entity entity) {
 
-                saveButton(entity, vie);
+                save(entity, vie);
 
             }
         });
@@ -80,15 +85,19 @@ public class SimpleEditWidget {
 
     }
 
+    /**
+     * Initialize.<p>
+     */
     protected static final native void init() /*-{
 		$wnd.changedEntities = [];
 		$wnd.saveButton = null;
     }-*/;
 
     /**
-     * Makes the page editable.<p>
+     * Makes the entity editable.<p>
      * 
-     * @param entity 
+     * @param entity the entity to make editable
+     * @param v the vie instance
      */
     protected static final native void editable(Entity entity, Vie v) /*-{
 
@@ -117,7 +126,13 @@ public class SimpleEditWidget {
 				})
     }-*/;
 
-    protected static final native void saveButton(Entity entity, Vie v) /*-{
+    /**
+     * Makes the entity saveable.<p>
+     * 
+     * @param entity the entity to make saveable
+     * @param v the vie instance
+     */
+    protected static final native void save(Entity entity, Vie v) /*-{
 
 		$wnd.console.log(entity.previousAttributes(), entity.attributes);
 		if ($wnd.changedEntities.indexOf(entity) === -1) {

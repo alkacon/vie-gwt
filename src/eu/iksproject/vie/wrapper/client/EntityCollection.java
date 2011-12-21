@@ -39,6 +39,7 @@ public final class EntityCollection extends JavaScriptObject {
      */
     protected EntityCollection() {
 
+        // noop
     }
 
     /**
@@ -72,6 +73,13 @@ public final class EntityCollection extends JavaScriptObject {
 		return this.getByCid(uri);
     }-*/;
 
+    /**
+     * Returns the entity for the given index.<p>
+     * 
+     * @param index the index to get the entity for
+     * 
+     * @return the entity
+     */
     public native Entity getEntity(int index) /*-{
 
 		return this.at(index);

@@ -31,8 +31,16 @@
 
 package eu.iksproject.vie.wrapper.client;
 
+/**
+ * A simple call-back interface.<p>
+ */
 public interface I_EntityCallback {
 
+    /**
+     * Method executed on call-back.<p>
+     * 
+     * @param entity the argument
+     */
     void execute(Entity entity);
 
 }
