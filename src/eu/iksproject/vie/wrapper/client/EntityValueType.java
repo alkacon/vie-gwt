@@ -99,16 +99,6 @@ public class EntityValueType extends JavaScriptObject {
     }
 
     /**
-     * Returns the value as Type.<p>
-     * 
-     * @return the value as Type
-     */
-    Type getAsType() {
-
-        return null;
-    }
-
-    /**
      * Initialization.<p>
      */
     private native void init() /*-{
