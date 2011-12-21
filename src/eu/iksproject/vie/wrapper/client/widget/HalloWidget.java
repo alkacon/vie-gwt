@@ -37,6 +37,8 @@ import eu.iksproject.vie.wrapper.client.I_EntityCallback;
 import eu.iksproject.vie.wrapper.client.Vie;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
 /**
  * Implements an easy version of editable widget.<p>
@@ -64,17 +66,18 @@ public class HalloWidget {
             public void execute(Entity entity) {
 
                 editable(entity, vie);
+                entity.addValueChangeHandler(new ValueChangeHandler<Entity>() {
+
+                    public void onValueChange(ValueChangeEvent<Entity> event) {
+
+                        save(event.getValue(), vie);
+
+                    }
+                });
 
             }
         });
-        vie.bindFunctionToEntities("change", new I_EntityCallback() {
 
-            public void execute(Entity entity) {
-
-                save(entity, vie);
-
-            }
-        });
         vie.load("rdfa", "body [about]", new I_EntityArrayCallback() {
 
             public void execute(JsArray<Entity> entities) {

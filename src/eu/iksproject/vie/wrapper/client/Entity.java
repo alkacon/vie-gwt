@@ -98,11 +98,11 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @return the attribute value
      */
     public native EntityCollection getCollectionAttribute(String attributeName) /*-{
-        var result = this.get(attributeName);
-        if (result.isCollection)
-            return result;
-        else
-            throw Exception("Wrong attribute type");
+		var result = this.get(attributeName);
+		if (result.isCollection)
+			return result;
+		else
+			throw Exception("Wrong attribute type");
     }-*/;
 
     /**
@@ -113,10 +113,10 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @return the attribute value
      */
     public native String getStringAttribute(String attributeName) /*-{
-        var result = this.get(attributeName);
-        if (result.isCollection)
-            throw Exception("Wrong attribute type");
-        return result;
+		var result = this.get(attributeName);
+		if (result.isCollection)
+			throw Exception("Wrong attribute type");
+		return result;
     }-*/;
 
     /**
@@ -125,7 +125,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @return the id/URI
      */
     public native String getUri() /*-{
-        this.getSubjectUri();
+		this.getSubjectUri();
     }-*/;
 
     /**
@@ -136,7 +136,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @return <code>true</code> if the entity has the given attribute
      */
     public native boolean hasAttribute(String attributeName) /*-{
-        return this.has(attributeName);
+		return this.has(attributeName);
     }-*/;
 
     /**
@@ -147,7 +147,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @return <code>true</code> if the entity has the given type
      */
     public native boolean hasType(String type) /*-{
-        return this.hasType(type);
+		return this.hasType(type);
     }-*/;
 
     /**
@@ -156,7 +156,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @param attributeName the attribute name
      */
     public native void removeAttribute(String attributeName) /*-{
-        this.unset(attributeName);
+		this.unset(attributeName);
     }-*/;
 
     /**
@@ -165,9 +165,9 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @param attributeName the attribute name
      */
     public native void removeAttributeSilent(String attributeName) /*-{
-        this.unset(attributeName, {
-            silent : true
-        });
+		this.unset(attributeName, {
+			silent : true
+		});
     }-*/;
 
     /**
@@ -177,23 +177,23 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @param value the attribute value
      */
     public native void setAttribute(String attributeName, JavaScriptObject value) /*-{
-        this.set(attributeName, value);
+		this.set(attributeName, value);
     }-*/;
 
     /**
-     * Binds the {@link #fireValueChangeEvent} method to the native change function and sets the handler manager for this instance.<p> 
+     * Binds the {@link #eu.iksproject.vie.wrapper.client.Entity.fireValueChangedEvent(Entity)} method to the native change function and sets the handler manager for this instance.<p> 
      * 
      * @param handlerManager the handler manager to use
      */
     private native void bindChange(HandlerManager handlerManager)/*-{
-        this.handlerManager = handlerManager;
-        var self = this;
-        this
-                .bind(
-                        "change",
-                        function() {
-                            @eu.iksproject.vie.wrapper.client.Entity::fireValueChangedEvent(Leu/iksproject/vie/wrapper/client/Entity;)(self);
-                        });
+		this.handlerManager = handlerManager;
+		var self = this;
+		this
+				.bind(
+						"change",
+						function() {
+							@eu.iksproject.vie.wrapper.client.Entity::fireValueChangedEvent(Leu/iksproject/vie/wrapper/client/Entity;)(self);
+						});
     }-*/;
 
     /**
@@ -215,6 +215,6 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @return the handler manager
      */
     private native HandlerManager getHandlerManager()/*-{
-        return this.handlerManager;
+		return this.handlerManager;
     }-*/;
 }
