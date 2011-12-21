@@ -48,9 +48,26 @@ public final class Entity extends JavaScriptObject {
      * 
      * @return the attribute value
      */
-    public native JavaScriptObject getAttribute(String attributeName) /*-{
+    public native String getStringAttribute(String attributeName) /*-{
+        var result = this.get(attributeName);
+        if (result.isCollection)
+            throw Exception("Wrong attribute type");
+        return result;
+    }-*/;
 
-        return this.get(attributeName);
+    /**
+     * Returns an entity attribute.<p>
+     * 
+     * @param attributeName the attribute name
+     * 
+     * @return the attribute value
+     */
+    public native EntityCollection getCollectionAttribute(String attributeName) /*-{
+        var result = this.get(attributeName);
+        if (result.isCollection)
+            return result;
+        else
+            throw Exception("Wrong attribute type");
     }-*/;
 
     /**
