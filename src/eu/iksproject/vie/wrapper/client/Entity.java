@@ -35,27 +35,82 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class Entity extends JavaScriptObject {
 
     /**
-     * Public constructor.<p>
+     * Constructor, for internal use only.<p>
      */
     protected Entity() {
 
-        // TODO: Implement Entity methods:
-        //    get
-        //    has
-        //    set
-        //    unset
-        //    getSubject
-        //    getSubjectUri
-        //    isReference
-        //    toReference
-        //    fromReference
-        //    as
-        //    toJSONLD
-        //    setOrAdd
-        //    hasType
-        //    hasPropertyValue
-        //    isof
-        //    addTo
     }
 
+    /**
+     * Returns an entity attribute.<p>
+     * 
+     * @param attributeName the attribute name
+     * 
+     * @return the attribute value
+     */
+    public native JavaScriptObject getAttribute(String attributeName) /*-{
+
+        return this.get(attributeName);
+    }-*/;
+
+    /**
+     * Returns the entity id/URI.<p>
+     * 
+     * @return the id/URI
+     */
+    public native String getUri() /*-{
+        this.getSubjectUri();
+    }-*/;
+
+    /**
+     * Returns if the entity has the given attribute.<p>
+     * 
+     * @param attributeName the attribute name
+     * 
+     * @return <code>true</code> if the entity has the given attribute
+     */
+    public native boolean hasAttribute(String attributeName) /*-{
+        return this.has(attributeName);
+    }-*/;
+
+    /**
+     * Returns if the entity has the given type.<p>
+     * 
+     * @param type the type
+     * 
+     * @return <code>true</code> if the entity has the given type
+     */
+    public native boolean hasType(String type) /*-{
+        return this.hasType(type);
+    }-*/;
+
+    /**
+     * Removes the given attribute
+     * 
+     * @param attributeName the attribute name
+     */
+    public native void removeAttribute(String attributeName) /*-{
+        this.unset(attributeName);
+    }-*/;
+
+    /**
+     * Removes the attribute without triggering any change events.<p>
+     * 
+     * @param attributeName the attribute name
+     */
+    public native void removeAttributeSilent(String attributeName) /*-{
+        this.unset(attributeName, {
+            silent : true
+        });
+    }-*/;
+
+    /**
+     * Sets the given attribute.<p>
+     * 
+     * @param attributeName the attribute name
+     * @param value the attribute value
+     */
+    public native void setAttribute(String attributeName, JavaScriptObject value) /*-{
+        this.set(attributeName, value);
+    }-*/;
 }
