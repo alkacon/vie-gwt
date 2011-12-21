@@ -28,11 +28,20 @@
 package eu.iksproject.vie.wrapper.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * The entity wrapper.<p>
  */
-public final class Entity extends JavaScriptObject {
+public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<Entity> {
+
+    private HandlerManager m_handlerManager;
 
     /**
      * Constructor, for internal use only.<p>
@@ -42,18 +51,30 @@ public final class Entity extends JavaScriptObject {
     }
 
     /**
-     * Returns an entity attribute.<p>
-     * 
-     * @param attributeName the attribute name
-     * 
-     * @return the attribute value
+     * Adds this handler to the widget.
+     *
+     * @param <H> the type of handler to add
+     * @param type the event type
+     * @param handler the handler
+     * @return {@link HandlerRegistration} used to remove the handler
      */
-    public native String getStringAttribute(String attributeName) /*-{
-        var result = this.get(attributeName);
-        if (result.isCollection)
-            throw Exception("Wrong attribute type");
-        return result;
-    }-*/;
+    public final <H extends EventHandler> HandlerRegistration addHandler(final H handler, GwtEvent.Type<H> type) {
+
+        return ensureHandlers().addHandler(type, handler);
+    }
+
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Entity> handler) {
+
+        return addHandler(handler, ValueChangeEvent.getType());
+    }
+
+    public void fireEvent(GwtEvent<?> event) {
+
+        if (m_handlerManager != null) {
+            m_handlerManager.fireEvent(event);
+        }
+
+    }
 
     /**
      * Returns an entity attribute.<p>
@@ -68,6 +89,20 @@ public final class Entity extends JavaScriptObject {
             return result;
         else
             throw Exception("Wrong attribute type");
+    }-*/;
+
+    /**
+     * Returns an entity attribute.<p>
+     * 
+     * @param attributeName the attribute name
+     * 
+     * @return the attribute value
+     */
+    public native String getStringAttribute(String attributeName) /*-{
+        var result = this.get(attributeName);
+        if (result.isCollection)
+            throw Exception("Wrong attribute type");
+        return result;
     }-*/;
 
     /**
@@ -129,5 +164,47 @@ public final class Entity extends JavaScriptObject {
      */
     public native void setAttribute(String attributeName, JavaScriptObject value) /*-{
         this.set(attributeName, value);
+    }-*/;
+
+    /**
+     * Creates the {@link HandlerManager} used by this Widget. You can override
+     * this method to create a custom {@link HandlerManager}.
+     *
+     * @return the {@link HandlerManager} you want to use
+     */
+    protected HandlerManager createHandlerManager() {
+
+        return new HandlerManager(this);
+    }
+
+    /** 
+     * Helper method for firing a 'value changed' event.<p>
+     */
+    protected void fireValueChangedEvent() {
+
+        ValueChangeEvent.fire(this, this);
+    }
+
+    /**
+     * Ensures the existence of the handler manager.
+     *
+     * @return the handler manager
+     * */
+    HandlerManager ensureHandlers() {
+
+        if (m_handlerManager == null) {
+            bindChange();
+            m_handlerManager = createHandlerManager();
+        }
+        return m_handlerManager;
+    }
+
+    private native void bindChange()/*-{
+        this
+                .bind(
+                        "change",
+                        function() {
+                            this.@eu.iksproject.vie.wrapper.client.Entity::fireValueChangedEvent()();
+                        });
     }-*/;
 }
