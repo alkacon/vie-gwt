@@ -1,8 +1,12 @@
 /*
+ * File   : $Source$
+ * Date   : $Date$
+ * Version: $Revision$
+ *
  * This library is part of OpenCms -
  * the Open Source Content Management System
  *
- * Copyright (c) Alkacon Software GmbH (http://www.alkacon.com)
+ * Copyright (C) 2002 - 2009 Alkacon Software (http://www.alkacon.com)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,51 +31,17 @@
 
 package eu.iksproject.vie.wrapper.client;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 /**
- * The able interface.<p>
+ * A simple call-back interface.<p>
  */
-public interface I_Able {
-
-    /** A enum for the possible types. */
-    enum AbleType {
-
-        /** Able type. */
-        analyzeable,
-
-        /** Able type. */
-        findable,
-
-        /** Able type. */
-        loadable,
-
-        /** Able type. */
-        removeable,
-
-        /** Able type. */
-        savable
-    }
+public interface I_Callback {
 
     /**
-     * Delegator.<p>
+     * Method executed on call-back.<p>
      * 
-     * @return the reference on itself
+     * @param arg the argument
      */
-    I_Able execute();
-
-    /**
-     * Delegator.<p>
-     * 
-     * @return the reference on itself
-     */
-    I_Able success();
-
-    /**
-     * Delegator.<p>
-     * 
-     * @param service the names of the services to execute on
-     * 
-     * @return the reference on itself
-     */
-    I_Able using(String service);
-
+    void execute(JavaScriptObject[] arg);
 }

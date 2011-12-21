@@ -32,12 +32,12 @@ import com.google.gwt.core.client.JavaScriptObject;
 /**
  * The entity wrapper.<p>
  */
-public class Entity {
+public class Entity extends JavaScriptObject {
 
     /**
      * Public constructor.<p>
      */
-    public Entity() {
+    protected Entity() {
 
         // TODO: Implement Entity methods:
         //    get
@@ -57,18 +57,5 @@ public class Entity {
         //    isof
         //    addTo
     }
-
-    /**
-     * Delegater method to get an entity.<p>
-     * 
-     * @param attr the attributes
-     * 
-     * @return the entity value
-     */
-    public native EntityValueType get(JavaScriptObject attr) /*-{
-
-		return '';
-
-    }-*/;
 
 }

@@ -44,34 +44,14 @@ public class VieEntryPoint implements EntryPoint {
     private final I_VieServiceAsync vieService = GWT.create(I_VieService.class);
 
     /**
-     * Exports the onSuccess method.<p>
-     */
-    public static native void exportStaticMethod() /*-{
-        $wnd.onSuccess = $entry(@eu.iksproject.vie.wrapper.client.VieEntryPoint::onSuccess(Lcom/google/gwt/core/client/JavaScriptObject;));
-    }-*/;
-
-    /**
      * The success method.<p>
      * 
-     * @param entities the found entities
+     * @param entity the found entities
      */
-    public static native void onSuccess(JavaScriptObject entities) /*-{
+    protected native void logEntity(JavaScriptObject entity) /*-{
 
-		for ( var i = 0; i < entities.length; i++) {
-			var entity = entities[i];
-			// $wnd.console.log(entity.as("JSON"));
-		}
+		$wnd.console.log(entity.as("JSON"));
     }-*/;
-
-    /**
-     * Creates a vie instance.<p>
-     * 
-     * @return a vie instance
-     */
-    public Vie getInstance() {
-
-        return new Vie();
-    }
 
     /**
      * This is the entry point method.<p>
@@ -85,25 +65,17 @@ public class VieEntryPoint implements EntryPoint {
              */
             public void execute() {
 
-                exportStaticMethod();
-                Vie vie = new Vie();
-                vie.use(null);
-                vie.load(selectElement("[typeof][about]")).using("rdfa").execute().success();
+                Vie vie = Vie.getInstance();
+                vie.load("rdfa", "[typeof][about]", new I_Callback() {
+
+                    public void execute(JavaScriptObject[] entities) {
+
+                        for (JavaScriptObject entity : entities) {
+                            logEntity(entity);
+                        }
+                    }
+                });
             }
         });
     }
-
-    /**
-     * Returns a JS object selected by jquery.<p>
-     * 
-     * @param jQuerySelector the selector to use
-     * 
-     * @return the element
-     */
-    protected native JavaScriptObject selectElement(String jQuerySelector) /*-{
-
-		return {
-			element : $wnd.jQuery(jQuerySelector)
-		};
-    }-*/;
 }

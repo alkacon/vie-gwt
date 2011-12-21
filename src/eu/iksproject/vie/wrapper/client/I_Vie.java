@@ -1,8 +1,12 @@
 /*
+ * File   : $Source$
+ * Date   : $Date$
+ * Version: $Revision$
+ *
  * This library is part of OpenCms -
  * the Open Source Content Management System
  *
- * Copyright (c) Alkacon Software GmbH (http://www.alkacon.com)
+ * Copyright (C) 2002 - 2009 Alkacon Software (http://www.alkacon.com)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,66 +31,19 @@
 
 package eu.iksproject.vie.wrapper.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * The VIE wrapper interface.<p>
+ * The interface for vie.<p>
  */
 public interface I_Vie {
 
     /**
-     * Tells VIE which service to take.<p>
+     * The load function to get vie entities.<p>
      * 
-     * TODO: Wait for new JS function in VIE
-     * 
-     * @param serviceName the name of the service to use
-     * 
-     * @see "https://github.com/bergie/VIE/issues/61"
+     * @param service the name of the service to use
+     * @param selector the "jquery" selector to use
+     * @param callback the callback that is executed
      */
-    void use(String serviceName);
+    void load(String service, String selector, I_Callback callback);
 
-    /**
-     * Delegator.<p>
-     * 
-     * @param options the options
-     * 
-     * @return the able
-     */
-    I_Able load(JavaScriptObject options);
-
-    /**
-     * Delegator.<p>
-     * 
-     * @param options the options
-     * 
-     * @return the able
-     */
-    I_Able find(JavaScriptObject options);
-
-    /**
-     * Delegator.<p>
-     * 
-     * @param options the options
-     * 
-     * @return the able
-     */
-    I_Able analyze(JavaScriptObject options);
-
-    /**
-     * Delegator.<p>
-     * 
-     * @param options the options
-     * 
-     * @return the able
-     */
-    I_Able save(JavaScriptObject options);
-
-    /**
-     * Delegator.<p>
-     * 
-     * @param options the options
-     * 
-     * @return the able
-     */
-    I_Able remove(JavaScriptObject options);
 }

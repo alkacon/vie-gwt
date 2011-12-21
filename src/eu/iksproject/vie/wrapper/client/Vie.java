@@ -30,77 +30,120 @@ package eu.iksproject.vie.wrapper.client;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * The VIE wrapper class.<p>
+ * The VIE wrapper singelton.<p>
  */
-public class Vie implements I_Vie {
+public class Vie extends JavaScriptObject implements I_Vie {
 
-    /** The JS VIE Object. */
-    private JavaScriptObject m_vie;
+    /** The instance this class vie. */
+    private static Vie m_instance;
 
     /**
-     * Default constructor.<p>
+     * Hide the constructor.<p>
      */
-    public Vie() {
+    protected Vie() {
 
-        m_vie = createInstance();
     }
 
     /**
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#analyze(com.google.gwt.core.client.JavaScriptObject)
+     * Returns the vie instance.<p>
+     * 
+     * @return the vie instance
      */
-    public I_Able analyze(JavaScriptObject options) {
+    public static Vie getInstance() {
 
-        return new Able(I_Able.AbleType.analyzeable, m_vie, options);
+        if (m_instance == null) {
+            m_instance = createInstance();
+        }
+        return m_instance;
     }
-
-    /**
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#find(com.google.gwt.core.client.JavaScriptObject)
-     */
-    public I_Able find(JavaScriptObject options) {
-
-        return new Able(I_Able.AbleType.analyzeable, m_vie, options);
-    }
-
-    /**
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#load(com.google.gwt.core.client.JavaScriptObject)
-     */
-    public I_Able load(JavaScriptObject options) {
-
-        return new Able(I_Able.AbleType.loadable, m_vie, options);
-    }
-
-    /**
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#remove(com.google.gwt.core.client.JavaScriptObject)
-     */
-    public I_Able remove(JavaScriptObject options) {
-
-        return new Able(I_Able.AbleType.analyzeable, m_vie, options);
-    }
-
-    /**
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#save(com.google.gwt.core.client.JavaScriptObject)
-     */
-    public I_Able save(JavaScriptObject options) {
-
-        return new Able(I_Able.AbleType.analyzeable, m_vie, options);
-    }
-
-    /**
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#use(java.lang.String)
-     */
-    public native void use(String serviceName) /*-{
-
-        var vie = this.@eu.iksproject.vie.wrapper.client.Vie::m_vie;
-        vie.use(new vie.RdfaService());
-    }-*/;
 
     /**
      * Creates a new JS VIE Object.<p>
      * 
      * @return the JS VIE object
      */
-    private native JavaScriptObject createInstance() /*-{
+    private static final native Vie createInstance() /*-{
 
-        return new $wnd.VIE();
+		var v = new $wnd.VIE();
+		v.use(new v.RdfaService());
+		return v;
+    }-*/;
+
+    /**
+     * @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_Callback)
+     */
+    public final void load(String service, String selector, I_Callback callback) {
+
+        loadInternal(service, selector, callback);
+    }
+
+    /**
+     * 
+     * @param service
+     * @param selector
+     * @param callback
+     */
+    private final native void loadInternal(String service, String selector, I_Callback callback) /*-{
+
+		$wnd.console.log(service);
+		$wnd.console.log(selector);
+		if (callback) {
+			$wnd.console.log("callback is there");
+		}
+
+		var vie = @eu.iksproject.vie.wrapper.client.Vie::m_instance;
+		if (vie) {
+			$wnd.console.log("vie is there");
+		}
+
+		var selection = $wnd.jQuery(selector);
+		if (selection) {
+			$wnd.console.log(selection);
+		}
+
+		var load = vie.load(selection);
+		if (load) {
+			$wnd.console.log("load", load);
+		}
+
+		var from = load.from(service);
+		if (from) {
+			$wnd.console.log("from", from);
+		}
+
+		var execute = from.execute();
+		if (execute) {
+			$wnd.console.log("execute", execute);
+		}
+
+		function typeOf(obj) {
+			if (typeof (obj) == 'object') {
+				if (obj.length) {
+					return 'array';
+				} else {
+					return 'object';
+				}
+			} else {
+				return typeof (obj);
+			}
+		}
+		var call = function(entities) {
+			$wnd.console.log(entities);
+			$wnd.console.log(typeOf(entities));
+			for (entity in entities) {
+				$wnd.console.log(entity);
+			}
+			// callback.@eu.iksproject.vie.wrapper.client.I_Callback::execute([Lcom/google/gwt/core/client/JavaScriptObject;)(entities);
+		}
+		if (typeof call === 'function') {
+			$wnd.console.log("call function", call);
+			// call();
+		}
+		if (typeof execute.success === 'function') {
+			$wnd.console.log("success function", execute.success);
+		}
+
+		execute.success(call);
+
     }-*/;
 }

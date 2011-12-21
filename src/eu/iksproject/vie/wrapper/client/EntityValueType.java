@@ -31,8 +31,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 /**
  * The value type implementation for an entity.<p>
+ * 
  */
-public class EntityValueType {
+public class EntityValueType extends JavaScriptObject {
 
     /** A enum for the possible types. */
     public static enum TYPE {
@@ -112,18 +113,18 @@ public class EntityValueType {
      */
     private native void init() /*-{
 
+		// Literal (string, number (double, int),  date)
+
 		var value = this.@eu.iksproject.vie.wrapper.client.EntityValueType::m_entity;
 
 		if (value.isCollection) {
 			// value is a VIE.Collection
 		} else if (jQuery.isArray(value)) {
-			// Literal (string, double, int), VIE.Entity, VIE.Type
+			// Literal, VIE.Entity, VIE.Type
 		} else if (value instanceof VIE.Type) {
 			// type
-		} else if (value instanceof VIE.Entity) {
-			// entity
 		} else {
-			// Literal (string, double, int)
+			// Literal
 		}
 		this.@eu.iksproject.vie.wrapper.client.EntityValueType::setType(Ljava/lang/String;)(type);
 		return value;
