@@ -41,14 +41,21 @@ import com.google.gwt.event.shared.HandlerRegistration;
  */
 public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<Entity> {
 
-    /** The event handler manager. */
-    private HandlerManager m_handlerManager;
-
     /**
      * Constructor, for internal use only.<p>
      */
     protected Entity() {
 
+    }
+
+    /** 
+     * Helper method for firing a 'value changed' event.<p>
+     * 
+     * @param entity the entity that changed
+     */
+    private static void fireValueChangedEvent(Entity entity) {
+
+        ValueChangeEvent.fire(entity, entity);
     }
 
     /**
@@ -77,8 +84,8 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     public void fireEvent(GwtEvent<?> event) {
 
-        if (m_handlerManager != null) {
-            m_handlerManager.fireEvent(event);
+        if (getHandlerManager() != null) {
+            getHandlerManager().fireEvent(event);
         }
 
     }
@@ -174,47 +181,40 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
-     * Creates the {@link HandlerManager} used by this Widget. You can override
-     * this method to create a custom {@link HandlerManager}.
-     *
-     * @return the {@link HandlerManager} you want to use
+     * Binds the {@link #fireValueChangeEvent} method to the native change function and sets the handler manager for this instance.<p> 
+     * 
+     * @param handlerManager the handler manager to use
      */
-    protected HandlerManager createHandlerManager() {
-
-        return new HandlerManager(this);
-    }
-
-    /** 
-     * Helper method for firing a 'value changed' event.<p>
-     */
-    protected void fireValueChangedEvent() {
-
-        ValueChangeEvent.fire(this, this);
-    }
+    private native void bindChange(HandlerManager handlerManager)/*-{
+        this.handlerManager = handlerManager;
+        var self = this;
+        this
+                .bind(
+                        "change",
+                        function() {
+                            @eu.iksproject.vie.wrapper.client.Entity::fireValueChangedEvent(Leu/iksproject/vie/wrapper/client/Entity;)(self);
+                        });
+    }-*/;
 
     /**
      * Ensures the existence of the handler manager.
      *
      * @return the handler manager
      * */
-    HandlerManager ensureHandlers() {
+    private HandlerManager ensureHandlers() {
 
-        if (m_handlerManager == null) {
-            bindChange();
-            m_handlerManager = createHandlerManager();
+        if (getHandlerManager() == null) {
+            bindChange(new HandlerManager(this));
         }
-        return m_handlerManager;
+        return getHandlerManager();
     }
 
     /**
-     * Binds the {@link #fireValueChangeEvent} method to the native change function.<p> 
+     * Returns the handler manager.<p>
+     * 
+     * @return the handler manager
      */
-    private native void bindChange()/*-{
-        this
-                .bind(
-                        "change",
-                        function() {
-                            this.@eu.iksproject.vie.wrapper.client.Entity::fireValueChangedEvent()();
-                        });
+    private native HandlerManager getHandlerManager()/*-{
+        return this.handlerManager;
     }-*/;
 }
