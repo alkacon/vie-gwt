@@ -32,7 +32,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 /**
  * The entity collection.<p>
  */
-public class EntityCollection extends JavaScriptObject {
+public final class EntityCollection extends JavaScriptObject {
 
     /**
      * Constructor, for internal use only.<p>

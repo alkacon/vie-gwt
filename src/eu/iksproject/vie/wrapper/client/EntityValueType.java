@@ -33,7 +33,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  * The value type implementation for an entity.<p>
  * 
  */
-public class EntityValueType extends JavaScriptObject {
+public final class EntityValueType extends JavaScriptObject {
 
     /** A enum for the possible types. */
     public static enum TYPE {
@@ -103,21 +103,21 @@ public class EntityValueType extends JavaScriptObject {
      */
     private native void init() /*-{
 
-		// Literal (string, number (double, int),  date)
+        // Literal (string, number (double, int),  date)
 
-		var value = this.@eu.iksproject.vie.wrapper.client.EntityValueType::m_entity;
+        var value = this.@eu.iksproject.vie.wrapper.client.EntityValueType::m_entity;
 
-		if (value.isCollection) {
-			// value is a VIE.Collection
-		} else if (jQuery.isArray(value)) {
-			// Literal, VIE.Entity, VIE.Type
-		} else if (value instanceof VIE.Type) {
-			// type
-		} else {
-			// Literal
-		}
-		this.@eu.iksproject.vie.wrapper.client.EntityValueType::setType(Ljava/lang/String;)(type);
-		return value;
+        if (value.isCollection) {
+            // value is a VIE.Collection
+        } else if (jQuery.isArray(value)) {
+            // Literal, VIE.Entity, VIE.Type
+        } else if (value instanceof VIE.Type) {
+            // type
+        } else {
+            // Literal
+        }
+        this.@eu.iksproject.vie.wrapper.client.EntityValueType::setType(Ljava/lang/String;)(type);
+        return value;
     }-*/;
 
     /**
