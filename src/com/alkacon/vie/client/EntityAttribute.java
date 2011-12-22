@@ -46,14 +46,6 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public final class EntityAttribute extends JavaScriptObject {
 
-    /**
-     * VIE.type representation.<p>
-     */
-    public class AttributeType extends JavaScriptObject {
-
-        // TODO: IMPLEMENT
-    }
-
     /** A enum for the possible attribute types. */
     public static enum TYPE {
 
@@ -73,73 +65,20 @@ public final class EntityAttribute extends JavaScriptObject {
         UNDIFINED
     }
 
-    /** The type. */
-    private TYPE m_type;
-
     /**
      * Constructor, for internal use only.<p>
      */
     protected EntityAttribute() {
 
-        init();
-    }
-
-    /**
-     * Returns the type of this attribute.<p>
-     * 
-     * @return the type
-     */
-    public TYPE getType() {
-
-        return m_type;
-    }
-
-    /**
-     * Returns the value as entity.<p>
-     * 
-     * @return the value as entity
-     */
-    protected final Entity getAsEntity() {
-
-        return null;
-    }
-
-    /**
-     * Returns the value as String.<p>
-     * 
-     * @return the value as String
-     */
-    protected final String getAsString() {
-
-        return null;
-    }
-
-    /**
-     * Returns the value as Array.<p>
-     * 
-     * @return the value as Array
-     */
-    protected final String[] getAsStringArray() {
-
-        return null;
-    }
-
-    /**
-     * Returns the value as entity.<p>
-     * 
-     * @return the value as entity
-     */
-    protected final AttributeType getAsType() {
-
-        return null;
+        // noop
     }
 
     /**
      * Initialization.<p>
+     * 
+     * @return the type
      */
-    private native void init() /*-{
-
-		// Literal (string, number (double, int),  date)
+    public static final native TYPE getType() /*-{
 
 		var type = "UNDIFINED";
 		if (this.isCollection) {
@@ -147,7 +86,7 @@ public final class EntityAttribute extends JavaScriptObject {
 			type = "COLLECTION";
 		} else if ($wnd.jQuery.isArray(this)) {
 			// values of an array could be JavaScript Literals or VIE.Type
-			// this array can also contain different types
+			//  array can also contain different types
 			type = "ARRAY";
 		} else if (this instanceof $wnd.VIE.Type) {
 			// type
@@ -156,16 +95,18 @@ public final class EntityAttribute extends JavaScriptObject {
 			// Literal
 			type = "LITERAL";
 		}
-		this.@com.alkacon.vie.client.EntityAttribute::setTypeAsString(Ljava/lang/String;)(type);
+		return @com.alkacon.vie.client.EntityAttribute::getTypeFromString(Ljava/lang/String;)(type);
     }-*/;
 
     /**
      * Sets the type for the entity value.<p>
      * 
      * @param type the type to set as String
+     * 
+     * @return the enum type for the given String
      */
-    private void setTypeAsString(String type) {
+    private static final TYPE getTypeFromString(String type) {
 
-        m_type = TYPE.valueOf(type.toUpperCase());
+        return TYPE.valueOf(type.toUpperCase());
     }
 }
