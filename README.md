@@ -34,5 +34,5 @@ In the upcoming month Alkacon will even evaluate a number of alternative approac
 - [VIE-GWT project on GitHub] (https://github.com/alkacon/vie-gwt)
 - [VIE project website] (http://viejs.org/)
 - [Editable VIE Widgets] (http://wiki.iks-project.eu/index.php/VIE/Widgets#Editable_Widgets)
-- [Apache Stanbol project] website (http://incubator.apache.org/stanbol/)
+- [Apache Stanbol project website] (http://incubator.apache.org/stanbol/)
 - [Backbone local storage] (http://documentcloud.github.com/backbone/docs/backbone-localstorage.html)
