@@ -25,7 +25,7 @@ To integrate the VIE capabilities into OpenCms, Alkacon is developing a GWT wrap
 
 Alkacon aims to develop a VIE-GWT wrapper that is independent from OpenCms and enables a Java / GWT developer to make full use of the VIE capabilities without knowledge about the JavaScript internals of VIE.
 
-In general there are a number of possible approaches when creating a wrapper for an existing JavaScript API using the GWT: JavaScript Native Interface (JSNI), JavaScriptObject overlays, JavaScript InterOp library, GWT Linker extensions, GWT Generators and maybe more. A first prototype of the wrapper implementation is already available on GitHub – using the JavaScript Native Interface approach.
+In general there are a number of possible approaches when creating a wrapper for an existing JavaScript API using the GWT: JavaScript Native Interface (JSNI), JavaScriptObject overlays, JavaScript InterOp library, GWT Linker extensions, GWT Generators and maybe more. A first prototype of the wrapper implementation is already available on GitHub - using the JavaScript Native Interface approach.
 
 In the upcoming month Alkacon will even evaluate a number of alternative approaches.
  
