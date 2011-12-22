@@ -1,4 +1,4 @@
-VIE-GWT (https://raw.github.com/bergie/VIE/master/design/vie_logo_100.png) Wrapper project
+[VIE-GWT](https://raw.github.com/bergie/VIE/master/design/vie_logo_100.png) Wrapper project
 ====================
 
 ### Alkacon Software develops a Google Web Toolkit wrapper for the Vienna IKS Editables (VIE)
@@ -31,8 +31,8 @@ In the upcoming month Alkacon will even evaluate a number of alternative approac
  
 ### Related links
 
-- VIE-GWT project on GitHub (https://github.com/alkacon/vie-gwt)
-- VIE project website (http://viejs.org/)
-- Editable VIE Widgets (http://wiki.iks-project.eu/index.php/VIE/Widgets#Editable_Widgets)
-- Apache Stanbol project website (http://incubator.apache.org/stanbol/)
-- Backbone local storage (http://documentcloud.github.com/backbone/docs/backbone-localstorage.html)
+- [VIE-GWT project on GitHub] (https://github.com/alkacon/vie-gwt)
+- [VIE project website] (http://viejs.org/)
+- [Editable VIE Widgets] (http://wiki.iks-project.eu/index.php/VIE/Widgets#Editable_Widgets)
+- [Apache Stanbol project] website (http://incubator.apache.org/stanbol/)
+- [Backbone local storage] (http://documentcloud.github.com/backbone/docs/backbone-localstorage.html)
