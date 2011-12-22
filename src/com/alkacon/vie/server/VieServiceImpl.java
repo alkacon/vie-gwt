@@ -1,7 +1,7 @@
 
-package eu.iksproject.vie.wrapper.server;
+package com.alkacon.vie.server;
 
-import eu.iksproject.vie.wrapper.client.I_VieService;
+import com.alkacon.vie.client.I_VieService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -12,7 +12,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class VieServiceImpl extends RemoteServiceServlet implements I_VieService {
 
     /**
-     * @see eu.iksproject.vie.wrapper.client.I_VieService#vieServer(java.lang.String)
+     * @see com.alkacon.vie.client.I_VieService#vieServer(java.lang.String)
      */
     public String vieServer(String input) throws IllegalArgumentException {
 

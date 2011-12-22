@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package eu.iksproject.vie.wrapper.client;
+package com.alkacon.vie.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -60,12 +60,16 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }
 
     /**
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_EntityArrayCallback)
+     * Creates a new JS VIE object instance.<p>
+     * 
+     * @return the JS VIE object
      */
-    public final void load(String service, String selector, I_EntityArrayCallback callback) {
+    private static final native Vie createInstance() /*-{
 
-        loadInternal(service, selector, callback);
-    }
+		var v = new $wnd.VIE();
+		v.use(new v.RdfaService());
+		return v;
+    }-*/;
 
     /**
      * Binds a given callback to the entities of vie.<p>
@@ -74,11 +78,12 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @param callback the function that should be executed
      */
     public native void bindFunctionToEntities(String functionName, I_EntityCallback callback)/*-{
+
 		this.entities
 				.bind(
 						functionName,
 						function(entity) {
-							callback.@eu.iksproject.vie.wrapper.client.I_EntityCallback::execute(Leu/iksproject/vie/wrapper/client/Entity;)(entity);
+							callback.@com.alkacon.vie.client.I_EntityCallback::execute(Lcom/alkacon/vie/client/Entity;)(entity);
 						});
     }-*/;
 
@@ -88,6 +93,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @return the entities
      */
     public native EntityCollection getEntities() /*-{
+
 		return this.entities;
     }-*/;
 
@@ -116,16 +122,12 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }-*/;
 
     /**
-     * Creates a new JS VIE object instance.<p>
-     * 
-     * @return the JS VIE object
+     * @see com.alkacon.vie.client.I_Vie#load(java.lang.String, java.lang.String, com.alkacon.vie.client.I_EntityArrayCallback)
      */
-    private static final native Vie createInstance() /*-{
+    public final void load(String service, String selector, I_EntityArrayCallback callback) {
 
-		var v = new $wnd.VIE();
-		v.use(new v.RdfaService());
-		return v;
-    }-*/;
+        loadInternal(service, selector, callback);
+    }
 
     /**
      * Executes the load function on the VIE instance.<p>
@@ -134,13 +136,13 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @param selector the jQuery selector to specify the HTML-Elements inside the DOM to search for entities
      * @param callback the callback that is executed on success
      * 
-     * @see eu.iksproject.vie.wrapper.client.I_Vie#load(java.lang.String, java.lang.String, eu.iksproject.vie.wrapper.client.I_EntityArrayCallback)
+     * @see com.alkacon.vie.client.I_Vie#load(java.lang.String, java.lang.String, com.alkacon.vie.client.I_EntityArrayCallback)
      */
     private final native void loadInternal(String service, String selector, I_EntityArrayCallback callback) /*-{
 
-		var vie = @eu.iksproject.vie.wrapper.client.Vie::m_instance;
+		var vie = @com.alkacon.vie.client.Vie::m_instance;
 		var call = function(entities) {
-			callback.@eu.iksproject.vie.wrapper.client.I_EntityArrayCallback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
+			callback.@com.alkacon.vie.client.I_EntityArrayCallback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
 		}
 		vie.load({
 			element : $wnd.jQuery(selector)

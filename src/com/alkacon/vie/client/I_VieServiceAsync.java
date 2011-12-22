@@ -1,12 +1,8 @@
 /*
- * File   : $Source$
- * Date   : $Date$
- * Version: $Revision$
- *
  * This library is part of OpenCms -
  * the Open Source Content Management System
  *
- * Copyright (C) 2002 - 2009 Alkacon Software (http://www.alkacon.com)
+ * Copyright (c) Alkacon Software GmbH (http://www.alkacon.com)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,18 +25,20 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package eu.iksproject.vie.wrapper.client;
+package com.alkacon.vie.client;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * A simple call-back interface.<p>
+ * The async counterpart of <code>VieService</code>.
  */
-public interface I_EntityCallback {
+public interface I_VieServiceAsync {
 
     /**
-     * Method executed on call-back.<p>
      * 
-     * @param entity the argument
+     * @param input
+     * @param callback
+     * @throws IllegalArgumentException
      */
-    void execute(Entity entity);
-
+    void vieServer(String input, AsyncCallback<String> callback) throws IllegalArgumentException;
 }

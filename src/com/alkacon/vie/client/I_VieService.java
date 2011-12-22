@@ -25,20 +25,22 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package eu.iksproject.vie.wrapper.client;
+package com.alkacon.vie.client;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
- * The async counterpart of <code>GreetingService</code>.
+ * The client side stub for the RPC service.
  */
-public interface I_VieServiceAsync {
+@RemoteServiceRelativePath("vieService")
+public interface I_VieService extends RemoteService {
 
     /**
      * 
-     * @param input
-     * @param callback
+     * @param name
+     * @return a String
      * @throws IllegalArgumentException
      */
-    void vieServer(String input, AsyncCallback<String> callback) throws IllegalArgumentException;
+    String vieServer(String name) throws IllegalArgumentException;
 }

@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package eu.iksproject.vie.wrapper.client;
+package com.alkacon.vie.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
@@ -48,9 +48,9 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
 
     }
 
-    /** 
+    /**
      * Helper method for firing a 'value changed' event.<p>
-     * 
+     *
      * @param entity the entity that changed
      */
     private static void fireValueChangedEvent(Entity entity) {
@@ -64,6 +64,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @param <H> the type of handler to add
      * @param type the event type
      * @param handler the handler
+     * 
      * @return {@link HandlerRegistration} used to remove the handler
      */
     public final <H extends EventHandler> HandlerRegistration addHandler(final H handler, GwtEvent.Type<H> type) {
@@ -92,12 +93,13 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
 
     /**
      * Returns an entity attribute.<p>
-     * 
+     *
      * @param attributeName the attribute name
-     * 
+     *
      * @return the attribute value
      */
     public native EntityCollection getCollectionAttribute(String attributeName) /*-{
+
 		var result = this.get(attributeName);
 		if (result.isCollection)
 			return result;
@@ -107,12 +109,13 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
 
     /**
      * Returns an entity attribute.<p>
-     * 
+     *
      * @param attributeName the attribute name
-     * 
+     *
      * @return the attribute value
      */
     public native String getStringAttribute(String attributeName) /*-{
+
 		var result = this.get(attributeName);
 		if (result.isCollection)
 			throw Exception("Wrong attribute type");
@@ -121,50 +124,55 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
 
     /**
      * Returns the entity id/URI.<p>
-     * 
+     *
      * @return the id/URI
      */
     public native String getUri() /*-{
+
 		this.getSubjectUri();
     }-*/;
 
     /**
      * Returns if the entity has the given attribute.<p>
-     * 
+     *
      * @param attributeName the attribute name
-     * 
+     *
      * @return <code>true</code> if the entity has the given attribute
      */
     public native boolean hasAttribute(String attributeName) /*-{
+
 		return this.has(attributeName);
     }-*/;
 
     /**
      * Returns if the entity has the given type.<p>
-     * 
+     *
      * @param type the type
-     * 
+     *
      * @return <code>true</code> if the entity has the given type
      */
     public native boolean hasType(String type) /*-{
+
 		return this.hasType(type);
     }-*/;
 
     /**
      * Removes the given attribute
-     * 
+     *
      * @param attributeName the attribute name
      */
     public native void removeAttribute(String attributeName) /*-{
+
 		this.unset(attributeName);
     }-*/;
 
     /**
      * Removes the attribute without triggering any change events.<p>
-     * 
+     *
      * @param attributeName the attribute name
      */
     public native void removeAttributeSilent(String attributeName) /*-{
+
 		this.unset(attributeName, {
 			silent : true
 		});
@@ -172,27 +180,30 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
 
     /**
      * Sets the given attribute.<p>
-     * 
+     *
      * @param attributeName the attribute name
      * @param value the attribute value
      */
     public native void setAttribute(String attributeName, JavaScriptObject value) /*-{
+
 		this.set(attributeName, value);
     }-*/;
 
     /**
-     * Binds the {@link #eu.iksproject.vie.wrapper.client.Entity.fireValueChangedEvent(Entity)} method to the native change function and sets the handler manager for this instance.<p> 
-     * 
+     * Binds the {@link #com.alkacon.vie.client.Entity.fireValueChangedEvent(Entity)} method 
+     * to the native change function and sets the handler manager for this instance.<p>
+     *
      * @param handlerManager the handler manager to use
      */
     private native void bindChange(HandlerManager handlerManager)/*-{
+
 		this.handlerManager = handlerManager;
 		var self = this;
 		this
 				.bind(
 						"change",
 						function() {
-							@eu.iksproject.vie.wrapper.client.Entity::fireValueChangedEvent(Leu/iksproject/vie/wrapper/client/Entity;)(self);
+							@com.alkacon.vie.client.Entity::fireValueChangedEvent(Lcom/alkacon/vie/client/Entity;)(self);
 						});
     }-*/;
 
@@ -211,10 +222,11 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
 
     /**
      * Returns the handler manager.<p>
-     * 
+     *
      * @return the handler manager
      */
     private native HandlerManager getHandlerManager()/*-{
+
 		return this.handlerManager;
     }-*/;
 }

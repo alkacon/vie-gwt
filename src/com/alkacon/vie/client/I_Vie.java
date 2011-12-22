@@ -1,8 +1,12 @@
 /*
+ * File   : $Source$
+ * Date   : $Date$
+ * Version: $Revision$
+ *
  * This library is part of OpenCms -
  * the Open Source Content Management System
  *
- * Copyright (c) Alkacon Software GmbH (http://www.alkacon.com)
+ * Copyright (C) 2002 - 2009 Alkacon Software (http://www.alkacon.com)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,22 +29,21 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package eu.iksproject.vie.wrapper.client;
+package com.alkacon.vie.client;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
- * The client side stub for the RPC service.
+ * The interface for VIE implementations.<p>
  */
-@RemoteServiceRelativePath("greet")
-public interface I_VieService extends RemoteService {
+public interface I_Vie {
 
     /**
+     * Executes the load function on the VIE instance.<p>
      * 
-     * @param name
-     * @return a String
-     * @throws IllegalArgumentException
+     * @param service the name of the service to use
+     * @param selector the jQuery selector to specify the HTML-Elements inside the DOM to search for entities
+     * @param callback the callback that is executed on success 
      */
-    String vieServer(String name) throws IllegalArgumentException;
+    void load(String service, String selector, I_EntityArrayCallback callback);
+
 }

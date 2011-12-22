@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package eu.iksproject.vie.wrapper.client;
+package com.alkacon.vie.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -45,11 +45,12 @@ public final class EntityCollection extends JavaScriptObject {
     /**
      * Creates a new entity collection.<p>
      * 
-     * @param vieInstance the vie instance
+     * @param vieInstance the vie instance to use for creation
      * 
      * @return the new entity collection
      */
     public static native EntityCollection createCollection(JavaScriptObject vieInstance) /*-{
+
 		return new vieInstance.Collection();
     }-*/;
 
@@ -59,6 +60,7 @@ public final class EntityCollection extends JavaScriptObject {
      * @param entity the entity to add
      */
     public native void addOrUpdate(Entity entity) /*-{
+
 		this.addOrUpdate(entity);
     }-*/;
 
@@ -70,6 +72,7 @@ public final class EntityCollection extends JavaScriptObject {
      * @return the entity
      */
     public native Entity getEntityByUri(String uri) /*-{
+
 		return this.getByCid(uri);
     }-*/;
 
@@ -91,6 +94,7 @@ public final class EntityCollection extends JavaScriptObject {
      * @return the size
      */
     public native int size() /*-{
+
 		return this.length;
     }-*/;
 }
