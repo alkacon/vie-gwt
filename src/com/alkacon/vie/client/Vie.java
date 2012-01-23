@@ -64,11 +64,9 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * 
      * @return the JS VIE object
      */
-    private static final native Vie createInstance() /*-{
+    private static native Vie createInstance() /*-{
 
-		var v = new $wnd.VIE();
-		v.use(new v.RdfaService());
-		return v;
+        return new $wnd.VIE();
     }-*/;
 
     /**
@@ -79,55 +77,91 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public native void bindFunctionToEntities(String functionName, I_EntityCallback callback)/*-{
 
-		this.entities
-				.bind(
-						functionName,
-						function(entity) {
-							callback.@com.alkacon.vie.client.I_EntityCallback::execute(Lcom/alkacon/vie/client/Entity;)(entity);
-						});
+        this.entities
+                .bind(
+                        functionName,
+                        function(entity) {
+                            callback.@com.alkacon.vie.client.I_EntityCallback::execute(Lcom/alkacon/vie/client/Entity;)(entity);
+                        });
     }-*/;
 
     /**
-     * Returns the entities of vie
+     * Creates a new entity registering it within VIE.<p>
+     * 
+     * @param entityId the entity id
+     * @param entityType the entity type
+     * 
+     * @return the new entity
+     */
+    public native I_Entity createEntity(String entityId, String entityType) /*-{
+        var properties = {
+            '@subject' : entityId,
+            '@type' : entityType
+        };
+        var entityInstance = new this.Entity(properties);
+        return this.entities.addOrUpdate(entityInstance);
+    }-*/;
+
+    /**
+     * Returns the element subject.<p>
+     * 
+     * @param element the DOM element
+     * 
+     * @return the elements subject
+     */
+    public native String getElementPredicate(Element element) /*-{
+
+        return this.services.rdfa.getElementPredicate(element);
+    }-*/;
+
+    /**
+     * Returns the element subject.<p>
+     * 
+     * @param element the DOM element
+     * 
+     * @return the elements subject
+     */
+    public native String getElementSubject(Element element) /*-{
+
+        return this.services.rdfa.getElementSubject(element);
+    }-*/;
+
+    /**
+     * Returns the entities of vie.<p>
      * 
      * @return the entities
      */
-    public native EntityCollection getEntities() /*-{
+    public native I_EntityCollection getEntities() /*-{
 
-		return this.entities;
+        return this.entities;
     }-*/;
 
     /**
-     * Returns the element subject.<p>
+     * Returns the entity with the given id.<p>
      * 
-     * @param element the DOM element
+     * @param entityId the entity id
      * 
-     * @return the elements subject
+     * @return the entity
      */
-    public final native String getElementSubject(Element element) /*-{
+    public native I_Entity getEntity(String entityId) /*-{
 
-		return this.services.rdfa.getElementSubject(element);
-    }-*/;
-
-    /**
-     * Returns the element subject.<p>
-     * 
-     * @param element the DOM element
-     * 
-     * @return the elements subject
-     */
-    public final native String getElementPredicate(Element element) /*-{
-
-		return this.services.rdfa.getElementPredicate(element);
+        return this.entities.get(entityId);
     }-*/;
 
     /**
      * @see com.alkacon.vie.client.I_Vie#load(java.lang.String, java.lang.String, com.alkacon.vie.client.I_EntityArrayCallback)
      */
-    public final void load(String service, String selector, I_EntityArrayCallback callback) {
+    public void load(String service, String selector, I_EntityArrayCallback callback) {
 
         loadInternal(service, selector, callback);
     }
+
+    /**
+     * Sets VIE to use the RDFA service.<p>
+     */
+    public native void useRdfaService() /*-{
+        this.use(new this.RdfaService());
+    }-*/;
 
     /**
      * Executes the load function on the VIE instance.<p>
@@ -138,14 +172,14 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * 
      * @see com.alkacon.vie.client.I_Vie#load(java.lang.String, java.lang.String, com.alkacon.vie.client.I_EntityArrayCallback)
      */
-    private final native void loadInternal(String service, String selector, I_EntityArrayCallback callback) /*-{
+    private native void loadInternal(String service, String selector, I_EntityArrayCallback callback) /*-{
 
-		var vie = @com.alkacon.vie.client.Vie::m_instance;
-		var call = function(entities) {
-			callback.@com.alkacon.vie.client.I_EntityArrayCallback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
-		}
-		vie.load({
-			element : $wnd.jQuery(selector)
-		}).using(service).execute().success(call);
+        var vie = @com.alkacon.vie.client.Vie::m_instance;
+        var call = function(entities) {
+            callback.@com.alkacon.vie.client.I_EntityArrayCallback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
+        }
+        vie.load({
+            element : $wnd.jQuery(selector)
+        }).using(service).execute().success(call);
     }-*/;
 }

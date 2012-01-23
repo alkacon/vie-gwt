@@ -31,18 +31,12 @@ import com.alkacon.vie.client.widgets.HalloWidget;
 import com.alkacon.vie.client.widgets.SimpleEditWidget;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class VieEntryPoint implements EntryPoint {
-
-    /**
-     * Create a remote service proxy to talk to the server-side service.<p>
-     */
-    private final I_VieServiceAsync vieService = GWT.create(I_VieService.class);
 
     /**
      * Writes the given entity to the browsers log.<p>
@@ -53,9 +47,9 @@ public class VieEntryPoint implements EntryPoint {
      */
     public static native void log(JavaScriptObject jsObject) /*-{
 
-		if ($wnd.console) {
-			$wnd.console.log(jsObject);
-		}
+        if ($wnd.console) {
+            $wnd.console.log(jsObject);
+        }
     }-*/;
 
     /**
@@ -65,11 +59,11 @@ public class VieEntryPoint implements EntryPoint {
      * 
      * @param entity the found entities
      */
-    public static native void logEntity(Entity entity) /*-{
+    public static native void logEntity(I_Entity entity) /*-{
 
-		if ($wnd.console) {
-			$wnd.console.log(entity.as("JSON"));
-		}
+        if ($wnd.console) {
+            $wnd.console.log(entity.as("JSON"));
+        }
     }-*/;
 
     /**
@@ -91,9 +85,9 @@ public class VieEntryPoint implements EntryPoint {
      */
     private native boolean useHallo()/*-{
 
-		if ($wnd.useHallo) {
-			return $wnd.useHallo;
-		}
-		return false;
+        if ($wnd.useHallo) {
+            return $wnd.useHallo;
+        }
+        return false;
     }-*/;
 }

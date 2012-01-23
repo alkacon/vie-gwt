@@ -32,6 +32,7 @@
 package com.alkacon.vie.client.widgets;
 
 import com.alkacon.vie.client.Entity;
+import com.alkacon.vie.client.I_Entity;
 import com.alkacon.vie.client.I_EntityArrayCallback;
 import com.alkacon.vie.client.I_EntityCallback;
 import com.alkacon.vie.client.Vie;
@@ -61,14 +62,15 @@ public class HalloWidget {
         init();
 
         final Vie vie = Vie.getInstance();
+        vie.useRdfaService();
         vie.bindFunctionToEntities("add", new I_EntityCallback() {
 
             public void execute(Entity entity) {
 
                 editable(entity, vie);
-                entity.addValueChangeHandler(new ValueChangeHandler<Entity>() {
+                entity.addValueChangeHandler(new ValueChangeHandler<I_Entity>() {
 
-                    public void onValueChange(ValueChangeEvent<Entity> event) {
+                    public void onValueChange(ValueChangeEvent<I_Entity> event) {
 
                         save(event.getValue(), vie);
                     }
@@ -91,46 +93,46 @@ public class HalloWidget {
      * @param entity the entity to make editable
      * @param v the vie instance
      */
-    protected static final native void editable(Entity entity, Vie v) /*-{
+    protected static final native void editable(I_Entity entity, Vie v) /*-{
 
-		$wnd
-				.jQuery('[about="' + entity.getSubjectUri() + '"] [property]')
-				.each(
-						function() {
-							if (v.services.rdfa.getElementSubject(this) !== entity.id) {
-								return;
-							}
-							var editableElement = $wnd.jQuery(this);
-							var property = v.services.rdfa
-									.getElementPredicate(this);
-							// Note: you'll also want to configure Hallo to include some plugins
-							editableElement.hallo({
-								plugins : {
-									'halloformat' : {},
-									'halloheadings' : {}
-								},
-								editable : true
-							});
+        $wnd
+                .jQuery('[about="' + entity.getSubjectUri() + '"] [property]')
+                .each(
+                        function() {
+                            if (v.services.rdfa.getElementSubject(this) !== entity.id) {
+                                return;
+                            }
+                            var editableElement = $wnd.jQuery(this);
+                            var property = v.services.rdfa
+                                    .getElementPredicate(this);
+                            // Note: you'll also want to configure Hallo to include some plugins
+                            editableElement.hallo({
+                                plugins : {
+                                    'halloformat' : {},
+                                    'halloheadings' : {}
+                                },
+                                editable : true
+                            });
 
-							editableElement.hallo();
-							editableElement.bind('hallomodified', function(
-									event, data) {
-								var content = data.content;
-								if (content !== entity.get(property)) {
-									var changedProps = {};
-									changedProps[property] = content;
-									entity.set(changedProps);
-								}
-							});
-						})
+                            editableElement.hallo();
+                            editableElement.bind('hallomodified', function(
+                                    event, data) {
+                                var content = data.content;
+                                if (content !== entity.get(property)) {
+                                    var changedProps = {};
+                                    changedProps[property] = content;
+                                    entity.set(changedProps);
+                                }
+                            });
+                        })
     }-*/;
 
     /**
      * Initialize.<p>
      */
     protected static final native void init() /*-{
-		$wnd.changedEntities = [];
-		$wnd.saveButton = null;
+        $wnd.changedEntities = [];
+        $wnd.saveButton = null;
     }-*/;
 
     /**
@@ -139,26 +141,26 @@ public class HalloWidget {
      * @param entity the entity to make saveable
      * @param v the vie instance
      */
-    protected static final native void save(Entity entity, Vie v) /*-{
+    protected static final native void save(I_Entity entity, Vie v) /*-{
 
-		$wnd.console.log(entity.previousAttributes(), entity.attributes);
-		if ($wnd.changedEntities.indexOf(entity) === -1) {
-			$wnd.changedEntities.push(entity);
-		}
-		if ($wnd.saveButton) {
-			return;
-		}
+        $wnd.console.log(entity.previousAttributes(), entity.attributes);
+        if ($wnd.changedEntities.indexOf(entity) === -1) {
+            $wnd.changedEntities.push(entity);
+        }
+        if ($wnd.saveButton) {
+            return;
+        }
 
-		$wnd.saveButton = $wnd.jQuery('<button>Save</button>');
-		$wnd.saveButton.click(function() {
-			alert('We would save ' + $wnd.changedEntities.length
-					+ ' changed entities');
-			$wnd._.each($wnd.changedEntities, function(entity) {
-				//entity.save();
-			});
-			$wnd.changedEntities = [];
-		});
-		$wnd.jQuery('body').append($wnd.saveButton);
+        $wnd.saveButton = $wnd.jQuery('<button>Save</button>');
+        $wnd.saveButton.click(function() {
+            alert('We would save ' + $wnd.changedEntities.length
+                    + ' changed entities');
+            $wnd._.each($wnd.changedEntities, function(entity) {
+                //entity.save();
+            });
+            $wnd.changedEntities = [];
+        });
+        $wnd.jQuery('body').append($wnd.saveButton);
     }-*/;
 
 }
