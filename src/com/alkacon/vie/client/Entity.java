@@ -39,7 +39,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 /**
  * The entity wrapper.<p>
  */
-public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<Entity> {
+public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<I_Entity>, I_Entity {
 
     /**
      * Constructor, for internal use only.<p>
@@ -67,7 +67,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * 
      * @return {@link HandlerRegistration} used to remove the handler
      */
-    public final <H extends EventHandler> HandlerRegistration addHandler(final H handler, GwtEvent.Type<H> type) {
+    public <H extends EventHandler> HandlerRegistration addHandler(final H handler, GwtEvent.Type<H> type) {
 
         return ensureHandlers().addHandler(type, handler);
     }
@@ -75,7 +75,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     /**
      * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
      */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Entity> handler) {
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<I_Entity> handler) {
 
         return addHandler(handler, ValueChangeEvent.getType());
     }
@@ -92,56 +92,42 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
-     * Returns an entity attribute.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return the attribute value
+     * @see com.alkacon.vie.client.I_Entity#getCollectionAttribute(java.lang.String)
      */
-    public native EntityCollection getCollectionAttribute(String attributeName) /*-{
+    public native I_EntityCollection getCollectionAttribute(String attributeName) /*-{
 
-		var result = this.get(attributeName);
-		if (result.isCollection)
-			return result;
-		else
-			throw Exception("Wrong attribute type");
+        var result = this.get(attributeName);
+        if (result.isCollection)
+            return result;
+        else
+            throw Exception("Wrong attribute type");
     }-*/;
 
     /**
-     * Returns an entity attribute.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return the attribute value
+     * @see com.alkacon.vie.client.I_Entity#getId()
+     */
+    public native String getId() /*-{
+
+        return this.getSubject();
+    }-*/;
+
+    /**
+     * @see com.alkacon.vie.client.I_Entity#getStringAttribute(java.lang.String)
      */
     public native String getStringAttribute(String attributeName) /*-{
 
-		var result = this.get(attributeName);
-		if (result.isCollection)
-			throw Exception("Wrong attribute type");
-		return result;
+        var result = this.get(attributeName);
+        if (result.isCollection)
+            throw Exception("Wrong attribute type");
+        return result;
     }-*/;
 
     /**
-     * Returns the entity id/URI.<p>
-     *
-     * @return the id/URI
-     */
-    public native String getUri() /*-{
-
-		this.getSubjectUri();
-    }-*/;
-
-    /**
-     * Returns if the entity has the given attribute.<p>
-     *
-     * @param attributeName the attribute name
-     *
-     * @return <code>true</code> if the entity has the given attribute
+     * @see com.alkacon.vie.client.I_Entity#hasAttribute(java.lang.String)
      */
     public native boolean hasAttribute(String attributeName) /*-{
 
-		return this.has(attributeName);
+        return this.has(attributeName);
     }-*/;
 
     /**
@@ -153,40 +139,35 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     public native boolean hasType(String type) /*-{
 
-		return this.hasType(type);
+        return this.hasType(type);
     }-*/;
 
     /**
-     * Removes the given attribute
+     * Removes the given attribute.<p>
      *
      * @param attributeName the attribute name
      */
     public native void removeAttribute(String attributeName) /*-{
 
-		this.unset(attributeName);
+        this.unset(attributeName);
     }-*/;
 
     /**
-     * Removes the attribute without triggering any change events.<p>
-     *
-     * @param attributeName the attribute name
+     * @see com.alkacon.vie.client.I_Entity#removeAttributeSilent(java.lang.String)
      */
     public native void removeAttributeSilent(String attributeName) /*-{
 
-		this.unset(attributeName, {
-			silent : true
-		});
+        this.unset(attributeName, {
+            silent : true
+        });
     }-*/;
 
     /**
-     * Sets the given attribute.<p>
-     *
-     * @param attributeName the attribute name
-     * @param value the attribute value
+     * @see com.alkacon.vie.client.I_Entity#setAttribute(java.lang.String, com.google.gwt.core.client.JavaScriptObject)
      */
     public native void setAttribute(String attributeName, JavaScriptObject value) /*-{
 
-		this.set(attributeName, value);
+        this.set(attributeName, value);
     }-*/;
 
     /**
@@ -197,14 +178,14 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     private native void bindChange(HandlerManager handlerManager)/*-{
 
-		this.handlerManager = handlerManager;
-		var self = this;
-		this
-				.bind(
-						"change",
-						function() {
-							@com.alkacon.vie.client.Entity::fireValueChangedEvent(Lcom/alkacon/vie/client/Entity;)(self);
-						});
+        this.handlerManager = handlerManager;
+        var self = this;
+        this
+                .bind(
+                        "change",
+                        function() {
+                            @com.alkacon.vie.client.Entity::fireValueChangedEvent(Lcom/alkacon/vie/client/Entity;)(self);
+                        });
     }-*/;
 
     /**
@@ -227,6 +208,6 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     private native HandlerManager getHandlerManager()/*-{
 
-		return this.handlerManager;
+        return this.handlerManager;
     }-*/;
 }
