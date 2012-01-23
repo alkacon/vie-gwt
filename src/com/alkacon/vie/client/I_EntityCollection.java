@@ -27,20 +27,42 @@
 
 package com.alkacon.vie.client;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
- * The client side stub for the RPC service.
+ * Interface describing an entity collection.<p>
  */
-@RemoteServiceRelativePath("vieService")
-public interface I_VieService extends RemoteService {
+public interface I_EntityCollection {
 
     /**
+     * Adds a new entity to the collection or updates the entity with the same URI.<p>
      * 
-     * @param name
-     * @return a String
-     * @throws IllegalArgumentException
+     * @param entity the entity to add
      */
-    String vieServer(String name) throws IllegalArgumentException;
+    void addOrUpdate(I_Entity entity);
+
+    /**
+     * Returns the entity for the given index.<p>
+     * 
+     * @param index the index to get the entity for
+     * 
+     * @return the entity
+     */
+    I_Entity getEntity(int index);
+
+    /**
+     * Returns the entity with the given id/URI.<p>
+     * 
+     * @param uri the entity id/URI
+     * 
+     * @return the entity
+     */
+    I_Entity getEntityById(String uri);
+
+    /**
+     * Returns the size of the collection.<p>
+     * 
+     * @return the size
+     */
+    int size();
+
 }
