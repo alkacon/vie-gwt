@@ -103,6 +103,17 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }-*/;
 
     /**
+     * @see com.alkacon.vie.client.I_Vie#createType(java.lang.String)
+     */
+    public native I_Type createType(String id) /*-{
+        var type = new this.Type(id);
+
+        // all type inherit from owl:Thing
+        type.inherit("owl:Thing");
+        return type;
+    }-*/;
+
+    /**
      * Returns the element subject.<p>
      * 
      * @param element the DOM element

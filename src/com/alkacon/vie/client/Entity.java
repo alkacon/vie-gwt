@@ -41,11 +41,24 @@ import com.google.gwt.event.shared.HandlerRegistration;
  */
 public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<I_Entity>, I_Entity {
 
+    /** Flag indicating that id's should always be wrapped in '<>' brackets. */
+    private static boolean USE_BRACKET_WRAPPED_IDS;
+
     /**
      * Constructor, for internal use only.<p>
      */
     protected Entity() {
 
+    }
+
+    /**
+     * Sets the use bracket wrapped id's flag.<p>
+     * 
+     * @param useBrackets <code>true</code> to use bracket wrapped id's
+     */
+    public static void setUseBracketWrappetIds(boolean useBrackets) {
+
+        USE_BRACKET_WRAPPED_IDS = useBrackets;
     }
 
     /**
@@ -107,8 +120,16 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @see com.alkacon.vie.client.I_Entity#getId()
      */
     public native String getId() /*-{
-
-        return this.getSubject();
+        var subject = this.getSubject();
+        if (!@com.alkacon.vie.client.Entity::USE_BRACKET_WRAPPED_IDS) {
+            if (subject.indexOf('<') == 0) {
+                subject = subject.substr(1);
+            }
+            if (subject.lastIndexOf('>') == subject.length - 1) {
+                subject = subject.substring(0, subject.length - 1);
+            }
+        }
+        return subject;
     }-*/;
 
     /**

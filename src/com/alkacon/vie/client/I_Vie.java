@@ -57,6 +57,15 @@ public interface I_Vie {
     I_Entity createEntity(String entityId, String entityType);
 
     /**
+     * Creates a new type.<p>
+     * 
+     * @param id the type id/name
+     * 
+     * @return the new type
+     */
+    I_Type createType(String id);
+
+    /**
      * Returns the element subject.<p>
      * 
      * @param element the DOM element

@@ -27,6 +27,8 @@
 
 package com.alkacon.vie.client;
 
+import java.util.List;
+
 import com.google.gwt.junit.client.GWTTestCase;
 
 /**
@@ -48,13 +50,53 @@ public class VieTest extends GWTTestCase {
      */
     public void testCreateEntity() {
 
-        String entityId = "myEntityId";
+        Entity.setUseBracketWrappetIds(true);
+        String entityId = "<myEntityId>";
         String entityType = "myEntityType";
         I_Vie vie = getVieInstance();
         I_Entity entity = vie.createEntity(entityId, entityType);
         assertNotNull("The newly created entity should not be null", entity);
-        assertEquals(entityId, entity.getId());
+        assertEquals("The entity id should match the initial id", entityId, entity.getId());
 
+    }
+
+    /**
+     * Tests the type creation.<p>
+     */
+    public void testCreateType() {
+
+        String typeId = "<cms:myType>";
+        I_Type type = getVieInstance().createType(typeId);
+        assertNotNull("The newly created type should not be null", type);
+        assertEquals("The type id should match the initial id", typeId, type.getId());
+        assertTrue("This should be a simple type, as it has no attributes.", type.isSimpleType());
+    }
+
+    /**
+     * Tests the creation of new type attributes.<p>
+     */
+    public void testTypeAttribute() {
+
+        String simpleTypeId = "<cms:simple>";
+        String complexTypeId = "<cms:complex>";
+        String attributeName = "<http:opencms/simpleAttribute>";
+        I_Vie vie = getVieInstance();
+
+        I_Type simple = vie.createType(simpleTypeId);
+        I_Type complex = vie.createType(complexTypeId);
+        complex.addAttribute(attributeName, simpleTypeId, 1, 1);
+        assertNotNull("The newly created type should not be null", simple);
+        assertNotNull("The newly created type should not be null", complex);
+        assertEquals("The type id should match the initial id", simpleTypeId, simple.getId());
+        assertEquals("The type id should match the initial id", complexTypeId, complex.getId());
+        assertTrue("This should be a simple type, as it has no attributes.", simple.isSimpleType());
+        assertFalse("This should be no simple type, as it has attributes.", complex.isSimpleType());
+        assertNotNull("The attribute list should not be null.", complex.getAttributeNames());
+        assertEquals("The attribute names list should have a length of 1.", 1, complex.getAttributeNames().size());
+        String attributeType = complex.getAttributeTypeName(attributeName);
+        assertEquals("The attribute should be of the type: " + simpleTypeId, simpleTypeId, attributeType);
+        List<String> attributes = complex.getAttributeNames();
+        assertEquals("The attribute name should be as given above.", attributeName, attributes.get(0));
     }
 
     /**

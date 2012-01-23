@@ -40,17 +40,29 @@ public final class Type extends JavaScriptObject implements I_Type {
     /**
      * Hiding constructor.<p>
      */
-    private Type() {
+    protected Type() {
 
         // nothing to do
     }
+
+    /**
+     * @see com.alkacon.vie.client.I_Type#addAttribute(java.lang.String, java.lang.String, int, int)
+     */
+    public native void addAttribute(String attributeName, String attributeType, int minOccurrence, int maxOccurrence) /*-{
+        try {
+            // TODO: handle min/max occurrence
+            this.attributes.add(attributeName, attributeType);
+        } catch (e) {
+            // attribute already exists
+        }
+    }-*/;
 
     /**
      * @see com.alkacon.vie.client.I_Type#getAttributeMaxOccurrence(java.lang.String)
      */
     public native int getAttributeMaxOccurrence(String attributeName) /*-{
 
-        // TODO: Auto-generated method stub
+        // TODO: handle min/max occurrence
         return 1;
     }-*/;
 
@@ -59,7 +71,7 @@ public final class Type extends JavaScriptObject implements I_Type {
      */
     public native int getAttributeMinOccurrence(String attributeName) /*-{
 
-        // TODO: Auto-generated method stub
+        // TODO: handle min/max occurrence
         return 1;
     }-*/;
 
@@ -69,20 +81,9 @@ public final class Type extends JavaScriptObject implements I_Type {
     public List<String> getAttributeNames() {
 
         List<String> attributes = new ArrayList<String>();
-        prepareAttributeNames(attributes);
+        prepareNames(attributes);
         return attributes;
     }
-
-    /**
-     * Prepares the list of attribute names.<p>
-     * 
-     * @param attributes the list to fill with attribute names
-     */
-    private native void prepareAttributeNames(List<String> attributes) /*-{
-        for ( var attr in this.attributes.list()) {
-            attributes.@java.util.List::add(Ljava/lang/String;)(attr.id);
-        }
-    }-*/;
 
     /**
      * @see com.alkacon.vie.client.I_Type#getAttributeType(java.lang.String)
@@ -98,7 +99,7 @@ public final class Type extends JavaScriptObject implements I_Type {
     public native String getAttributeTypeName(String attributeName) /*-{
 
         var attr = this.attributes.get(attributeName);
-        return (attr === undefined) ? null : attr.id;
+        return (attr === undefined) ? null : attr.range[0];
     }-*/;
 
     /**
@@ -115,6 +116,19 @@ public final class Type extends JavaScriptObject implements I_Type {
     public native boolean isSimpleType() /*-{
 
         return this.attributes == null || this.attributes.list().length == 0;
+    }-*/;
+
+    /**
+     * Prepares the list of attribute names.<p>
+     * 
+     * @param list the attribute list 
+     */
+    private native void prepareNames(List<String> list) /*-{
+        var attributes = this.attributes.list();
+        for ( var i = 0; i < attributes.length; i++) {
+            var name = attributes[i].id;
+            list.@java.util.List::add(Ljava/lang/Object;)(name);
+        }
     }-*/;
 
 }

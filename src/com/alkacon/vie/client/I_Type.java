@@ -35,6 +35,16 @@ import java.util.List;
 public interface I_Type {
 
     /**
+     * Adds an attribute to the type.<p>
+     * 
+     * @param attributeName the attribute name
+     * @param attributeType the attribute type
+     * @param minOccurrence the minimum occurrence of this attribute
+     * @param maxOccurrence the axnimum occurrence of this attribute
+     */
+    void addAttribute(String attributeName, String attributeType, int minOccurrence, int maxOccurrence);
+
+    /**
      * Returns the maximum occurrence of the given attribute.<p>
      * 
      * @param attributeName the attribute name
