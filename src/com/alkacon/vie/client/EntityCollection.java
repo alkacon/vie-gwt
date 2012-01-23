@@ -32,14 +32,14 @@ import com.google.gwt.core.client.JavaScriptObject;
 /**
  * The entity collection.<p>
  */
-public final class EntityCollection extends JavaScriptObject {
+public final class EntityCollection extends JavaScriptObject implements I_EntityCollection {
 
     /**
      * Constructor, for internal use only.<p>
      */
     protected EntityCollection() {
 
-        // noop
+        // nothing to do
     }
 
     /**
@@ -49,52 +49,40 @@ public final class EntityCollection extends JavaScriptObject {
      * 
      * @return the new entity collection
      */
-    public static native EntityCollection createCollection(JavaScriptObject vieInstance) /*-{
+    public static native I_EntityCollection createCollection(JavaScriptObject vieInstance) /*-{
 
-		return new vieInstance.Collection();
+        return new vieInstance.Collection();
     }-*/;
 
     /**
-     * Adds a new entity to the collection or updates the entity with the same URI.<p>
-     * 
-     * @param entity the entity to add
+     * @see com.alkacon.vie.client.I_EntityCollection#addOrUpdate(com.alkacon.vie.client.I_Entity)
      */
-    public native void addOrUpdate(Entity entity) /*-{
+    public native void addOrUpdate(I_Entity entity) /*-{
 
-		this.addOrUpdate(entity);
+        this.addOrUpdate(entity);
     }-*/;
 
     /**
-     * Returns the entity with the given id/URI.<p>
-     * 
-     * @param uri the entity id/URI
-     * 
-     * @return the entity
+     * @see com.alkacon.vie.client.I_EntityCollection#getEntity(int)
      */
-    public native Entity getEntityByUri(String uri) /*-{
+    public native I_Entity getEntity(int index) /*-{
 
-		return this.getByCid(uri);
+        return this.at(index);
     }-*/;
 
     /**
-     * Returns the entity for the given index.<p>
-     * 
-     * @param index the index to get the entity for
-     * 
-     * @return the entity
+     * @see com.alkacon.vie.client.I_EntityCollection#getEntityById(java.lang.String)
      */
-    public native Entity getEntity(int index) /*-{
+    public native I_Entity getEntityById(String uri) /*-{
 
-		return this.at(index);
+        return this.getByCid(uri);
     }-*/;
 
     /**
-     * Returns the size of the collection.<p>
-     * 
-     * @return the size
+     * @see com.alkacon.vie.client.I_EntityCollection#size()
      */
     public native int size() /*-{
 
-		return this.length;
+        return this.length;
     }-*/;
 }
