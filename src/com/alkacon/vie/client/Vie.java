@@ -94,11 +94,20 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @return the new entity
      */
     public native I_Entity createEntity(String entityId, String entityType) /*-{
-        var properties = {
-            '@subject' : entityId,
-            '@type' : entityType
-        };
-        var entityInstance = new this.Entity(properties);
+        var entityType = this.types.get(entityType);
+        var entityInstance;
+        if (entityType != null) {
+            // if the type is available, use it to create the new instance
+            entityInstance = entityType.instance({
+                '@subject' : entityId
+            });
+        } else {
+            // otherwise create a new entity
+            entityInstance = new this.Entity({
+                '@subject' : entityId,
+                '@type' : entityType
+            });
+        }
         return this.entities.addOrUpdate(entityInstance);
     }-*/;
 
