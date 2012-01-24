@@ -25,8 +25,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.alkacon.vie.client;
+package com.alkacon.vie.client.example;
 
+import com.alkacon.vie.client.I_Entity;
 import com.alkacon.vie.client.widgets.HalloWidget;
 import com.alkacon.vie.client.widgets.SimpleEditWidget;
 
