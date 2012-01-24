@@ -90,7 +90,7 @@ public final class SimpleEditWidget {
     /**
      * Initialize.<p>
      */
-    protected static final native void init() /*-{
+    protected static native void init() /*-{
         $wnd.changedEntities = [];
         $wnd.saveButton = null;
     }-*/;
@@ -101,7 +101,7 @@ public final class SimpleEditWidget {
      * @param entity the entity to make editable
      * @param v the vie instance
      */
-    protected static final native void editable(I_Entity entity, Vie v) /*-{
+    protected static native void editable(I_Entity entity, Vie v) /*-{
 
         $wnd.jQuery('[about="' + entity.getSubjectUri() + '"] [property]')
                 .each(function() {
@@ -134,7 +134,7 @@ public final class SimpleEditWidget {
      * @param entity the entity to make saveable
      * @param v the vie instance
      */
-    protected static final native void save(I_Entity entity, Vie v) /*-{
+    protected static native void save(I_Entity entity, Vie v) /*-{
 
         $wnd.console.log(entity.previousAttributes(), entity.attributes);
         if ($wnd.changedEntities.indexOf(entity) === -1) {
