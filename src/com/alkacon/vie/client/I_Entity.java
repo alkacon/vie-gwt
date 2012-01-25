@@ -27,30 +27,35 @@
 
 package com.alkacon.vie.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 /**
  * Interface describing an entity.<p>
  */
 public interface I_Entity {
 
     /**
-     * Returns an entity attribute.<p>
+     * Adds the given attribute value.<p>
      *
      * @param attributeName the attribute name
-     *
-     * @return the attribute value
+     * @param value the attribute value
      */
-    I_EntityCollection getCollectionAttribute(String attributeName);
+    void addAttributeValue(String attributeName, I_Entity value);
 
     /**
-     * Returns an entity attribute.<p>
+     * Adds the given attribute value.<p>
+     *
+     * @param attributeName the attribute name
+     * @param value the attribute value
+     */
+    void addAttributeValue(String attributeName, String value);
+
+    /**
+     * Returns an attribute.<p>
      *
      * @param attributeName the attribute name
      *
      * @return the attribute value
      */
-    String getStringAttribute(String attributeName);
+    I_EntityAttribute getAttribute(String attributeName);
 
     /**
      * Returns the entity id/URI.<p>
@@ -58,6 +63,13 @@ public interface I_Entity {
      * @return the id/URI
      */
     String getId();
+
+    /**
+     * Returns the entity type name.<p>
+     * 
+     * @return the entity type name
+     */
+    String getTypeName();
 
     /**
      * Returns if the entity has the given attribute.<p>
@@ -76,11 +88,18 @@ public interface I_Entity {
     void removeAttributeSilent(String attributeName);
 
     /**
-     * Sets the given attribute.<p>
+     * Sets the given attribute value.<p>
      *
      * @param attributeName the attribute name
      * @param value the attribute value
      */
-    void setAttribute(String attributeName, JavaScriptObject value);
+    void setAttributeValue(String attributeName, I_Entity value);
 
+    /**
+     * Sets the given attribute value.<p>
+     *
+     * @param attributeName the attribute name
+     * @param value the attribute value
+     */
+    void setAttributeValue(String attributeName, String value);
 }

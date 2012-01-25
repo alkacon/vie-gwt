@@ -102,11 +102,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
                 '@subject' : entityId
             });
         } else {
-            // otherwise create a new entity
-            entityInstance = new this.Entity({
-                '@subject' : entityId,
-                '@type' : entityType
-            });
+            throw Error('Type has not been registered yet.');
         }
         return this.entities.addOrUpdate(entityInstance);
     }-*/;
@@ -119,6 +115,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
 
         // all type inherit from owl:Thing
         type.inherit("owl:Thing");
+        this.types.add(type);
         return type;
     }-*/;
 
@@ -166,6 +163,14 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     public native I_Entity getEntity(String entityId) /*-{
 
         return this.entities.get(entityId);
+    }-*/;
+
+    /**
+     * @see com.alkacon.vie.client.I_Vie#getType(java.lang.String)
+     */
+    public native I_Type getType(String id) /*-{
+
+        return this.types.get(id);
     }-*/;
 
     /**

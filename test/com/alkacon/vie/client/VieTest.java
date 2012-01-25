@@ -52,12 +52,13 @@ public class VieTest extends GWTTestCase {
 
         Entity.setUseBracketWrappetIds(true);
         String entityId = "<myEntityId>";
-        String entityType = "myEntityType";
+        String entityType = "<cms:myType>";
         I_Vie vie = getVieInstance();
+        vie.createType(entityType);
         I_Entity entity = vie.createEntity(entityId, entityType);
         assertNotNull("The newly created entity should not be null", entity);
         assertEquals("The entity id should match the initial id", entityId, entity.getId());
-
+        assertEquals("The type name should match the initial type name", entityType, entity.getTypeName());
     }
 
     /**
@@ -65,7 +66,7 @@ public class VieTest extends GWTTestCase {
      */
     public void testCreateType() {
 
-        String typeId = "<cms:myType>";
+        String typeId = "<cms:mySimpleType>";
         I_Type type = getVieInstance().createType(typeId);
         assertNotNull("The newly created type should not be null", type);
         assertEquals("The type id should match the initial id", typeId, type.getId());
@@ -100,7 +101,7 @@ public class VieTest extends GWTTestCase {
     }
 
     /**
-     * Returns a new {@link Vie} instance.<p>
+     * Returns the {@link Vie} instance.<p>
      * 
      * @return the {@link Vie} instance
      */

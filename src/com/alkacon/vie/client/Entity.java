@@ -28,6 +28,8 @@
 package com.alkacon.vie.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -72,6 +74,20 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
+     * @see com.alkacon.vie.client.I_Entity#addAttributeValue(java.lang.String, com.alkacon.vie.client.I_Entity)
+     */
+    public native void addAttributeValue(String attributeName, I_Entity value) /*-{
+        this.setOrAdd(attributeName, value);
+    }-*/;
+
+    /**
+     * @see com.alkacon.vie.client.I_Entity#addAttributeValue(java.lang.String, java.lang.String)
+     */
+    public native void addAttributeValue(String attributeName, String value) /*-{
+        this.setOrAdd(attributeName, value);
+    }-*/;
+
+    /**
      * Adds this handler to the widget.
      *
      * @param <H> the type of handler to add
@@ -105,15 +121,75 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#getCollectionAttribute(java.lang.String)
+     * @see com.alkacon.vie.client.I_Entity#getAttribute(java.lang.String)
      */
-    public native I_EntityCollection getCollectionAttribute(String attributeName) /*-{
+    public I_EntityAttribute getAttribute(String attributeName) {
 
-        var result = this.get(attributeName);
-        if (result.isCollection)
-            return result;
-        else
-            throw Exception("Wrong attribute type");
+        if (!hasAttribute(attributeName)) {
+            return null;
+        }
+        if (isSimpleAttribute(attributeName)) {
+            return new EntityAttribute(attributeName, getSimpleValues(attributeName));
+        }
+        return new EntityAttribute(attributeName, getComplexValues(attributeName));
+    }
+
+    /**
+     * Returns if the given attribute is of the simple type.<p>
+     * 
+     * @param attributeName the name of the attribute
+     * 
+     * @return <code>true</code> is this is a simple type attribute
+     */
+    private native boolean isSimpleAttribute(String attributeName) /*-{
+
+        var attr = this.get(attributeName);
+        if (typeof attr === 'string') {
+            return true;
+        }
+        if (attr.isEntity) {
+            return false;
+        }
+        if (Object.prototype.toString.call(attr) === '[object Array]') {
+            if (typeof attr[0] === 'string') {
+                return true;
+            }
+        }
+        return false;
+    }-*/;
+
+    /**
+     * Returns the values of the given attribute as an array of entities.<p>
+     * Check if the given attribute is of complex type first!!<p>
+     * 
+     * @param attributeName the name of the attribute 
+     * 
+     * @return the attribute values
+     */
+    private native JsArrayString getSimpleValues(String attributeName) /*-{
+
+        var attr = this.get(attributeName);
+        if (typeof attr === 'string') {
+            return [ attr ];
+        }
+        return attr;
+    }-*/;
+
+    /**
+     * Returns the values of the given attribute as an array of entities.<p>
+     * Check if the given attribute is of complex type first!!<p>
+     * 
+     * @param attributeName the name of the attribute 
+     * 
+     * @return the attribute values
+     */
+    private native JsArray<Entity> getComplexValues(String attributeName) /*-{
+
+        var attr = this.get(attributeName);
+        if (attr.isEntity) {
+            return [ attr ];
+        }
+        return attr;
     }-*/;
 
     /**
@@ -133,14 +209,12 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#getStringAttribute(java.lang.String)
+     * @see com.alkacon.vie.client.I_Entity#getTypeName()
      */
-    public native String getStringAttribute(String attributeName) /*-{
+    public native String getTypeName() /*-{
 
-        var result = this.get(attributeName);
-        if (result.isCollection)
-            throw Exception("Wrong attribute type");
-        return result;
+        var type = this.get('@type');
+        return (typeof type === 'string') ? type : type.id;
     }-*/;
 
     /**
@@ -184,11 +258,23 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#setAttribute(java.lang.String, com.google.gwt.core.client.JavaScriptObject)
+     * @see com.alkacon.vie.client.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.client.I_Entity)
      */
-    public native void setAttribute(String attributeName, JavaScriptObject value) /*-{
-
+    public native void setAttributeValue(String attributeName, I_Entity value) /*-{
+        this.unset(attributeName, {
+            silent : true
+        });
         this.set(attributeName, value);
+    }-*/;
+
+    /**
+     * @see com.alkacon.vie.client.I_Entity#setAttributeValue(java.lang.String, java.lang.String)
+     */
+    public native void setAttributeValue(String attributeName, String value) /*-{
+        this.unset(attributeName, {
+            silent : true
+        });
+        this.setOrAdd(attributeName, value);
     }-*/;
 
     /**

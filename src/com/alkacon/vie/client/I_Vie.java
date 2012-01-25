@@ -100,6 +100,15 @@ public interface I_Vie {
     I_Entity getEntity(String entityId);
 
     /**
+     * Returns the type with the given id/name.<p>
+     * 
+     * @param id the type id/name
+     * 
+     * @return the type
+     */
+    I_Type getType(String id);
+
+    /**
      * Executes the load function on the VIE instance.<p>
      * 
      * @param service the name of the service to use
