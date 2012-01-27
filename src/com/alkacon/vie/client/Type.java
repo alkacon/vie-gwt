@@ -27,6 +27,8 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Type;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,37 +48,41 @@ public final class Type extends JavaScriptObject implements I_Type {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Type#addAttribute(java.lang.String, java.lang.String, int, int)
+     * @see com.alkacon.vie.shared.I_Type#addAttribute(java.lang.String, java.lang.String, int, int)
      */
     public native void addAttribute(String attributeName, String attributeType, int minOccurrence, int maxOccurrence) /*-{
         try {
-            // TODO: handle min/max occurrence
-            this.attributes.add(attributeName, attributeType);
+            var attribute = this.attributes.add(attributeName, attributeType);
+            // TODO: this is just a workaround until min/max are properly handled by VIE
+            attribute.min = minOccurrence;
+            attribute.max = maxOccurrence;
         } catch (e) {
             // attribute already exists
         }
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Type#getAttributeMaxOccurrence(java.lang.String)
+     * @see com.alkacon.vie.shared.I_Type#getAttributeMaxOccurrence(java.lang.String)
      */
     public native int getAttributeMaxOccurrence(String attributeName) /*-{
 
-        // TODO: handle min/max occurrence
-        return 1;
+        // TODO: this is just a workaround until min/max are properly handled by VIE
+        var attr = this.attributes.get(attributeName);
+        return attr.max;
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Type#getAttributeMinOccurrence(java.lang.String)
+     * @see com.alkacon.vie.shared.I_Type#getAttributeMinOccurrence(java.lang.String)
      */
     public native int getAttributeMinOccurrence(String attributeName) /*-{
 
-        // TODO: handle min/max occurrence
-        return 1;
+        // TODO: this is just a workaround until min/max are properly handled by VIE
+        var attr = this.attributes.get(attributeName);
+        return attr.min;
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Type#getAttributeNames()
+     * @see com.alkacon.vie.shared.I_Type#getAttributeNames()
      */
     public List<String> getAttributeNames() {
 
@@ -86,7 +92,7 @@ public final class Type extends JavaScriptObject implements I_Type {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Type#getAttributeType(java.lang.String)
+     * @see com.alkacon.vie.shared.I_Type#getAttributeType(java.lang.String)
      */
     public native I_Type getAttributeType(String attributeName) /*-{
         var attr = this.attributes.get(attributeName);
@@ -94,7 +100,7 @@ public final class Type extends JavaScriptObject implements I_Type {
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Type#getAttributeTypeName(java.lang.String)
+     * @see com.alkacon.vie.shared.I_Type#getAttributeTypeName(java.lang.String)
      */
     public native String getAttributeTypeName(String attributeName) /*-{
 
@@ -103,7 +109,7 @@ public final class Type extends JavaScriptObject implements I_Type {
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Type#getId()
+     * @see com.alkacon.vie.shared.I_Type#getId()
      */
     public native String getId() /*-{
 
@@ -111,7 +117,7 @@ public final class Type extends JavaScriptObject implements I_Type {
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Type#isSimpleType()
+     * @see com.alkacon.vie.shared.I_Type#isSimpleType()
      */
     public native boolean isSimpleType() /*-{
 

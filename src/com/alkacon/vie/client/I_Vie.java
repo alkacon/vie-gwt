@@ -31,6 +31,8 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Type;
+
 import com.google.gwt.dom.client.Element;
 
 /**

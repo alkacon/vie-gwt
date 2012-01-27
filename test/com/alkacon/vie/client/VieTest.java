@@ -27,6 +27,8 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Type;
+
 import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -96,7 +98,7 @@ public class VieTest extends GWTTestCase {
 
         I_Type simple = vie.createType(SIMPLE_TYPE_ID);
         I_Type complex = vie.createType(COMPLEX_TYPE_ID);
-        complex.addAttribute(ATTRIBUTE_NAME, SIMPLE_TYPE_ID, 1, 1);
+        complex.addAttribute(ATTRIBUTE_NAME, SIMPLE_TYPE_ID, 2, 1);
         assertNotNull("The newly created type should not be null", simple);
         assertNotNull("The newly created type should not be null", complex);
         assertEquals("The type id should match the initial id", SIMPLE_TYPE_ID, simple.getId());
@@ -107,6 +109,14 @@ public class VieTest extends GWTTestCase {
         assertEquals("The attribute names list should have a length of 1.", 1, complex.getAttributeNames().size());
         String attributeType = complex.getAttributeTypeName(ATTRIBUTE_NAME);
         assertEquals("The attribute should be of the type: " + SIMPLE_TYPE_ID, SIMPLE_TYPE_ID, attributeType);
+        assertEquals(
+            "The max occurrence should be the same as set above",
+            1,
+            complex.getAttributeMaxOccurrence(ATTRIBUTE_NAME));
+        assertEquals(
+            "The min occurrence should be the same as set above",
+            2,
+            complex.getAttributeMinOccurrence(ATTRIBUTE_NAME));
         List<String> attributes = complex.getAttributeNames();
         assertEquals("The attribute name should be as given above.", ATTRIBUTE_NAME, attributes.get(0));
     }
