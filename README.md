@@ -7,21 +7,10 @@ Readme version : alpha (2012)`
 
 #### Powered by:
 
-<div style="float: left;">
 <img src="http://www.alkacon.com/export/system/modules/org.opencms.website.template/resources/img/logo/logo_alkacon.gif" />
-</div>
-<div style="float: right;">
 <img src="http://www.opencms.org/export/system/modules/org.opencms.website.template/resources/img/logo/logo_opencms.gif" />
-</div>
-<div style="clear: both; margin-bottom: 30px;"></div>
-
-<div style="float: left;">
 <img src="http://www.alkacon.com/system/modules/org.opencms.website.template/resources/img/logo/iks-logo.png" />
-</div>
-<div style="float: right;">
 <img src="http://www.alkacon.com/system/modules/org.opencms.website.template/resources/img/logo/vie_logo.png" />
-</div>
-<div style="clear: both;"></div>
 
 
 ## Alkacon Software develops a Google Web Toolkit wrapper for the Vienna IKS Editables (VIE)
@@ -112,7 +101,7 @@ Do not send us an email for the first contact, since we have problems with serio
 <b>Our office address:</b>  
 Alkacon Software GmbH - The OpenCms Experts  
 An der Wachsfabrik 13   
-DE-50996 Köln (Cologne), Germany
+DE-50996 Cologne, Germany
 
 - [http://www.alkacon.com/](http://www.alkacon.com/)
 - [sales@alkacon.com](mailto:sales@alkacon.com)
@@ -124,16 +113,13 @@ DE-50996 Köln (Cologne), Germany
 
 **`Copyright (c) 2012 Alkacon Software GmbH`**
 
-<div style="font-family: Courier New, Courier; font-weight: bold;">
-<div style="float: right;"><img src="http://www.opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png" /></div>
+<img src="http://www.opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png" />
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br /><br />
+`Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:`
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br /><br />
+`The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.`
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<br /><br />
-</div>
-<div style="clear: both;"></div>
+`THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.`
 
 
 ----------
