@@ -28,7 +28,6 @@
 package com.alkacon.vie.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -183,12 +182,12 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * 
      * @return the attribute values
      */
-    private native JsArray<Entity> getComplexValues(String attributeName) /*-{
+    private native I_EntityCollection getComplexValues(String attributeName) /*-{
 
         var attr = this.get(attributeName);
-        if (attr.isEntity) {
-            return [ attr ];
-        }
+        //        if (attr.isEntity) {
+        //            return [ attr ];
+        //        }
         return attr;
     }-*/;
 

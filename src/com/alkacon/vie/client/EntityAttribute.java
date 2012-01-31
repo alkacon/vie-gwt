@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 
 /**
@@ -54,12 +53,12 @@ public final class EntityAttribute implements I_EntityAttribute {
      * @param name the attribute name
      * @param values the values
      */
-    public EntityAttribute(String name, JsArray<?> values) {
+    public EntityAttribute(String name, I_EntityCollection values) {
 
         m_name = name;
         m_entityValues = new ArrayList<I_Entity>();
-        for (int i = 0; i < values.length(); i++) {
-            m_entityValues.add((I_Entity)values.get(i));
+        for (int i = 0; i < values.size(); i++) {
+            m_entityValues.add(values.getEntity(i));
         }
     }
 
