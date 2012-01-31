@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name='com.google.gwt.user.User'/>
+  <script src="../vieJS/vie-latest-ALL.debug.js" />
+  <!-- Specify the paths for translatable code                    -->
+  <source path='client'/>
+  <source path="shared" />
+  <!-- compile properties for debugging -->
+  <set-configuration-property name="CssResource.style" value="pretty" /> 
+	<set-configuration-property name="CssResource.obfuscationPrefix" value="empty" /> 
+
+	<set-property name="compiler.emulatedStack" value="true" />
+
+	<set-configuration-property name="compiler.emulatedStack.recordLineNumbers" value="true" />
+	<set-configuration-property name="compiler.emulatedStack.recordFileNames" value="true" />
+</module>

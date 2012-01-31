@@ -31,11 +31,84 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Type;
+
+import com.google.gwt.dom.client.Element;
 
 /**
  * The interface for VIE implementations.<p>
  */
 public interface I_Vie {
+
+    /**
+     * Binds a given callback to the entities of vie.<p>
+     * 
+     * @param functionName the name of the function
+     * @param callback the function that should be executed
+     */
+    void bindFunctionToEntities(String functionName, I_EntityCallback callback);
+
+    /**
+     * Creates a new entity registering it within VIE.<p>
+     * 
+     * @param entityId the entity id
+     * @param entityType the entity type
+     * 
+     * @return the new entity
+     */
+    I_Entity createEntity(String entityId, String entityType);
+
+    /**
+     * Creates a new type.<p>
+     * 
+     * @param id the type id/name
+     * 
+     * @return the new type
+     */
+    I_Type createType(String id);
+
+    /**
+     * Returns the element subject.<p>
+     * 
+     * @param element the DOM element
+     * 
+     * @return the elements subject
+     */
+    String getElementPredicate(Element element);
+
+    /**
+     * Returns the element subject.<p>
+     * 
+     * @param element the DOM element
+     * 
+     * @return the elements subject
+     */
+    String getElementSubject(Element element);
+
+    /**
+     * Returns the entities of vie.<p>
+     * 
+     * @return the entities
+     */
+    I_EntityCollection getEntities();
+
+    /**
+     * Returns the entity with the given id.<p>
+     * 
+     * @param entityId the entity id
+     * 
+     * @return the entity
+     */
+    I_Entity getEntity(String entityId);
+
+    /**
+     * Returns the type with the given id/name.<p>
+     * 
+     * @param id the type id/name
+     * 
+     * @return the type
+     */
+    I_Type getType(String id);
 
     /**
      * Executes the load function on the VIE instance.<p>

@@ -27,62 +27,66 @@
 
 package com.alkacon.vie.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import java.util.List;
 
 /**
- * The entity collection.<p>
+ * Interface describing an entity attribute value.<p>
  */
-public final class EntityCollection extends JavaScriptObject implements I_EntityCollection {
+public interface I_EntityAttribute {
 
     /**
-     * Constructor, for internal use only.<p>
-     */
-    protected EntityCollection() {
-
-        // nothing to do
-    }
-
-    /**
-     * Creates a new entity collection.<p>
+     * Returns the attribute name.<p>
      * 
-     * @param vieInstance the vie instance to use for creation
+     * @return the attribute name
+     */
+    String getAttributeName();
+
+    /**
+     * Returns the first complex value in the list.<p>
      * 
-     * @return the new entity collection
+     * @return the first complex value
      */
-    public static native I_EntityCollection createCollection(JavaScriptObject vieInstance) /*-{
-
-        return new vieInstance.Collection();
-    }-*/;
+    I_Entity getComplexValue();
 
     /**
-     * @see com.alkacon.vie.client.I_EntityCollection#addOrUpdate(com.alkacon.vie.client.I_Entity)
+     * Returns the list of complex values.<p>
+     * 
+     * @return the list of complex values
      */
-    public native void addOrUpdate(I_Entity entity) /*-{
-
-        this.addOrUpdate(entity);
-    }-*/;
+    List<I_Entity> getComplexValues();
 
     /**
-     * @see com.alkacon.vie.client.I_EntityCollection#getEntity(int)
+     * Returns the first simple value in the list.<p>
+     * 
+     * @return the first simple value
      */
-    public native I_Entity getEntity(int index) /*-{
-
-        return this.at(index);
-    }-*/;
+    String getSimpleValue();
 
     /**
-     * @see com.alkacon.vie.client.I_EntityCollection#getEntityById(java.lang.String)
+     * Returns the list of simple values.<p>
+     * 
+     * @return the list of simple values
      */
-    public native I_Entity getEntityById(String uri) /*-{
-
-        return this.getByCid(uri);
-    }-*/;
+    List<String> getSimpleValues();
 
     /**
-     * @see com.alkacon.vie.client.I_EntityCollection#size()
+     * Returns if the is a complex type value.<p>
+     * 
+     * @return <code>true</code> if this is a complex type value
      */
-    public native int size() /*-{
+    boolean isComplexValue();
 
-        return this.length;
-    }-*/;
+    /**
+     * Returns if the is a simple type value.<p>
+     * 
+     * @return <code>true</code> if this is a simple type value
+     */
+    boolean isSimpleValue();
+
+    /**
+     * Returns if this is a single value attribute.<p>
+     * 
+     * @return <code>true</code> if this is a single value attribute
+     */
+    boolean isSingleValue();
 }

@@ -27,86 +27,121 @@
 
 package com.alkacon.vie.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 
 /**
- * The attribute implementation for an entity.<p>
- * 
- * An entity has several attributes that are from different types. <code>EntityAttribute</code>
- * makes it able to access this "type unsafe" JavaScriptObjects in an easy way.<p> 
- * 
- * A value of an entity attribute can be one of the following types:<p>
- * 
- * <ul>
- * <li>VIE.Collection
- * <li>VIE.Type
- * <li>Literal [string, number (double, int),  date]
- * <li>Array   [contains Literals or VIE.Type, Arrays can also contain different types at the same time]
- * </ul>
+ * The entity attribute values.<p>
  */
-public final class EntityAttribute extends JavaScriptObject {
+public final class EntityAttribute implements I_EntityAttribute {
 
-    /** A enum for the possible attribute types. */
-    public static enum TYPE {
+    /** The complex type values. */
+    private List<I_Entity> m_entityValues;
 
-        /** Attribute type. */
-        ARRAY,
+    /** The attribute name. */
+    private String m_name;
 
-        /** Attribute type. */
-        COLLECTION,
+    /** The simple type values. */
+    private List<String> m_simpleValues;
 
-        /** Attribute type. */
-        LITERAL,
+    /**
+     * Constructor.<p>
+     * 
+     * @param name the attribute name
+     * @param values the values
+     */
+    public EntityAttribute(String name, JsArray<?> values) {
 
-        /** Attribute type. */
-        TYPE,
-
-        /** Attribute type. */
-        UNDIFINED
+        m_name = name;
+        m_entityValues = new ArrayList<I_Entity>();
+        for (int i = 0; i < values.length(); i++) {
+            m_entityValues.add((I_Entity)values.get(i));
+        }
     }
 
     /**
-     * Constructor, for internal use only.<p>
+     * Constructor.<p>
+     * 
+     * @param name the attribute name
+     * @param values the values
      */
-    protected EntityAttribute() {
+    public EntityAttribute(String name, JsArrayString values) {
 
-        // noop
+        m_name = name;
+        m_simpleValues = new ArrayList<String>();
+        for (int i = 0; i < values.length(); i++) {
+            m_simpleValues.add(values.get(i));
+        }
     }
 
     /**
-     * Initialization.<p>
-     * 
-     * @return the type
+     * @see com.alkacon.vie.client.I_EntityAttribute#getAttributeName()
      */
-    public static final native TYPE getType() /*-{
+    public String getAttributeName() {
 
-		var type = "UNDIFINED";
-		if (this.isCollection) {
-			// value is a VIE.Collection
-			type = "COLLECTION";
-		} else if ($wnd.jQuery.isArray(this)) {
-			// values of an array could be JavaScript Literals or VIE.Type
-			//  array can also contain different types
-			type = "ARRAY";
-		} else if (this instanceof $wnd.VIE.Type) {
-			// type
-			type = "TYPE";
-		} else {
-			// Literal
-			type = "LITERAL";
-		}
-		return @com.alkacon.vie.client.EntityAttribute::getTypeFromString(Ljava/lang/String;)(type);
-    }-*/;
+        return m_name;
+    }
 
     /**
-     * Sets the type for the entity value.<p>
-     * 
-     * @param type the type to set as String
-     * 
-     * @return the enum type for the given String
+     * @see com.alkacon.vie.client.I_EntityAttribute#getComplexValue()
      */
-    private static final TYPE getTypeFromString(String type) {
+    public I_Entity getComplexValue() {
 
-        return TYPE.valueOf(type.toUpperCase());
+        return m_entityValues.get(0);
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_EntityAttribute#getComplexValues()
+     */
+    public List<I_Entity> getComplexValues() {
+
+        return Collections.unmodifiableList(m_entityValues);
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_EntityAttribute#getSimpleValue()
+     */
+    public String getSimpleValue() {
+
+        return m_simpleValues.get(0);
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_EntityAttribute#getSimpleValues()
+     */
+    public List<String> getSimpleValues() {
+
+        return Collections.unmodifiableList(m_simpleValues);
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_EntityAttribute#isComplexValue()
+     */
+    public boolean isComplexValue() {
+
+        return m_entityValues != null;
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_EntityAttribute#isSimpleValue()
+     */
+    public boolean isSimpleValue() {
+
+        return m_simpleValues != null;
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_EntityAttribute#isSingleValue()
+     */
+    public boolean isSingleValue() {
+
+        if (isComplexValue()) {
+            return m_entityValues.size() == 1;
+        }
+        return m_simpleValues.size() == 1;
     }
 }
