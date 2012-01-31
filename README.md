@@ -1,4 +1,3 @@
-<style> p { max-width:2000000px; } </style>
 `VIE-GWT version: alpha (2012)   
 Readme version : alpha (2012)`
 
