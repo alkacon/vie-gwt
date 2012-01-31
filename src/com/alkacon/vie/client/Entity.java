@@ -134,64 +134,6 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
-     * Returns if the given attribute is of the simple type.<p>
-     * 
-     * @param attributeName the name of the attribute
-     * 
-     * @return <code>true</code> is this is a simple type attribute
-     */
-    private native boolean isSimpleAttribute(String attributeName) /*-{
-
-        var attr = this.get(attributeName);
-        if (typeof attr === 'string') {
-            return true;
-        }
-        if (attr.isEntity) {
-            return false;
-        }
-        if (Object.prototype.toString.call(attr) === '[object Array]') {
-            if (typeof attr[0] === 'string') {
-                return true;
-            }
-        }
-        return false;
-    }-*/;
-
-    /**
-     * Returns the values of the given attribute as an array of entities.<p>
-     * Check if the given attribute is of complex type first!!<p>
-     * 
-     * @param attributeName the name of the attribute 
-     * 
-     * @return the attribute values
-     */
-    private native JsArrayString getSimpleValues(String attributeName) /*-{
-
-        var attr = this.get(attributeName);
-        if (typeof attr === 'string') {
-            return [ attr ];
-        }
-        return attr;
-    }-*/;
-
-    /**
-     * Returns the values of the given attribute as an array of entities.<p>
-     * Check if the given attribute is of complex type first!!<p>
-     * 
-     * @param attributeName the name of the attribute 
-     * 
-     * @return the attribute values
-     */
-    private native I_EntityCollection getComplexValues(String attributeName) /*-{
-
-        var attr = this.get(attributeName);
-        //        if (attr.isEntity) {
-        //            return [ attr ];
-        //        }
-        return attr;
-    }-*/;
-
-    /**
      * @see com.alkacon.vie.client.I_Entity#getId()
      */
     public native String getId() /*-{
@@ -277,6 +219,14 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
+     * @see com.alkacon.vie.client.I_Entity#toJSON()
+     */
+    public native String toJSON() /*-{
+
+        return JSON.stringify(this);
+    }-*/;
+
+    /**
      * Binds the {@link #com.alkacon.vie.client.Entity.fireValueChangedEvent(Entity)} method 
      * to the native change function and sets the handler manager for this instance.<p>
      *
@@ -308,6 +258,23 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
+     * Returns the values of the given attribute as an array of entities.<p>
+     * Check if the given attribute is of complex type first!!<p>
+     * 
+     * @param attributeName the name of the attribute 
+     * 
+     * @return the attribute values
+     */
+    private native I_EntityCollection getComplexValues(String attributeName) /*-{
+
+        var attr = this.get(attributeName);
+        //        if (attr.isEntity) {
+        //            return [ attr ];
+        //        }
+        return attr;
+    }-*/;
+
+    /**
      * Returns the handler manager.<p>
      *
      * @return the handler manager
@@ -315,5 +282,46 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     private native HandlerManager getHandlerManager()/*-{
 
         return this.handlerManager;
+    }-*/;
+
+    /**
+     * Returns the values of the given attribute as an array of entities.<p>
+     * Check if the given attribute is of complex type first!!<p>
+     * 
+     * @param attributeName the name of the attribute 
+     * 
+     * @return the attribute values
+     */
+    private native JsArrayString getSimpleValues(String attributeName) /*-{
+
+        var attr = this.get(attributeName);
+        if (typeof attr === 'string') {
+            return [ attr ];
+        }
+        return attr;
+    }-*/;
+
+    /**
+     * Returns if the given attribute is of the simple type.<p>
+     * 
+     * @param attributeName the name of the attribute
+     * 
+     * @return <code>true</code> is this is a simple type attribute
+     */
+    private native boolean isSimpleAttribute(String attributeName) /*-{
+
+        var attr = this.get(attributeName);
+        if (typeof attr === 'string') {
+            return true;
+        }
+        if (attr.isEntity) {
+            return false;
+        }
+        if (Object.prototype.toString.call(attr) === '[object Array]') {
+            if (typeof attr[0] === 'string') {
+                return true;
+            }
+        }
+        return false;
     }-*/;
 }

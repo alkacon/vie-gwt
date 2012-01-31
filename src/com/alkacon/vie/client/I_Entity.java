@@ -102,4 +102,11 @@ public interface I_Entity {
      * @param value the attribute value
      */
     void setAttributeValue(String attributeName, String value);
+
+    /**
+     * Returns the JSON string representation of this entity.<p>
+     * 
+     * @return the JSON string representation of this entity
+     */
+    String toJSON();
 }
