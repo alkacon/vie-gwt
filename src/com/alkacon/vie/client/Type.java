@@ -52,10 +52,8 @@ public final class Type extends JavaScriptObject implements I_Type {
      */
     public native void addAttribute(String attributeName, String attributeType, int minOccurrence, int maxOccurrence) /*-{
         try {
-            var attribute = this.attributes.add(attributeName, attributeType);
-            // TODO: this is just a workaround until min/max are properly handled by VIE
-            attribute.min = minOccurrence;
-            attribute.max = maxOccurrence;
+            var attribute = this.attributes.add(attributeName, attributeType,
+                    minOccurrence, maxOccurrence);
         } catch (e) {
             // attribute already exists
         }
