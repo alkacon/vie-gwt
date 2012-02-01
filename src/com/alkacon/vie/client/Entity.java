@@ -27,6 +27,8 @@
 
 package com.alkacon.vie.client;
 
+import java.util.List;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
@@ -209,6 +211,33 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
+     * @see com.alkacon.vie.client.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.client.I_Entity, int)
+     */
+    public void setAttributeValue(String attributeName, I_Entity value, int index) {
+
+        if ((index == 0) && !hasAttribute(attributeName)) {
+            setAttributeValue(attributeName, value);
+        }
+        I_EntityAttribute attribute = getAttribute(attributeName);
+        if ((index == 0) && attribute.isSingleValue()) {
+            setAttributeValue(attributeName, value);
+        } else {
+            List<I_Entity> values = attribute.getComplexValues();
+            if (index >= values.size()) {
+                throw new IndexOutOfBoundsException("Index of " + index + " to big.");
+            }
+            removeAttributeSilent(attributeName);
+            for (int i = 0; i < values.size(); i++) {
+                if (i == index) {
+                    addAttributeValue(attributeName, value);
+                } else {
+                    addAttributeValue(attributeName, values.get(i));
+                }
+            }
+        }
+    }
+
+    /**
      * @see com.alkacon.vie.client.I_Entity#setAttributeValue(java.lang.String, java.lang.String)
      */
     public native void setAttributeValue(String attributeName, String value) /*-{
@@ -217,6 +246,33 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
         });
         this.setOrAdd(attributeName, value);
     }-*/;
+
+    /**
+     * @see com.alkacon.vie.client.I_Entity#setAttributeValue(java.lang.String, java.lang.String, int)
+     */
+    public void setAttributeValue(String attributeName, String value, int index) {
+
+        if ((index == 0) && !hasAttribute(attributeName)) {
+            setAttributeValue(attributeName, value);
+        }
+        I_EntityAttribute attribute = getAttribute(attributeName);
+        if ((index == 0) && attribute.isSingleValue()) {
+            setAttributeValue(attributeName, value);
+        } else {
+            List<String> values = attribute.getSimpleValues();
+            if (index >= values.size()) {
+                throw new IndexOutOfBoundsException("Index of " + index + " to big.");
+            }
+            removeAttributeSilent(attributeName);
+            for (int i = 0; i < values.size(); i++) {
+                if (i == index) {
+                    addAttributeValue(attributeName, value);
+                } else {
+                    addAttributeValue(attributeName, values.get(i));
+                }
+            }
+        }
+    }
 
     /**
      * @see com.alkacon.vie.client.I_Entity#toJSON()

@@ -88,7 +88,7 @@ public interface I_Entity {
     void removeAttributeSilent(String attributeName);
 
     /**
-     * Sets the given attribute value.<p>
+     * Sets the given attribute value. Will remove all previous attribute values.<p>
      *
      * @param attributeName the attribute name
      * @param value the attribute value
@@ -96,12 +96,30 @@ public interface I_Entity {
     void setAttributeValue(String attributeName, I_Entity value);
 
     /**
-     * Sets the given attribute value.<p>
+     * Sets the given attribute value at the given index.<p>
+     * 
+     * @param attributeName the attribute name
+     * @param value the attribute value
+     * @param index the value index
+     */
+    void setAttributeValue(String attributeName, I_Entity value, int index);
+
+    /**
+     * Sets the given attribute value. Will remove all previous attribute values.<p>
      *
      * @param attributeName the attribute name
      * @param value the attribute value
      */
     void setAttributeValue(String attributeName, String value);
+
+    /**
+     * Sets the given attribute value at the given index.<p>
+     * 
+     * @param attributeName the attribute name
+     * @param value the attribute value
+     * @param index the value index
+     */
+    void setAttributeValue(String attributeName, String value, int index);
 
     /**
      * Returns the JSON string representation of this entity.<p>
