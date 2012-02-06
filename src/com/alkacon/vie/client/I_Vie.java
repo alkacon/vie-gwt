@@ -33,7 +33,9 @@ package com.alkacon.vie.client;
 
 import com.alkacon.vie.shared.I_Type;
 
-import com.google.gwt.dom.client.Element;
+import java.util.List;
+
+import com.google.gwt.user.client.Element;
 
 /**
  * The interface for VIE implementations.<p>
@@ -66,6 +68,37 @@ public interface I_Vie {
      * @return the new type
      */
     I_Type createType(String id);
+
+    /**
+     * Returns all attribute elements within a given context.<p>
+     * 
+     * @param context the context to search within
+     * 
+     * @return the elements
+     */
+    List<Element> getAttributeElements(Element context);
+
+    /**
+     * Returns DOM elements displaying the given attribute's value.<p>
+     * 
+     * @param entity the entity
+     * @param attributeName the attribute name
+     * @param context the context to search within
+     * 
+     * @return the elements
+     */
+    List<Element> getAttributeElements(I_Entity entity, String attributeName, Element context);
+
+    /**
+     * Returns DOM elements displaying the given attribute's value.<p>
+     * 
+     * @param entityId the entity id/subject
+     * @param attributeName the attribute name
+     * @param context the context to search within
+     * 
+     * @return the elements
+     */
+    List<Element> getAttributeElements(String entityId, String attributeName, Element context);
 
     /**
      * Returns the element subject.<p>

@@ -29,8 +29,13 @@ package com.alkacon.vie.client;
 
 import com.alkacon.vie.shared.I_Type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * The VIE wrapper singleton.<p>
@@ -59,6 +64,21 @@ public final class Vie extends JavaScriptObject implements I_Vie {
             m_instance = createInstance();
         }
         return m_instance;
+    }
+
+    /**
+     * Removes pointy brackets from beginning and end of the given string.<p>
+     * 
+     * @param value the value to manipulate
+     * 
+     * @return the bracket less string
+     */
+    public static String removePointyBrackets(String value) {
+
+        if ((value.indexOf("<") == 0) && (value.indexOf(">") == (value.length() - 1))) {
+            value = value.substring(1, value.length() - 1);
+        }
+        return value;
     }
 
     /**
@@ -120,6 +140,36 @@ public final class Vie extends JavaScriptObject implements I_Vie {
         this.types.add(type);
         return type;
     }-*/;
+
+    /**
+     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(com.google.gwt.user.client.Element)
+     */
+    public List<Element> getAttributeElements(Element context) {
+
+        return select("[property]", context);
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(com.alkacon.vie.client.I_Entity, java.lang.String, com.google.gwt.user.client.Element)
+     */
+    public List<Element> getAttributeElements(I_Entity entity, String attributeName, Element context) {
+
+        return getAttributeElements(entity.getId(), attributeName, context);
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(java.lang.String, java.lang.String, com.google.gwt.user.client.Element)
+     */
+    public List<Element> getAttributeElements(String entityId, String attributeName, Element context) {
+
+        return select(
+            "[about='"
+                + Vie.removePointyBrackets(entityId)
+                + "'] [property='"
+                + Vie.removePointyBrackets(attributeName)
+                + "']",
+            context);
+    }
 
     /**
      * Returns the element subject.<p>
@@ -184,6 +234,28 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }
 
     /**
+     * Returns a list of elements matching the given CSS selector.<p>
+     * 
+     * @param selector the selector
+     * @param context the context element, if <code>null</code> the body element is used as context
+     * 
+     * @return the element list
+     */
+    public List<Element> select(String selector, Element context) {
+
+        JsArray<Element> results = JavaScriptObject.createArray().cast();
+        if (context == null) {
+            context = RootPanel.getBodyElement();
+        }
+        results = select(selector, context, results);
+        List<Element> elements = new ArrayList<Element>();
+        for (int i = 0; i < results.length(); i++) {
+            elements.add(results.get(i));
+        }
+        return elements;
+    }
+
+    /**
      * Sets VIE to use the RDFA service.<p>
      */
     public native void useRdfaService() /*-{
@@ -208,5 +280,22 @@ public final class Vie extends JavaScriptObject implements I_Vie {
         vie.load({
             element : $wnd.jQuery(selector)
         }).using(service).execute().success(call);
+    }-*/;
+
+    /**
+     * Returns an array of elements matching the given CSS selector.<p>
+     * 
+     * @param selector the selector
+     * @param context the context element, if <code>null</code> the body element is used as context
+     * @param results the array to add the matching elements to
+     * 
+     * @return the element array
+     */
+    private native JsArray<Element> select(String selector, Element context, JsArray<Element> results) /*-{
+
+        this.jQuery(selector, context).each(function() {
+            results.push(this);
+        });
+        return results;
     }-*/;
 }
