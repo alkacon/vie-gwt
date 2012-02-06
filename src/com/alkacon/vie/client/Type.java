@@ -51,12 +51,9 @@ public final class Type extends JavaScriptObject implements I_Type {
      * @see com.alkacon.vie.shared.I_Type#addAttribute(java.lang.String, java.lang.String, int, int)
      */
     public native void addAttribute(String attributeName, String attributeType, int minOccurrence, int maxOccurrence) /*-{
-        try {
-            var attribute = this.attributes.add(attributeName, attributeType,
-                    minOccurrence, maxOccurrence);
-        } catch (e) {
-            // attribute already exists
-        }
+        var attribute = this.attributes.add(attributeName, attributeType,
+                minOccurrence, maxOccurrence);
+
     }-*/;
 
     /**
@@ -64,7 +61,6 @@ public final class Type extends JavaScriptObject implements I_Type {
      */
     public native int getAttributeMaxOccurrence(String attributeName) /*-{
 
-        // TODO: this is just a workaround until min/max are properly handled by VIE
         var attr = this.attributes.get(attributeName);
         return attr.max;
     }-*/;
@@ -74,7 +70,6 @@ public final class Type extends JavaScriptObject implements I_Type {
      */
     public native int getAttributeMinOccurrence(String attributeName) /*-{
 
-        // TODO: this is just a workaround until min/max are properly handled by VIE
         var attr = this.attributes.get(attributeName);
         return attr.min;
     }-*/;
