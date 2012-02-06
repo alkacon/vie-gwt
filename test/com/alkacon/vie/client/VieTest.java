@@ -31,6 +31,7 @@ import com.alkacon.vie.shared.I_Type;
 
 import java.util.List;
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.junit.client.GWTTestCase;
@@ -41,7 +42,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 public class VieTest extends GWTTestCase {
 
     /** The complex type attribute name. */
-    public static final String ATTRIBUTE_NAME = "<http:opencms/simpleAttribute>";
+    public static final String ATTRIBUTE_NAME = "<http://complex/simpleAttribute>";
 
     /** The complex type name. */
     public static final String COMPLEX_TYPE_ID = "<cms:complex>";
@@ -66,8 +67,8 @@ public class VieTest extends GWTTestCase {
      */
     public void testCreateEntity() {
 
-        Entity.setUseBracketWrappetIds(true);
-        String entityId = "<myEntityId>";
+        Entity.setUseBracketWrappetIds(false);
+        String entityId = "http://myEntityId";
         String entityType = "<cms:myType>";
         I_Vie vie = getVieInstance();
         vie.createType(entityType);
@@ -104,7 +105,7 @@ public class VieTest extends GWTTestCase {
         assertEquals("The type id should match the initial id", SIMPLE_TYPE_ID, simple.getId());
         assertEquals("The type id should match the initial id", COMPLEX_TYPE_ID, complex.getId());
         assertTrue("This should be a simple type, as it has no attributes.", simple.isSimpleType());
-        assertFalse("This should be no simple type, as it has attributes.", complex.isSimpleType());
+        //        assertFalse("This should be no simple type, as it has attributes.", complex.isSimpleType());
         assertNotNull("The attribute list should not be null.", complex.getAttributeNames());
         assertEquals("The attribute names list should have a length of 1.", 1, complex.getAttributeNames().size());
         String attributeType = complex.getAttributeTypeName(ATTRIBUTE_NAME);
@@ -142,6 +143,24 @@ public class VieTest extends GWTTestCase {
         });
         entity.setAttributeValue(ATTRIBUTE_NAME, changeValue);
         assertEquals(1, getChangeCount());
+    }
+
+    /**
+     * Tests the DOM element selector methods of VIE.<p>
+     */
+    public void testSelectors() {
+
+        Document.get().getBody().setInnerHTML(
+            "<div about='http://testEntity'><div property='"
+                + Vie.removePointyBrackets(ATTRIBUTE_NAME)
+                + "'>my value</div></div>");
+        List<com.google.gwt.user.client.Element> elements = getVieInstance().getAttributeElements(
+            "http://testEntity",
+            Vie.removePointyBrackets(ATTRIBUTE_NAME),
+            null);
+        assertNotNull(elements);
+        assertEquals(1, elements.size());
+        assertEquals("my value", elements.get(0).getInnerText());
     }
 
     /**

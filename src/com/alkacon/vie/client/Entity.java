@@ -141,12 +141,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     public native String getId() /*-{
         var subject = this.getSubject();
         if (!@com.alkacon.vie.client.Entity::USE_BRACKET_WRAPPED_IDS) {
-            if (subject.indexOf('<') == 0) {
-                subject = subject.substr(1);
-            }
-            if (subject.lastIndexOf('>') == subject.length - 1) {
-                subject = subject.substring(0, subject.length - 1);
-            }
+            subject = @com.alkacon.vie.client.Vie::removePointyBrackets(Ljava/lang/String;)(subject);
         }
         return subject;
     }-*/;

@@ -110,13 +110,7 @@ public final class SimpleEditWidget {
                     }
                     var editableElement = $wnd.jQuery(this);
                     var property = v.services.rdfa.getElementPredicate(this);
-                    // To use Hallo, replace next line with:
-                    // editableElement.hallo();
-                    // Note: you'll also want to configure Hallo to include some plugins
                     editableElement.attr('contenteditable', true);
-                    // To use Hallo, replace next 2 lines with:
-                    // editableElement.bind('hallomodified', function(event, data) {
-                    //   var content = data.content;   
                     editableElement.bind('keyup click change', function() {
                         var content = editableElement.html();
                         if (content !== entity.get(property)) {
