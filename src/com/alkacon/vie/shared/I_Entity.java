@@ -27,6 +27,7 @@
 
 package com.alkacon.vie.shared;
 
+import java.util.List;
 
 /**
  * Interface describing an entity.<p>
@@ -57,6 +58,13 @@ public interface I_Entity {
      * @return the attribute value
      */
     I_EntityAttribute getAttribute(String attributeName);
+
+    /**
+     * Returns all entity attributes.<p>
+     * 
+     * @return the entity attributes
+     */
+    List<I_EntityAttribute> getAttributes();
 
     /**
      * Returns the entity id/URI.<p>

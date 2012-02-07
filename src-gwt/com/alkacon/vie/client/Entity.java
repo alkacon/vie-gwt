@@ -30,6 +30,7 @@ package com.alkacon.vie.client;
 import com.alkacon.vie.shared.I_Entity;
 import com.alkacon.vie.shared.I_EntityAttribute;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -136,6 +137,19 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
             return new EntityAttribute(attributeName, getSimpleValues(attributeName));
         }
         return new EntityAttribute(attributeName, getComplexValues(attributeName));
+    }
+
+    /**
+     * @see com.alkacon.vie.shared.I_Entity#getAttributes()
+     */
+    public List<I_EntityAttribute> getAttributes() {
+
+        List<I_EntityAttribute> result = new ArrayList<I_EntityAttribute>();
+        JsArrayString attributeNames = getAttributeNames();
+        for (int i = 0; i < attributeNames.length(); i++) {
+            result.add(getAttribute(attributeNames.get(i)));
+        }
+        return result;
     }
 
     /**
@@ -310,6 +324,20 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
         }
         return getHandlerManager();
     }
+
+    /**
+     * Returns the names of the available attributes.<p>
+     * 
+     * @return the attribute names
+     */
+    private native JsArrayString getAttributeNames() /*-{
+        var names = new Array();
+        var attributes = this.attrs;
+        for ( var key in attributes) {
+            names.push(key);
+        }
+        return names;
+    }-*/;
 
     /**
      * Returns the values of the given attribute as an array of entities.<p>
