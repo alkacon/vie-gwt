@@ -27,6 +27,9 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Entity;
+import com.alkacon.vie.shared.I_EntityAttribute;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -78,7 +81,7 @@ public final class EntityAttribute implements I_EntityAttribute {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_EntityAttribute#getAttributeName()
+     * @see com.alkacon.vie.shared.I_EntityAttribute#getAttributeName()
      */
     public String getAttributeName() {
 
@@ -86,7 +89,7 @@ public final class EntityAttribute implements I_EntityAttribute {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_EntityAttribute#getComplexValue()
+     * @see com.alkacon.vie.shared.I_EntityAttribute#getComplexValue()
      */
     public I_Entity getComplexValue() {
 
@@ -94,7 +97,7 @@ public final class EntityAttribute implements I_EntityAttribute {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_EntityAttribute#getComplexValues()
+     * @see com.alkacon.vie.shared.I_EntityAttribute#getComplexValues()
      */
     public List<I_Entity> getComplexValues() {
 
@@ -102,7 +105,7 @@ public final class EntityAttribute implements I_EntityAttribute {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_EntityAttribute#getSimpleValue()
+     * @see com.alkacon.vie.shared.I_EntityAttribute#getSimpleValue()
      */
     public String getSimpleValue() {
 
@@ -110,7 +113,7 @@ public final class EntityAttribute implements I_EntityAttribute {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_EntityAttribute#getSimpleValues()
+     * @see com.alkacon.vie.shared.I_EntityAttribute#getSimpleValues()
      */
     public List<String> getSimpleValues() {
 
@@ -118,7 +121,7 @@ public final class EntityAttribute implements I_EntityAttribute {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_EntityAttribute#isComplexValue()
+     * @see com.alkacon.vie.shared.I_EntityAttribute#isComplexValue()
      */
     public boolean isComplexValue() {
 
@@ -126,7 +129,7 @@ public final class EntityAttribute implements I_EntityAttribute {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_EntityAttribute#isSimpleValue()
+     * @see com.alkacon.vie.shared.I_EntityAttribute#isSimpleValue()
      */
     public boolean isSimpleValue() {
 
@@ -134,7 +137,7 @@ public final class EntityAttribute implements I_EntityAttribute {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_EntityAttribute#isSingleValue()
+     * @see com.alkacon.vie.shared.I_EntityAttribute#isSingleValue()
      */
     public boolean isSingleValue() {
 

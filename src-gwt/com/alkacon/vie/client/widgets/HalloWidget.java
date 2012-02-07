@@ -32,10 +32,10 @@
 package com.alkacon.vie.client.widgets;
 
 import com.alkacon.vie.client.Entity;
-import com.alkacon.vie.client.I_Entity;
 import com.alkacon.vie.client.I_EntityArrayCallback;
 import com.alkacon.vie.client.I_EntityCallback;
 import com.alkacon.vie.client.Vie;
+import com.alkacon.vie.shared.I_Entity;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;

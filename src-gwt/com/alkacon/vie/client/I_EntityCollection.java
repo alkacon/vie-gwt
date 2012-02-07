@@ -27,6 +27,8 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Entity;
+
 
 /**
  * Interface describing an entity collection.<p>

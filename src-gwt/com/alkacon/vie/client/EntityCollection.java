@@ -27,6 +27,8 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Entity;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -55,7 +57,7 @@ public final class EntityCollection extends JavaScriptObject implements I_Entity
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_EntityCollection#addOrUpdate(com.alkacon.vie.client.I_Entity)
+     * @see com.alkacon.vie.client.I_EntityCollection#addOrUpdate(com.alkacon.vie.shared.I_Entity)
      */
     public native void addOrUpdate(I_Entity entity) /*-{
 

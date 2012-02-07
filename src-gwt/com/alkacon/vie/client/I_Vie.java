@@ -31,6 +31,7 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Entity;
 import com.alkacon.vie.shared.I_Type;
 
 import java.util.List;

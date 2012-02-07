@@ -27,6 +27,7 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Entity;
 import com.alkacon.vie.shared.I_Type;
 
 import java.util.ArrayList;
@@ -150,7 +151,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(com.alkacon.vie.client.I_Entity, java.lang.String, com.google.gwt.user.client.Element)
+     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(com.alkacon.vie.shared.I_Entity, java.lang.String, com.google.gwt.user.client.Element)
      */
     public List<Element> getAttributeElements(I_Entity entity, String attributeName, Element context) {
 

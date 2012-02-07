@@ -27,9 +27,9 @@
 
 package com.alkacon.vie.client.example;
 
-import com.alkacon.vie.client.I_Entity;
 import com.alkacon.vie.client.widgets.HalloWidget;
 import com.alkacon.vie.client.widgets.SimpleEditWidget;
+import com.alkacon.vie.shared.I_Entity;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;

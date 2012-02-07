@@ -27,6 +27,9 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.I_Entity;
+import com.alkacon.vie.shared.I_EntityAttribute;
+
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -75,14 +78,14 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#addAttributeValue(java.lang.String, com.alkacon.vie.client.I_Entity)
+     * @see com.alkacon.vie.shared.I_Entity#addAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity)
      */
     public native void addAttributeValue(String attributeName, I_Entity value) /*-{
         this.setOrAdd(attributeName, value);
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#addAttributeValue(java.lang.String, java.lang.String)
+     * @see com.alkacon.vie.shared.I_Entity#addAttributeValue(java.lang.String, java.lang.String)
      */
     public native void addAttributeValue(String attributeName, String value) /*-{
         this.setOrAdd(attributeName, value);
@@ -122,7 +125,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#getAttribute(java.lang.String)
+     * @see com.alkacon.vie.shared.I_Entity#getAttribute(java.lang.String)
      */
     public I_EntityAttribute getAttribute(String attributeName) {
 
@@ -136,7 +139,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#getId()
+     * @see com.alkacon.vie.shared.I_Entity#getId()
      */
     public native String getId() /*-{
         var subject = this.getSubject();
@@ -147,7 +150,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#getTypeName()
+     * @see com.alkacon.vie.shared.I_Entity#getTypeName()
      */
     public native String getTypeName() /*-{
 
@@ -156,7 +159,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#hasAttribute(java.lang.String)
+     * @see com.alkacon.vie.shared.I_Entity#hasAttribute(java.lang.String)
      */
     public native boolean hasAttribute(String attributeName) /*-{
 
@@ -186,7 +189,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#removeAttributeSilent(java.lang.String)
+     * @see com.alkacon.vie.shared.I_Entity#removeAttributeSilent(java.lang.String)
      */
     public native void removeAttributeSilent(String attributeName) /*-{
 
@@ -196,7 +199,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.client.I_Entity)
+     * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity)
      */
     public native void setAttributeValue(String attributeName, I_Entity value) /*-{
         this.unset(attributeName, {
@@ -206,7 +209,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.client.I_Entity, int)
+     * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity, int)
      */
     public void setAttributeValue(String attributeName, I_Entity value, int index) {
 
@@ -233,7 +236,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#setAttributeValue(java.lang.String, java.lang.String)
+     * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, java.lang.String)
      */
     public native void setAttributeValue(String attributeName, String value) /*-{
         this.unset(attributeName, {
@@ -243,7 +246,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#setAttributeValue(java.lang.String, java.lang.String, int)
+     * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, java.lang.String, int)
      */
     public void setAttributeValue(String attributeName, String value, int index) {
 
@@ -270,7 +273,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Entity#toJSON()
+     * @see com.alkacon.vie.shared.I_Entity#toJSON()
      */
     public native String toJSON() /*-{
 
