@@ -27,6 +27,7 @@
 
 package com.alkacon.vie.client;
 
+import com.alkacon.vie.shared.EntityAttribute;
 import com.alkacon.vie.shared.I_Entity;
 import com.alkacon.vie.shared.I_EntityAttribute;
 
