@@ -25,9 +25,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package com.alkacon.vie.shared;
+package com.alkacon.vie.client;
 
-import com.alkacon.vie.client.I_EntityCollection;
+import com.alkacon.vie.shared.I_Entity;
+import com.alkacon.vie.shared.I_EntityAttribute;
 
 import java.util.ArrayList;
 import java.util.Collections;
