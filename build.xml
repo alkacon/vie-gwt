@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="VIE-WRAPPER" default="jars" basedir=".">
+	<property name="wrapper.input" location="${basedir}" />
+	<property name="wrapper.output" location="$wrapper.input/../BuildWrapper" />
+	<property name="wrapper.input.libs" location="${wrapper.input}/lib" />
+	<property name="wrapper.build" location="${wrapper.output}/build" />
+	<property name="wrapper.output.jars" location="${wrapper.build}/jars" />
+	<property name="wrapper.output.classes" location="${wrapper.build}/classes" />
+	<property name="wrapper.output.classes.gwt" location="${wrapper.build}/classes-gwt" />
+	<property name="java.target.version" value="1.5" />
+	<property name="excludes" value="**/.nbattrs,**/.project,**/.classpath,**/.gitignore" />
+
+	<target name="clean" description="Deletes outputs">
+		<delete dir="${wrapper.output.classes}" />
+		<delete dir="${wrapper.output.classes.gwt}" />
+		<delete dir="${wrapper.output.jars}" />
+	</target>
+	
+	<target name="compile-server" description="Compiles VIE wrapper server-side classes">
+		<mkdir dir="${wrapper.output.classes}" />
+		<javac srcdir="${wrapper.input}/src" destdir="${wrapper.output.classes}" debug="on" optimize="on" deprecation="on" source="1.5" target="${java.target.version}">
+
+			<classpath>
+				<fileset dir="${wrapper.input.libs}">
+					<include name="**/*.jar" />
+					<exclude name="**/gwt-user*.jar" />
+					<exclude name="**/gwt-dev*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${wrapper.output.classes}">
+			<fileset dir="${wrapper.input}/src" includes="**/*.properties,**/*.txt,**/*.xml,**/*.xsd,**/*.dtd,**/*.sql" excludes="${excludes}" />
+		</copy>
+	</target>
+
+	<target name="compile-client" description="Compiles VIE wrapper client-side classes">
+		<mkdir dir="${wrapper.output.classes.gwt}" />
+		<javac  destdir="${wrapper.output.classes.gwt}" debug="on" optimize="on" deprecation="on" source="1.5" target="${java.target.version}">
+			<src path="${wrapper.input}/src" />
+			<src path="${wrapper.input}/src-gwt" />
+			<classpath>
+				<fileset dir="${wrapper.input.libs}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${wrapper.output.classes.gwt}">
+			<fileset dir="${wrapper.input}/src" includes="**/*.java,**/*.properties,**/*.txt,**/*.xml,**/*.xsd,**/*.dtd,**/*.sql" excludes="${excludes}" />
+			<fileset dir="${wrapper.input}/src-gwt" includes="**/*.java,**/*.properties,**/*.txt,**/*.xml,**/*.xsd,**/*.dtd,**/*.sql" excludes="${excludes}" />
+		</copy>
+	</target>
+
+	<target name="jars" depends="clean, compile-server,compile-client" description="Generate the VIE Wrapper .jar files">
+		<mkdir dir="${wrapper.output.jars}" />
+		<jar jarfile="${wrapper.output.jars}/wrapper.jar" basedir="${wrapper.output.classes}" includes="com/alkacon/**" />
+		<jar jarfile="${wrapper.output.jars}/wrapper-client.jar" basedir="${wrapper.output.classes.gwt}" includes="com/alkacon/**" />
+	</target>
+
+</project>
