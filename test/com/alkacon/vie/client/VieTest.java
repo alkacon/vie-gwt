@@ -43,13 +43,13 @@ import com.google.gwt.junit.client.GWTTestCase;
 public class VieTest extends GWTTestCase {
 
     /** The complex type attribute name. */
-    public static final String ATTRIBUTE_NAME = "<http://complex/simpleAttribute>";
+    public static final String ATTRIBUTE_NAME = "http://complex/simpleAttribute";
 
     /** The complex type name. */
-    public static final String COMPLEX_TYPE_ID = "<cms:complex>";
+    public static final String COMPLEX_TYPE_ID = "cms:complex";
 
     /** The simple type name. */
-    public static final String SIMPLE_TYPE_ID = "<cms:simple>";
+    public static final String SIMPLE_TYPE_ID = "cms:simple";
 
     /** Change counter. */
     private int m_changeCount;
@@ -68,9 +68,8 @@ public class VieTest extends GWTTestCase {
      */
     public void testCreateEntity() {
 
-        Entity.setUseBracketWrappetIds(false);
         String entityId = "http://myEntityId";
-        String entityType = "<cms:myType>";
+        String entityType = "cms:myType";
         I_Vie vie = getVieInstance();
         vie.createType(entityType);
         I_Entity entity = vie.createEntity(entityId, entityType);
@@ -84,7 +83,7 @@ public class VieTest extends GWTTestCase {
      */
     public void testCreateType() {
 
-        String typeId = "<cms:mySimpleType>";
+        String typeId = "cms:mySimpleType";
         I_Type type = getVieInstance().createType(typeId);
         assertNotNull("The newly created type should not be null", type);
         assertEquals("The type id should match the initial id", typeId, type.getId());
@@ -152,12 +151,10 @@ public class VieTest extends GWTTestCase {
     public void testSelectors() {
 
         Document.get().getBody().setInnerHTML(
-            "<div about='http://testEntity'><div property='"
-                + Vie.removePointyBrackets(ATTRIBUTE_NAME)
-                + "'>my value</div></div>");
+            "<div about='http://testEntity'><div property='" + ATTRIBUTE_NAME + "'>my value</div></div>");
         List<com.google.gwt.user.client.Element> elements = getVieInstance().getAttributeElements(
             "http://testEntity",
-            Vie.removePointyBrackets(ATTRIBUTE_NAME),
+            ATTRIBUTE_NAME,
             null);
         assertNotNull(elements);
         assertEquals(1, elements.size());

@@ -48,24 +48,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
  */
 public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<I_Entity>, I_Entity {
 
-    /** Flag indicating that id's should always be wrapped in '<>' brackets. */
-    private static boolean USE_BRACKET_WRAPPED_IDS;
-
     /**
      * Constructor, for internal use only.<p>
      */
     protected Entity() {
 
-    }
-
-    /**
-     * Sets the use bracket wrapped id's flag.<p>
-     * 
-     * @param useBrackets <code>true</code> to use bracket wrapped id's
-     */
-    public static void setUseBracketWrappetIds(boolean useBrackets) {
-
-        USE_BRACKET_WRAPPED_IDS = useBrackets;
     }
 
     /**
@@ -82,14 +69,20 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @see com.alkacon.vie.shared.I_Entity#addAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity)
      */
     public native void addAttributeValue(String attributeName, I_Entity value) /*-{
-        this.setOrAdd(attributeName, value);
+        this
+                .setOrAdd(
+                        @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName),
+                        value);
     }-*/;
 
     /**
      * @see com.alkacon.vie.shared.I_Entity#addAttributeValue(java.lang.String, java.lang.String)
      */
     public native void addAttributeValue(String attributeName, String value) /*-{
-        this.setOrAdd(attributeName, value);
+        this
+                .setOrAdd(
+                        @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName),
+                        value);
     }-*/;
 
     /**
@@ -130,13 +123,14 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     public I_EntityAttribute getAttribute(String attributeName) {
 
-        if (!hasAttribute(attributeName)) {
+        String internaltAttributeName = Vie.addPointyBrackets(attributeName);
+        if (!hasAttribute(internaltAttributeName)) {
             return null;
         }
-        if (isSimpleAttribute(attributeName)) {
-            return new EntityAttribute(attributeName, getSimpleValues(attributeName));
+        if (isSimpleAttribute(internaltAttributeName)) {
+            return new EntityAttribute(attributeName, getSimpleValues(internaltAttributeName));
         }
-        return new EntityAttribute(attributeName, getComplexValues(attributeName));
+        return new EntityAttribute(attributeName, getComplexValues(internaltAttributeName));
     }
 
     /**
@@ -157,9 +151,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     public native String getId() /*-{
         var subject = this.getSubject();
-        if (!@com.alkacon.vie.client.Entity::USE_BRACKET_WRAPPED_IDS) {
-            subject = @com.alkacon.vie.client.Vie::removePointyBrackets(Ljava/lang/String;)(subject);
-        }
+        subject = @com.alkacon.vie.client.Vie::removePointyBrackets(Ljava/lang/String;)(subject);
         return subject;
     }-*/;
 
@@ -169,7 +161,8 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     public native String getTypeName() /*-{
 
         var type = this.get('@type');
-        return (typeof type === 'string') ? type : type.id;
+        var result = (typeof type === 'string') ? type : type.id;
+        return @com.alkacon.vie.client.Vie::removePointyBrackets(Ljava/lang/String;)(result);
     }-*/;
 
     /**
@@ -177,7 +170,8 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     public native boolean hasAttribute(String attributeName) /*-{
 
-        return this.has(attributeName);
+        return this
+                .has(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName));
     }-*/;
 
     /**
@@ -189,7 +183,8 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     public native boolean hasType(String type) /*-{
 
-        return this.hasType(type);
+        return this
+                .hasType(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(type));
     }-*/;
 
     /**
@@ -199,7 +194,8 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     public native void removeAttribute(String attributeName) /*-{
 
-        this.unset(attributeName);
+        this
+                .unset(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName));
     }-*/;
 
     /**
@@ -207,15 +203,19 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     public native void removeAttributeSilent(String attributeName) /*-{
 
-        this.unset(attributeName, {
-            silent : true
-        });
+        this
+                .unset(
+                        @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName),
+                        {
+                            silent : true
+                        });
     }-*/;
 
     /**
      * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity)
      */
     public native void setAttributeValue(String attributeName, I_Entity value) /*-{
+        attributeName = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName);
         this.unset(attributeName, {
             silent : true
         });
@@ -253,6 +253,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, java.lang.String)
      */
     public native void setAttributeValue(String attributeName, String value) /*-{
+        attributeName = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName);
         this.unset(attributeName, {
             silent : true
         });
@@ -334,7 +335,8 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
         var names = new Array();
         var attributes = this.attrs;
         for ( var key in attributes) {
-            names.push(key);
+            names
+                    .push(@com.alkacon.vie.client.Vie::removePointyBrackets(Ljava/lang/String;)(key));
         }
         return names;
     }-*/;

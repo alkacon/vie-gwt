@@ -51,8 +51,11 @@ public final class Type extends JavaScriptObject implements I_Type {
      * @see com.alkacon.vie.shared.I_Type#addAttribute(java.lang.String, java.lang.String, int, int)
      */
     public native void addAttribute(String attributeName, String attributeType, int minOccurrence, int maxOccurrence) /*-{
-        var attribute = this.attributes.add(attributeName, attributeType,
-                minOccurrence, maxOccurrence);
+        var attribute = this.attributes
+                .add(
+                        @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName),
+                        @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeType),
+                        minOccurrence, maxOccurrence);
 
     }-*/;
 
@@ -61,7 +64,8 @@ public final class Type extends JavaScriptObject implements I_Type {
      */
     public native int getAttributeMaxOccurrence(String attributeName) /*-{
 
-        var attr = this.attributes.get(attributeName);
+        var attr = this.attributes
+                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName));
         return attr.max;
     }-*/;
 
@@ -70,7 +74,8 @@ public final class Type extends JavaScriptObject implements I_Type {
      */
     public native int getAttributeMinOccurrence(String attributeName) /*-{
 
-        var attr = this.attributes.get(attributeName);
+        var attr = this.attributes
+                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName));
         return attr.min;
     }-*/;
 
@@ -88,7 +93,8 @@ public final class Type extends JavaScriptObject implements I_Type {
      * @see com.alkacon.vie.shared.I_Type#getAttributeType(java.lang.String)
      */
     public native I_Type getAttributeType(String attributeName) /*-{
-        var attr = this.attributes.get(attributeName);
+        var attr = this.attributes
+                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName));
         return (attr === undefined) ? null : this.vie.types.get(attr.range[0]);
     }-*/;
 
@@ -97,17 +103,19 @@ public final class Type extends JavaScriptObject implements I_Type {
      */
     public native String getAttributeTypeName(String attributeName) /*-{
 
-        var attr = this.attributes.get(attributeName);
-        return (attr === undefined) ? null : attr.range[0];
+        var attr = this.attributes
+                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName));
+        var result = (attr === undefined) ? null : attr.range[0];
+        return @com.alkacon.vie.client.Vie::removePointyBrackets(Ljava/lang/String;)(result);
     }-*/;
 
     /**
      * @see com.alkacon.vie.shared.I_Type#getId()
      */
-    public native String getId() /*-{
+    public String getId() {
 
-        return this.id;
-    }-*/;
+        return Vie.removePointyBrackets(getTypeName());
+    }
 
     /**
      * @see com.alkacon.vie.shared.I_Type#isSimpleType()
@@ -115,6 +123,15 @@ public final class Type extends JavaScriptObject implements I_Type {
     public native boolean isSimpleType() /*-{
 
         return this.attributes == null || this.attributes.list().length == 0;
+    }-*/;
+
+    /**
+     * Returns the internal type name - including pointy brackets.<p>
+     * @return
+     */
+    private native String getTypeName() /*-{
+
+        return this.id;
     }-*/;
 
     /**
@@ -126,6 +143,7 @@ public final class Type extends JavaScriptObject implements I_Type {
         var attributes = this.attributes.list();
         for ( var i = 0; i < attributes.length; i++) {
             var name = attributes[i].id;
+            name = @com.alkacon.vie.client.Vie::removePointyBrackets(Ljava/lang/String;)(name);
             list.@java.util.List::add(Ljava/lang/Object;)(name);
         }
     }-*/;

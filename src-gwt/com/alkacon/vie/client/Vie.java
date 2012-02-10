@@ -46,12 +46,41 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     /** The singleton Vie instance. */
     private static Vie m_instance;
 
+    /** Flag indicating that id's should always be wrapped in '<>' brackets. */
+    private static boolean OVERRIDE_BRACKET_WRAPPED_NAMES = true;
+
+    /**
+     * Sets the use bracket wrapped id's flag.<p>
+     * 
+     * @param overrideBrackets <code>true</code> to use bracket wrapped id's
+     */
+    public static void setOverrideBracketWrappedNames(boolean overrideBrackets) {
+
+        OVERRIDE_BRACKET_WRAPPED_NAMES = overrideBrackets;
+    }
+
     /**
      * Protected constructor, needed for sub classes of GWT-JavaScriptObjects.<p>
      */
     protected Vie() {
 
         // noop
+    }
+
+    /**
+     * Adds pointy brackets to the given value if not already present.<p>
+     * 
+     * @param value the value
+     * 
+     * @return the value wrapped in pointy brackets
+     */
+    public static String addPointyBrackets(String value) {
+
+        if (OVERRIDE_BRACKET_WRAPPED_NAMES
+            && ((value.indexOf("<") != 0) || (value.lastIndexOf(">") != (value.length() - 1)))) {
+            value = "<" + value + ">";
+        }
+        return value;
     }
 
     /**
@@ -76,7 +105,9 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public static String removePointyBrackets(String value) {
 
-        if ((value.indexOf("<") == 0) && (value.indexOf(">") == (value.length() - 1))) {
+        if (OVERRIDE_BRACKET_WRAPPED_NAMES
+            && (value.indexOf("<") == 0)
+            && (value.lastIndexOf(">") == (value.length() - 1))) {
             value = value.substring(1, value.length() - 1);
         }
         return value;
@@ -117,13 +148,15 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @return the new entity
      */
     public native I_Entity createEntity(String entityId, String entityType) /*-{
-        var entityType = this.types.get(entityType);
+        var entityType = this.types
+                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityType));
         var entityInstance;
         if (entityType != null) {
             // if the type is available, use it to create the new instance
-            entityInstance = entityType.instance({
-                '@subject' : entityId
-            });
+            entityInstance = entityType
+                    .instance({
+                        '@subject' : @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId)
+                    });
         } else {
             throw Error('Type has not been registered yet.');
         }
@@ -134,6 +167,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @see com.alkacon.vie.client.I_Vie#createType(java.lang.String)
      */
     public native I_Type createType(String id) /*-{
+        id = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(id);
         var type = new this.Type(id);
 
         // all type inherit from owl:Thing
@@ -215,7 +249,8 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public native I_Entity getEntity(String entityId) /*-{
 
-        return this.entities.get(entityId);
+        return this.entities
+                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId));
     }-*/;
 
     /**
@@ -223,7 +258,8 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public native I_Type getType(String id) /*-{
 
-        return this.types.get(id);
+        return this.types
+                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(id));
     }-*/;
 
     /**
