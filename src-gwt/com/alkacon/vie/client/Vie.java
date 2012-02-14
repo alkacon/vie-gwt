@@ -28,10 +28,12 @@
 package com.alkacon.vie.client;
 
 import com.alkacon.vie.shared.I_Entity;
+import com.alkacon.vie.shared.I_EntityAttribute;
 import com.alkacon.vie.shared.I_Type;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -48,16 +50,6 @@ public final class Vie extends JavaScriptObject implements I_Vie {
 
     /** Flag indicating that id's should always be wrapped in '<>' brackets. */
     private static boolean OVERRIDE_BRACKET_WRAPPED_NAMES = true;
-
-    /**
-     * Sets the use bracket wrapped id's flag.<p>
-     * 
-     * @param overrideBrackets <code>true</code> to use bracket wrapped id's
-     */
-    public static void setOverrideBracketWrappedNames(boolean overrideBrackets) {
-
-        OVERRIDE_BRACKET_WRAPPED_NAMES = overrideBrackets;
-    }
 
     /**
      * Protected constructor, needed for sub classes of GWT-JavaScriptObjects.<p>
@@ -111,6 +103,16 @@ public final class Vie extends JavaScriptObject implements I_Vie {
             value = value.substring(1, value.length() - 1);
         }
         return value;
+    }
+
+    /**
+     * Sets the use bracket wrapped id's flag.<p>
+     * 
+     * @param overrideBrackets <code>true</code> to use bracket wrapped id's
+     */
+    public static void setOverrideBracketWrappedNames(boolean overrideBrackets) {
+
+        OVERRIDE_BRACKET_WRAPPED_NAMES = overrideBrackets;
     }
 
     /**
@@ -268,6 +270,49 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     public void load(String service, String selector, I_EntityArrayCallback callback) {
 
         loadInternal(service, selector, callback);
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_Vie#registerEntity(com.alkacon.vie.shared.I_Entity)
+     */
+    public I_Entity registerEntity(I_Entity entity) {
+
+        I_Entity result = createEntity(entity.getId(), entity.getTypeName());
+        for (I_EntityAttribute attribute : entity.getAttributes()) {
+            if (attribute.isSimpleValue()) {
+                for (String value : attribute.getSimpleValues()) {
+                    result.addAttributeValue(attribute.getAttributeName(), value);
+                }
+            } else {
+                for (I_Entity value : attribute.getComplexValues()) {
+                    result.addAttributeValue(attribute.getAttributeName(), registerEntity(value));
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_Vie#registerTypes(com.alkacon.vie.shared.I_Type, java.util.Map)
+     */
+    public void registerTypes(I_Type type, Map<String, I_Type> types) {
+
+        if (getType(type.getId()) != null) {
+            return;
+        }
+        I_Type regType = createType(type.getId());
+        if (type.isSimpleType()) {
+            return;
+        }
+        for (String attributeName : type.getAttributeNames()) {
+            String attributeType = type.getAttributeTypeName(attributeName);
+            registerTypes(types.get(attributeType), types);
+            regType.addAttribute(
+                attributeName,
+                attributeType,
+                type.getAttributeMinOccurrence(attributeName),
+                type.getAttributeMaxOccurrence(attributeName));
+        }
     }
 
     /**

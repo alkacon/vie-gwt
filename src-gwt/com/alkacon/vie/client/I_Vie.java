@@ -35,6 +35,7 @@ import com.alkacon.vie.shared.I_Entity;
 import com.alkacon.vie.shared.I_Type;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.Element;
 
@@ -152,5 +153,22 @@ public interface I_Vie {
      * @param callback the callback that is executed on success 
      */
     void load(String service, String selector, I_EntityArrayCallback callback);
+
+    /**
+     * Registers the given entity within the VIE model.<p>
+     * 
+     * @param entity the entity to register
+     * 
+     * @return the new registered entity object
+     */
+    I_Entity registerEntity(I_Entity entity);
+
+    /**
+     * Registers the type and it's sub-types.<p>
+     * 
+     * @param type the type to register
+     * @param types the available types
+     */
+    void registerTypes(I_Type type, Map<String, I_Type> types);
 
 }
