@@ -68,12 +68,11 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     /**
      * @see com.alkacon.vie.shared.I_Entity#addAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity)
      */
-    public native void addAttributeValue(String attributeName, I_Entity value) /*-{
-        this
-                .setOrAdd(
-                        @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName),
-                        value);
-    }-*/;
+    public void addAttributeValue(String attributeName, I_Entity value) {
+
+        internalAddAttributeValue(attributeName, value);
+        registerChange((Entity)value);
+    }
 
     /**
      * @see com.alkacon.vie.shared.I_Entity#addAttributeValue(java.lang.String, java.lang.String)
@@ -141,7 +140,10 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
         List<I_EntityAttribute> result = new ArrayList<I_EntityAttribute>();
         JsArrayString attributeNames = getAttributeNames();
         for (int i = 0; i < attributeNames.length(); i++) {
-            result.add(getAttribute(attributeNames.get(i)));
+            I_EntityAttribute attribute = getAttribute(attributeNames.get(i));
+            if (attribute != null) {
+                result.add(attribute);
+            }
         }
         return result;
     }
@@ -150,7 +152,11 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @see com.alkacon.vie.shared.I_Entity#getId()
      */
     public native String getId() /*-{
-        var subject = this.getSubject();
+        try {
+            var subject = this.getSubject();
+        } catch (error) {
+            console.log(error);
+        }
         subject = @com.alkacon.vie.client.Vie::removePointyBrackets(Ljava/lang/String;)(subject);
         return subject;
     }-*/;
@@ -214,19 +220,20 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     /**
      * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity)
      */
-    public native void setAttributeValue(String attributeName, I_Entity value) /*-{
-        attributeName = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName);
-        this.unset(attributeName, {
-            silent : true
-        });
-        this.set(attributeName, value);
-    }-*/;
+    public void setAttributeValue(String attributeName, I_Entity value) {
+
+        internalSetAttributeValue(attributeName, value);
+        registerChange((Entity)value);
+    }
 
     /**
      * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity, int)
      */
     public void setAttributeValue(String attributeName, I_Entity value, int index) {
 
+        if (!(value instanceof Entity)) {
+            throw new UnsupportedOperationException("May only set native entities as values.");
+        }
         if ((index == 0) && !hasAttribute(attributeName)) {
             setAttributeValue(attributeName, value);
         }
@@ -247,6 +254,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
                 }
             }
         }
+
     }
 
     /**
@@ -296,6 +304,13 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
+     * Sets the entity changed, triggering the value changed event.<p>
+     */
+    protected native void setChanged() /*-{
+        this.change();
+    }-*/;
+
+    /**
      * Binds the {@link #com.alkacon.vie.client.Entity.fireValueChangedEvent(Entity)} method 
      * to the native change function and sets the handler manager for this instance.<p>
      *
@@ -333,7 +348,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     private native JsArrayString getAttributeNames() /*-{
         var names = new Array();
-        var attributes = this.attrs;
+        var attributes = this.attributes;
         for ( var key in attributes) {
             names
                     .push(@com.alkacon.vie.client.Vie::removePointyBrackets(Ljava/lang/String;)(key));
@@ -386,6 +401,33 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
+     * Internal method to add a complex attribute value.<p>
+     * 
+     * @param attributeName the attribute name
+     * @param value the value
+     */
+    private native void internalAddAttributeValue(String attributeName, I_Entity value) /*-{
+        this
+                .setOrAdd(
+                        @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName),
+                        value);
+    }-*/;
+
+    /**
+     * Internal method to set a complex attribute value.<p>
+     * 
+     * @param attributeName the attribute name
+     * @param value the value
+     */
+    private native void internalSetAttributeValue(String attributeName, I_Entity value) /*-{
+        attributeName = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName);
+        this.unset(attributeName, {
+            silent : true
+        });
+        this.set(attributeName, value);
+    }-*/;
+
+    /**
      * Returns if the given attribute is of the simple type.<p>
      * 
      * @param attributeName the name of the attribute
@@ -407,5 +449,17 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
             }
         }
         return false;
+    }-*/;
+
+    /**
+     * Registers the change event of the new child to trigger change on this entity.<p>
+     * 
+     * @param child the child to register
+     */
+    private native void registerChange(Entity child) /*-{
+        var self = this;
+        child.bind("change", function() {
+            self.change();
+        });
     }-*/;
 }
