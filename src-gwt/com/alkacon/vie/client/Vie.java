@@ -142,6 +142,14 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }-*/;
 
     /**
+     * @see com.alkacon.vie.client.I_Vie#clearEntities()
+     */
+    public native void clearEntities() /*-{
+
+        this.entities.reset();
+    }-*/;
+
+    /**
      * Creates a new entity registering it within VIE.<p>
      * 
      * @param entityId the entity id
@@ -199,13 +207,13 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public List<Element> getAttributeElements(String entityId, String attributeName, Element context) {
 
-        return select(
-            "[about='"
-                + Vie.removePointyBrackets(entityId)
-                + "'] [property='"
-                + Vie.removePointyBrackets(attributeName)
-                + "']",
-            context);
+        String selector = null;
+        if ((context != null) && entityId.equals(context.getAttribute("about"))) {
+            selector = "[property='" + attributeName + "']";
+        } else {
+            selector = "[about='" + entityId + "'] [property='" + attributeName + "']";
+        }
+        return select(selector, context);
     }
 
     /**
@@ -298,6 +306,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     public void registerTypes(I_Type type, Map<String, I_Type> types) {
 
         if (getType(type.getId()) != null) {
+            // type already registered
             return;
         }
         I_Type regType = createType(type.getId());

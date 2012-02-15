@@ -53,6 +53,11 @@ public interface I_Vie {
     void bindFunctionToEntities(String functionName, I_EntityCallback callback);
 
     /**
+     * Clears all entities from VIE.<p>
+     */
+    void clearEntities();
+
+    /**
      * Creates a new entity registering it within VIE.<p>
      * 
      * @param entityId the entity id
