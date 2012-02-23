@@ -28,6 +28,7 @@
 package com.alkacon.vie.client;
 
 import com.alkacon.vie.shared.I_Entity;
+import com.alkacon.vie.shared.I_EntityAttribute;
 import com.alkacon.vie.shared.I_Type;
 
 import java.util.List;
@@ -120,6 +121,27 @@ public class VieTest extends GWTTestCase {
             complex.getAttributeMinOccurrence(ATTRIBUTE_NAME));
         List<String> attributes = complex.getAttributeNames();
         assertEquals("The attribute name should be as given above.", ATTRIBUTE_NAME, attributes.get(0));
+
+        // testing attribute values
+        I_Entity entity = vie.createEntity("my-entity", complex.getId());
+        String value = "my attribute value";
+        entity.addAttributeValue(ATTRIBUTE_NAME, value);
+        I_EntityAttribute attribute = entity.getAttribute(ATTRIBUTE_NAME);
+        assertNotNull("The entity should have an attribute: " + ATTRIBUTE_NAME, attribute);
+        assertEquals("The attribute value should match the previously set value", value, attribute.getSimpleValue());
+
+        // testing empty string attribute value
+        I_Entity entity2 = vie.createEntity("my-second-entity", complex.getId());
+        String value2 = "";
+        entity2.addAttributeValue(ATTRIBUTE_NAME, value2);
+        I_EntityAttribute attribute2 = entity2.getAttribute(ATTRIBUTE_NAME);
+        assertNotNull("The entity should have an attribute even though the value was an empty string: "
+            + ATTRIBUTE_NAME, attribute2);
+        assertEquals(
+            "The attribute value should match the previously set empty string value",
+            value2,
+            attribute2.getSimpleValue());
+
     }
 
     /**

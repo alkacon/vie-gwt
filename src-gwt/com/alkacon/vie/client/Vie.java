@@ -163,10 +163,11 @@ public final class Vie extends JavaScriptObject implements I_Vie {
         var entityInstance;
         if (entityType != null) {
             // if the type is available, use it to create the new instance
-            entityInstance = entityType
-                    .instance({
-                        '@subject' : @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId)
-                    });
+            var attributes = {};
+            if (entityId != null) {
+                attributes['@subject'] = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId);
+            }
+            entityInstance = entityType.instance(attributes);
         } else {
             throw Error('Type has not been registered yet.');
         }

@@ -48,6 +48,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
  */
 public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<I_Entity>, I_Entity {
 
+    /** Place holder value for empty strings. */
+    // HACK: this place holder is only used because the current native VIE implementation does
+    // not support empty strings as values
+    private static final String EMPTY_STRING = "########empty-string########";
+
     /**
      * Constructor, for internal use only.<p>
      */
@@ -78,6 +83,9 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @see com.alkacon.vie.shared.I_Entity#addAttributeValue(java.lang.String, java.lang.String)
      */
     public native void addAttributeValue(String attributeName, String value) /*-{
+        if (value == "") {
+            value = @com.alkacon.vie.client.Entity::EMPTY_STRING;
+        }
         this
                 .setOrAdd(
                         @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName),
@@ -261,6 +269,9 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, java.lang.String)
      */
     public native void setAttributeValue(String attributeName, String value) /*-{
+        if (value == "") {
+            value = @com.alkacon.vie.client.Entity::EMPTY_STRING;
+        }
         attributeName = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(attributeName);
         this.unset(attributeName, {
             silent : true
@@ -273,9 +284,6 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
      */
     public void setAttributeValue(String attributeName, String value, int index) {
 
-        if ((index == 0) && !hasAttribute(attributeName)) {
-            setAttributeValue(attributeName, value);
-        }
         I_EntityAttribute attribute = getAttribute(attributeName);
         if ((index == 0) && attribute.isSingleValue()) {
             setAttributeValue(attributeName, value);
@@ -367,9 +375,6 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     private native I_EntityCollection getComplexValues(String attributeName) /*-{
 
         var attr = this.get(attributeName);
-        //        if (attr.isEntity) {
-        //            return [ attr ];
-        //        }
         return attr;
     }-*/;
 
@@ -395,7 +400,14 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
 
         var attr = this.get(attributeName);
         if (typeof attr === 'string') {
-            return [ attr ];
+            attr = [ attr ];
+        }
+        if (attr != null) {
+            for ( var i = 0; i < attr.length; i++) {
+                if (attr[i] == @com.alkacon.vie.client.Entity::EMPTY_STRING) {
+                    attr[i] = "";
+                }
+            }
         }
         return attr;
     }-*/;
@@ -462,4 +474,34 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
             self.change();
         });
     }-*/;
+
+    /**
+     * @see com.alkacon.vie.shared.I_Entity#removeAttributeValue(java.lang.String, int)
+     */
+    public void removeAttributeValue(String attributeName, int index) {
+
+        if (!hasAttribute(attributeName)) {
+            return;
+        }
+        I_EntityAttribute attribute = getAttribute(attributeName);
+        if (attribute.isSingleValue() && (index == 0)) {
+            removeAttribute(attributeName);
+        } else {
+            removeAttributeSilent(attributeName);
+            if (attribute.isSimpleValue()) {
+                for (int i = 0; i < attribute.getSimpleValues().size(); i++) {
+                    if (i != index) {
+                        addAttributeValue(attributeName, attribute.getSimpleValues().get(i));
+                    }
+                }
+
+            } else {
+                for (int i = 0; i < attribute.getComplexValues().size(); i++) {
+                    if (i != index) {
+                        addAttributeValue(attributeName, attribute.getComplexValues().get(i));
+                    }
+                }
+            }
+        }
+    }
 }

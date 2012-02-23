@@ -90,11 +90,26 @@ public interface I_Entity {
     boolean hasAttribute(String attributeName);
 
     /**
+     * Removes the given attribute.<p>
+     *
+     * @param attributeName the attribute name
+     */
+    void removeAttribute(String attributeName);
+
+    /**
      * Removes the attribute without triggering any change events.<p>
      *
      * @param attributeName the attribute name
      */
     void removeAttributeSilent(String attributeName);
+
+    /**
+     * Removes a specific attribute value.<p>
+     * 
+     * @param attributeName the attribute name
+     * @param index the value index
+     */
+    void removeAttributeValue(String attributeName, int index);
 
     /**
      * Sets the given attribute value. Will remove all previous attribute values.<p>

@@ -27,7 +27,6 @@
 
 package com.alkacon.vie.shared;
 
-
 import java.util.List;
 
 /**
@@ -69,6 +68,13 @@ public interface I_EntityAttribute {
      * @return the list of simple values
      */
     List<String> getSimpleValues();
+
+    /**
+     * Returns the number of values set for this attribute.<p>
+     * 
+     * @return the number of values
+     */
+    int getValueCount();
 
     /**
      * Returns if the is a complex type value.<p>
