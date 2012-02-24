@@ -37,7 +37,7 @@ import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -188,7 +188,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }-*/;
 
     /**
-     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(com.google.gwt.user.client.Element)
+     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(com.google.gwt.dom.client.Element)
      */
     public List<Element> getAttributeElements(Element context) {
 
@@ -196,7 +196,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(com.alkacon.vie.shared.I_Entity, java.lang.String, com.google.gwt.user.client.Element)
+     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(com.alkacon.vie.shared.I_Entity, java.lang.String, com.google.gwt.dom.client.Element)
      */
     public List<Element> getAttributeElements(I_Entity entity, String attributeName, Element context) {
 
@@ -204,7 +204,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(java.lang.String, java.lang.String, com.google.gwt.user.client.Element)
+     * @see com.alkacon.vie.client.I_Vie#getAttributeElements(java.lang.String, java.lang.String, com.google.gwt.dom.client.Element)
      */
     public List<Element> getAttributeElements(String entityId, String attributeName, Element context) {
 

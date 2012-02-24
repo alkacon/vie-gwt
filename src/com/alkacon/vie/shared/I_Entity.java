@@ -90,6 +90,24 @@ public interface I_Entity {
     boolean hasAttribute(String attributeName);
 
     /**
+     * Inserts a new attribute value at the given index.<p>
+     * 
+     * @param attributeName the attribute name
+     * @param value the attribute value
+     * @param index the value index
+     */
+    void insertAttributeValue(String attributeName, I_Entity value, int index);
+
+    /**
+     * Inserts a new attribute value at the given index.<p>
+     * 
+     * @param attributeName the attribute name
+     * @param value the attribute value
+     * @param index the value index
+     */
+    void insertAttributeValue(String attributeName, String value, int index);
+
+    /**
      * Removes the given attribute.<p>
      *
      * @param attributeName the attribute name

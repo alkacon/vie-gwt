@@ -174,7 +174,7 @@ public class VieTest extends GWTTestCase {
 
         Document.get().getBody().setInnerHTML(
             "<div about='http://testEntity'><div property='" + ATTRIBUTE_NAME + "'>my value</div></div>");
-        List<com.google.gwt.user.client.Element> elements = getVieInstance().getAttributeElements(
+        List<com.google.gwt.dom.client.Element> elements = getVieInstance().getAttributeElements(
             "http://testEntity",
             ATTRIBUTE_NAME,
             null);

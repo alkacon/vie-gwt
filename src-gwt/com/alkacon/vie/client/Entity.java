@@ -202,6 +202,74 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }-*/;
 
     /**
+     * @see com.alkacon.vie.shared.I_Entity#insertAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity, int)
+     */
+    public void insertAttributeValue(String attributeName, I_Entity value, int index) {
+
+        I_EntityAttribute attribute = getAttribute(attributeName);
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Index should be > 0");
+        }
+        if ((attribute == null) && (index > 0)) {
+            throw new IndexOutOfBoundsException("Index of " + index + " to big.");
+        }
+        if (attribute == null) {
+            setAttributeValue(attributeName, value);
+        } else {
+            List<I_Entity> values = attribute.getComplexValues();
+            if (index > values.size()) {
+                throw new IndexOutOfBoundsException("Index of " + index + " to big.");
+            }
+            if (index == values.size()) {
+                addAttributeValue(attributeName, value);
+            } else {
+                removeAttributeSilent(attributeName);
+                for (int i = 0; i < values.size(); i++) {
+                    if (i == index) {
+                        addAttributeValue(attributeName, value);
+                    }
+                    addAttributeValue(attributeName, values.get(i));
+
+                }
+            }
+        }
+    }
+
+    /**
+     * @see com.alkacon.vie.shared.I_Entity#insertAttributeValue(java.lang.String, java.lang.String, int)
+     */
+    public void insertAttributeValue(String attributeName, String value, int index) {
+
+        I_EntityAttribute attribute = getAttribute(attributeName);
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Index should be > 0");
+        }
+        if ((attribute == null) && (index > 0)) {
+            throw new IndexOutOfBoundsException("Index of " + index + " to big.");
+        }
+        if (attribute == null) {
+            setAttributeValue(attributeName, value);
+        } else {
+            List<String> values = attribute.getSimpleValues();
+            if (index > values.size()) {
+                throw new IndexOutOfBoundsException("Index of " + index + " to big.");
+            }
+            if (index == values.size()) {
+                addAttributeValue(attributeName, value);
+            } else {
+                removeAttributeSilent(attributeName);
+                for (int i = 0; i < values.size(); i++) {
+                    if (i == index) {
+                        addAttributeValue(attributeName, value);
+                    }
+                    addAttributeValue(attributeName, values.get(i));
+
+                }
+            }
+        }
+    }
+
+    /**
      * Removes the given attribute.<p>
      *
      * @param attributeName the attribute name
@@ -224,6 +292,36 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
                             silent : true
                         });
     }-*/;
+
+    /**
+     * @see com.alkacon.vie.shared.I_Entity#removeAttributeValue(java.lang.String, int)
+     */
+    public void removeAttributeValue(String attributeName, int index) {
+
+        if (!hasAttribute(attributeName)) {
+            return;
+        }
+        I_EntityAttribute attribute = getAttribute(attributeName);
+        if (attribute.isSingleValue() && (index == 0)) {
+            removeAttribute(attributeName);
+        } else {
+            removeAttributeSilent(attributeName);
+            if (attribute.isSimpleValue()) {
+                for (int i = 0; i < attribute.getSimpleValues().size(); i++) {
+                    if (i != index) {
+                        addAttributeValue(attributeName, attribute.getSimpleValues().get(i));
+                    }
+                }
+
+            } else {
+                for (int i = 0; i < attribute.getComplexValues().size(); i++) {
+                    if (i != index) {
+                        addAttributeValue(attributeName, attribute.getComplexValues().get(i));
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * @see com.alkacon.vie.shared.I_Entity#setAttributeValue(java.lang.String, com.alkacon.vie.shared.I_Entity)
@@ -474,34 +572,4 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
             self.change();
         });
     }-*/;
-
-    /**
-     * @see com.alkacon.vie.shared.I_Entity#removeAttributeValue(java.lang.String, int)
-     */
-    public void removeAttributeValue(String attributeName, int index) {
-
-        if (!hasAttribute(attributeName)) {
-            return;
-        }
-        I_EntityAttribute attribute = getAttribute(attributeName);
-        if (attribute.isSingleValue() && (index == 0)) {
-            removeAttribute(attributeName);
-        } else {
-            removeAttributeSilent(attributeName);
-            if (attribute.isSimpleValue()) {
-                for (int i = 0; i < attribute.getSimpleValues().size(); i++) {
-                    if (i != index) {
-                        addAttributeValue(attributeName, attribute.getSimpleValues().get(i));
-                    }
-                }
-
-            } else {
-                for (int i = 0; i < attribute.getComplexValues().size(); i++) {
-                    if (i != index) {
-                        addAttributeValue(attributeName, attribute.getComplexValues().get(i));
-                    }
-                }
-            }
-        }
-    }
 }

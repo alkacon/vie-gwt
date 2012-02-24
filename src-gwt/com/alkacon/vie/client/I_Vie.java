@@ -37,7 +37,7 @@ import com.alkacon.vie.shared.I_Type;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 
 /**
  * The interface for VIE implementations.<p>
