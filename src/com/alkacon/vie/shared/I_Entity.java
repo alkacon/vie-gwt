@@ -51,6 +51,15 @@ public interface I_Entity {
     void addAttributeValue(String attributeName, String value);
 
     /**
+     * Creates a deep copy of this entity.<p>
+     * 
+     * @param entityId the id of the new entity, if <code>null</code> a generic id will be used
+     * 
+     * @return the entity copy
+     */
+    I_Entity createDeepCopy(String entityId);
+
+    /**
      * Returns an attribute.<p>
      *
      * @param attributeName the attribute name

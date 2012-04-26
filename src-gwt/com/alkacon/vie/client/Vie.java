@@ -326,6 +326,33 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }
 
     /**
+     * @see com.alkacon.vie.client.I_Vie#removeEntity(java.lang.String)
+     */
+    public native void removeEntity(String entityId) /*-{
+        var self = this;
+        var removeEntity = function(entity) {
+            if (entity != null && entity.isEntity) {
+                var attributes = entity.attributes;
+                if (attributes != null) {
+                    for (key in attributes) {
+                        var attribute = entity.get(key);
+                        if (attribute != null && attribute.isCollection) {
+                            for ( var i = 0; i < attribute.size(); i++) {
+                                var child = attribute.at(i);
+                                removeEntity(child);
+                            }
+                        }
+                    }
+                }
+                self.entities.remove(entity);
+            }
+        }
+        var entity = self.entities
+                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId));
+        removeEntity(entity);
+    }-*/;
+
+    /**
      * Returns a list of elements matching the given CSS selector.<p>
      * 
      * @param selector the selector

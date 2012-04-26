@@ -176,4 +176,11 @@ public interface I_Vie {
      */
     void registerTypes(I_Type type, Map<String, I_Type> types);
 
+    /**
+     * Removes the given entity from VIE.<p>
+     * 
+     * @param entityId the entity id
+     */
+    void removeEntity(String entityId);
+
 }

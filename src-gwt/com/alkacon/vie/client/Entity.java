@@ -115,6 +115,28 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     }
 
     /**
+     * @see com.alkacon.vie.shared.I_Entity#createDeepCopy(java.lang.String)
+     */
+    public I_Entity createDeepCopy(String entityId) {
+
+        I_Entity result = Vie.getInstance().createEntity(entityId, getTypeName());
+        for (I_EntityAttribute attribute : getAttributes()) {
+            if (attribute.isSimpleValue()) {
+                List<String> values = attribute.getSimpleValues();
+                for (String value : values) {
+                    result.addAttributeValue(attribute.getAttributeName(), value);
+                }
+            } else {
+                List<I_Entity> values = attribute.getComplexValues();
+                for (I_Entity value : values) {
+                    result.addAttributeValue(attribute.getAttributeName(), value.createDeepCopy(null));
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * @see com.google.gwt.event.shared.HasHandlers#fireEvent(com.google.gwt.event.shared.GwtEvent)
      */
     public void fireEvent(GwtEvent<?> event) {

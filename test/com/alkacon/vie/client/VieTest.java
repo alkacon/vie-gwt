@@ -145,6 +145,36 @@ public class VieTest extends GWTTestCase {
     }
 
     /**
+     * Tests the deep copy and remove methods.<p>
+     */
+    public void testCopyAndRemoveEntity() {
+
+        I_Vie vie = getVieInstance();
+        String typeId = "type:very-complex";
+        I_Type veryComplex = vie.createType(typeId);
+        // using types defined in previous test
+        String complexAttributeName = "complexAttribute";
+        veryComplex.addAttribute(complexAttributeName, COMPLEX_TYPE_ID, 0, 1);
+        String attributeEntityId = "my-attribute-entity";
+        I_Entity attributeEntity = vie.createEntity(attributeEntityId, COMPLEX_TYPE_ID);
+        String value = "my attribute value";
+        attributeEntity.addAttributeValue(ATTRIBUTE_NAME, value);
+        String testEntityId = "my-test-entity";
+        I_Entity testEntity = vie.createEntity(testEntityId, typeId);
+        testEntity.addAttributeValue(complexAttributeName, attributeEntity);
+
+        I_Entity copy = testEntity.createDeepCopy("my-entity-copy");
+        I_EntityAttribute attribute = copy.getAttribute(complexAttributeName);
+        assertNotNull("The entity should have an attribute: " + complexAttributeName, attribute);
+        assertTrue("The attribute should be of the a complex type", attribute.isComplexValue());
+        System.out.println("trying to remove");
+        // test remove entity function
+        vie.removeEntity(testEntityId);
+        assertNull("The entity should no longer be registered", vie.getEntity(testEntityId));
+        assertNull("The child entity should also be removed", vie.getEntity(attributeEntityId));
+    }
+
+    /**
      * Tests the event handling on entities.<p>
      * Relies on the types created in {@link #testEntityAttribute()}.<p>
      */
