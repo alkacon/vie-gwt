@@ -405,7 +405,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     public void setAttributeValue(String attributeName, String value, int index) {
 
         I_EntityAttribute attribute = getAttribute(attributeName);
-        if ((index == 0) && attribute.isSingleValue()) {
+        if ((attribute == null) || ((index == 0) && attribute.isSingleValue())) {
             setAttributeValue(attributeName, value);
         } else {
             List<String> values = attribute.getSimpleValues();
