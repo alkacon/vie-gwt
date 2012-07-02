@@ -188,6 +188,28 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }-*/;
 
     /**
+     * Returns all descending elements and self that match the given selector.<p>
+     * 
+     * @param selector the selector
+     * @param context the context element, if <code>null</code> the body element is used as context
+     * 
+     * @return the matching elements
+     */
+    public List<Element> find(String selector, Element context) {
+
+        JsArray<Element> results = JavaScriptObject.createArray().cast();
+        if (context == null) {
+            context = RootPanel.getBodyElement();
+        }
+        results = find(selector, context, results);
+        List<Element> elements = new ArrayList<Element>();
+        for (int i = 0; i < results.length(); i++) {
+            elements.add(results.get(i));
+        }
+        return elements;
+    }
+
+    /**
      * @see com.alkacon.vie.client.I_Vie#getAttributeElements(com.google.gwt.dom.client.Element)
      */
     public List<Element> getAttributeElements(Element context) {
@@ -208,13 +230,20 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public List<Element> getAttributeElements(String entityId, String attributeName, Element context) {
 
-        String selector = null;
-        if ((context != null) && entityId.equals(context.getAttribute("about"))) {
-            selector = "[property='" + attributeName + "']";
-        } else {
-            selector = "[about='" + entityId + "'] [property='" + attributeName + "']";
+        JsArray<Element> aboutElements = JavaScriptObject.createArray().cast();
+        if (context == null) {
+            context = RootPanel.getBodyElement();
         }
-        return select(selector, context);
+        aboutElements = find("[about='" + entityId + "']", context, aboutElements);
+        JsArray<Element> results = JavaScriptObject.createArray().cast();
+        for (int i = 0; i < aboutElements.length(); i++) {
+            find("[property='" + attributeName + "']", aboutElements.get(i), results);
+        }
+        List<Element> elements = new ArrayList<Element>();
+        for (int i = 0; i < results.length(); i++) {
+            elements.add(results.get(i));
+        }
+        return elements;
     }
 
     /**
@@ -379,6 +408,27 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public native void useRdfaService() /*-{
         this.use(new this.RdfaService());
+    }-*/;
+
+    /**
+     * Returns all descending elements and self that match the given selector.<p>
+     * 
+     * @param selector the selector
+     * @param context the context element, if <code>null</code> the body element is used as context
+     * @param results the array to add the matching elements to
+     * 
+     * @return the element array
+     */
+    private native JsArray<Element> find(String selector, Element context, JsArray<Element> results) /*-{
+        if (context != null) {
+            this.jQuery(context).filter(selector).each(function() {
+                results.push(this);
+            });
+        }
+        this.jQuery(context).find(selector).each(function() {
+            results.push(this);
+        });
+        return results;
     }-*/;
 
     /**
