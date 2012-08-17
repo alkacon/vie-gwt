@@ -118,6 +118,14 @@ public final class Type extends JavaScriptObject implements I_Type {
     }
 
     /**
+     * @see com.alkacon.vie.shared.I_Type#isChoice()
+     */
+    public native boolean isChoice() /*-{
+
+        return this.isChoice ? true : false;
+    }-*/;
+
+    /**
      * @see com.alkacon.vie.shared.I_Type#isSimpleType()
      */
     public native boolean isSimpleType() /*-{
@@ -126,8 +134,16 @@ public final class Type extends JavaScriptObject implements I_Type {
     }-*/;
 
     /**
+     * @see com.alkacon.vie.shared.I_Type#setIsChoice(boolean)
+     */
+    public native void setIsChoice(boolean isChoice)/*-{
+        this.isChoice = isChoice;
+    }-*/;
+
+    /**
      * Returns the internal type name - including pointy brackets.<p>
-     * @return
+     * 
+     * @return the type name
      */
     private native String getTypeName() /*-{
 
@@ -147,5 +163,4 @@ public final class Type extends JavaScriptObject implements I_Type {
             list.@java.util.List::add(Ljava/lang/Object;)(name);
         }
     }-*/;
-
 }

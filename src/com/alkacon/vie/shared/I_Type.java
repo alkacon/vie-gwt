@@ -95,9 +95,23 @@ public interface I_Type {
     String getId();
 
     /**
+     * Returns if this is a choice type.<p>
+     * 
+     * @return <code>true</code> if this is a choice type
+     */
+    boolean isChoice();
+
+    /**
      * Returns if this is a simple type. Simple types have no attributes.<p>
      * 
      * @return <code>true</code> if this is a simple type
      */
     boolean isSimpleType();
+
+    /**
+     * Sets if this type is a choice type.<p>
+     * 
+     * @param isChoice <code>true</code> to set this a choice type
+     */
+    void setIsChoice(boolean isChoice);
 }
