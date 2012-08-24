@@ -88,6 +88,13 @@ public interface I_Type {
     String getAttributeTypeName(String attributeName);
 
     /**
+     * Returns the maximum choice occurrence.<p>
+     * 
+     * @return the maximum choice occurrence
+     */
+    int getChoiceMaxOccurrence();
+
+    /**
      * Returns the name of the type.<p>
      * 
      * @return the name of the type
@@ -109,9 +116,9 @@ public interface I_Type {
     boolean isSimpleType();
 
     /**
-     * Sets if this type is a choice type.<p>
+     * Sets the maximum choice occurrence.<p>
      * 
-     * @param isChoice <code>true</code> to set this a choice type
+     * @param choiceMaxOccurrence the maximum choice occurrence
      */
-    void setIsChoice(boolean isChoice);
+    void setChoiceMaxOccurrence(int choiceMaxOccurrence);
 }

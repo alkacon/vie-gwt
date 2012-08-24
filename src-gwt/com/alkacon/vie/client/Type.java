@@ -110,6 +110,14 @@ public final class Type extends JavaScriptObject implements I_Type {
     }-*/;
 
     /**
+     * @see com.alkacon.vie.shared.I_Type#getChoiceMaxOccurrence()
+     */
+    public native int getChoiceMaxOccurrence() /*-{
+
+        return this.choiceMaxOccurrence ? this.choiceMaxOccurrence : 0;
+    }-*/;
+
+    /**
      * @see com.alkacon.vie.shared.I_Type#getId()
      */
     public String getId() {
@@ -122,7 +130,7 @@ public final class Type extends JavaScriptObject implements I_Type {
      */
     public native boolean isChoice() /*-{
 
-        return this.isChoice ? true : false;
+        return this.choiceMaxOccurrence ? this.choiceMaxOccurrence > 0 : false;
     }-*/;
 
     /**
@@ -134,10 +142,10 @@ public final class Type extends JavaScriptObject implements I_Type {
     }-*/;
 
     /**
-     * @see com.alkacon.vie.shared.I_Type#setIsChoice(boolean)
+     * @see com.alkacon.vie.shared.I_Type#setChoiceMaxOccurrence(int)
      */
-    public native void setIsChoice(boolean isChoice)/*-{
-        this.isChoice = isChoice;
+    public native void setChoiceMaxOccurrence(int choiceMaxOccurrence)/*-{
+        this.choiceMaxOccurrence = choiceMaxOccurrence;
     }-*/;
 
     /**

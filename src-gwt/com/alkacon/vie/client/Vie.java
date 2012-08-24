@@ -343,7 +343,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
         if (type.isSimpleType()) {
             return;
         }
-        regType.setIsChoice(type.isChoice());
+        regType.setChoiceMaxOccurrence(type.getChoiceMaxOccurrence());
         for (String attributeName : type.getAttributeNames()) {
             String attributeType = type.getAttributeTypeName(attributeName);
             registerTypes(types.get(attributeType), types);
