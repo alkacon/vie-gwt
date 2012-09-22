@@ -129,6 +129,11 @@ public class VieTest extends GWTTestCase {
         I_EntityAttribute attribute = entity.getAttribute(ATTRIBUTE_NAME);
         assertNotNull("The entity should have an attribute: " + ATTRIBUTE_NAME, attribute);
         assertEquals("The attribute value should match the previously set value", value, attribute.getSimpleValue());
+        assertTrue("The attribute should only have a single value", attribute.isSingleValue());
+        entity.addAttributeValue(ATTRIBUTE_NAME, "");
+        attribute = entity.getAttribute(ATTRIBUTE_NAME);
+        assertFalse("The attribute should no longer be a single value attribute", attribute.isSingleValue());
+        assertEquals("The value count should be 2", 2, attribute.getValueCount());
 
         // testing empty string attribute value
         I_Entity entity2 = vie.createEntity("my-second-entity", complex.getId());
