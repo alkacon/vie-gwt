@@ -2,7 +2,7 @@
 <module>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
-  <script src="../vieJS/vie-latest-ALL.debug.js" />
+  <script src="../vieJS/vie-ALL-latest.debug.js" />
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path="shared" />
