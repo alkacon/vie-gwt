@@ -46,7 +46,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 /**
  * The entity wrapper.<p>
  */
-public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<I_Entity>, I_Entity {
+public final class Entity extends JavaScriptObject implements HasValueChangeHandlers<Entity>, I_Entity {
 
     /** Place holder value for empty strings. */
     // HACK: this place holder is only used because the current native VIE implementation does
@@ -109,7 +109,7 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
     /**
      * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
      */
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<I_Entity> handler) {
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Entity> handler) {
 
         return addHandler(handler, ValueChangeEvent.getType());
     }

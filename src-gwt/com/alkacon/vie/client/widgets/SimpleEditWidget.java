@@ -68,9 +68,9 @@ public final class SimpleEditWidget {
             public void execute(Entity entity) {
 
                 editable(entity, vie);
-                entity.addValueChangeHandler(new ValueChangeHandler<I_Entity>() {
+                entity.addValueChangeHandler(new ValueChangeHandler<Entity>() {
 
-                    public void onValueChange(ValueChangeEvent<I_Entity> event) {
+                    public void onValueChange(ValueChangeEvent<Entity> event) {
 
                         save(event.getValue(), vie);
                     }

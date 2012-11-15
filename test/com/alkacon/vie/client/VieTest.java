@@ -189,9 +189,9 @@ public class VieTest extends GWTTestCase {
         I_Entity entity = vie.createEntity("myEntity", COMPLEX_TYPE_ID);
         final String changeValue = "my new value";
         resetChangeCount();
-        ((Entity)entity).addValueChangeHandler(new ValueChangeHandler<I_Entity>() {
+        ((Entity)entity).addValueChangeHandler(new ValueChangeHandler<Entity>() {
 
-            public void onValueChange(ValueChangeEvent<I_Entity> event) {
+            public void onValueChange(ValueChangeEvent<Entity> event) {
 
                 incrementChangeCount();
                 String attributeValue = event.getValue().getAttribute(ATTRIBUTE_NAME).getSimpleValue();
