@@ -129,7 +129,8 @@ public final class Entity extends JavaScriptObject implements HasValueChangeHand
             } else {
                 List<I_Entity> values = attribute.getComplexValues();
                 for (I_Entity value : values) {
-                    result.addAttributeValue(attribute.getAttributeName(), value.createDeepCopy(null));
+                    I_Entity valueCopy = ((Entity)value).createDeepCopy(null);
+                    result.addAttributeValue(attribute.getAttributeName(), valueCopy);
                 }
             }
         }
