@@ -122,8 +122,8 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     private static native Vie createInstance() /*-{
 
-        return new $wnd.VIE();
-    }-*/;
+                                               return new $wnd.VIE();
+                                               }-*/;
 
     /**
      * Binds a given callback to the entities of vie.<p>
@@ -133,21 +133,21 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public native void bindFunctionToEntities(String functionName, I_EntityCallback callback)/*-{
 
-        this.entities
-                .bind(
-                        functionName,
-                        function(entity) {
-                            callback.@com.alkacon.vie.client.I_EntityCallback::execute(Lcom/alkacon/vie/client/Entity;)(entity);
-                        });
-    }-*/;
+                                                                                             this.entities
+                                                                                             .bind(
+                                                                                             functionName,
+                                                                                             function(entity) {
+                                                                                             callback.@com.alkacon.vie.client.I_EntityCallback::execute(Lcom/alkacon/vie/client/Entity;)(entity);
+                                                                                             });
+                                                                                             }-*/;
 
     /**
      * @see com.alkacon.vie.client.I_Vie#clearEntities()
      */
     public native void clearEntities() /*-{
 
-        this.entities.reset();
-    }-*/;
+                                       this.entities.reset();
+                                       }-*/;
 
     /**
      * Creates a new entity registering it within VIE.<p>
@@ -158,34 +158,34 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @return the new entity
      */
     public native I_Entity createEntity(String entityId, String entityType) /*-{
-        var entityType = this.types
-                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityType));
-        var entityInstance;
-        if (entityType != null) {
-            // if the type is available, use it to create the new instance
-            var attributes = {};
-            if (entityId != null) {
-                attributes['@subject'] = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId);
-            }
-            entityInstance = entityType.instance(attributes);
-        } else {
-            throw Error('Type has not been registered yet.');
-        }
-        return this.entities.addOrUpdate(entityInstance);
-    }-*/;
+                                                                            var entityType = this.types
+                                                                            .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityType));
+                                                                            var entityInstance;
+                                                                            if (entityType != null) {
+                                                                            // if the type is available, use it to create the new instance
+                                                                            var attributes = {};
+                                                                            if (entityId != null) {
+                                                                            attributes['@subject'] = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId);
+                                                                            }
+                                                                            entityInstance = entityType.instance(attributes);
+                                                                            } else {
+                                                                            throw Error('Type has not been registered yet.');
+                                                                            }
+                                                                            return this.entities.addOrUpdate(entityInstance);
+                                                                            }-*/;
 
     /**
      * @see com.alkacon.vie.client.I_Vie#createType(java.lang.String)
      */
     public native I_Type createType(String id) /*-{
-        id = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(id);
-        var type = new this.Type(id);
+                                               id = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(id);
+                                               var type = new this.Type(id);
 
-        // all type inherit from owl:Thing
-        type.inherit("owl:Thing");
-        this.types.add(type);
-        return type;
-    }-*/;
+                                               // all type inherit from owl:Thing
+                                               type.inherit("owl:Thing");
+                                               this.types.add(type);
+                                               return type;
+                                               }-*/;
 
     /**
      * Returns all descending elements and self that match the given selector.<p>
@@ -241,7 +241,10 @@ public final class Vie extends JavaScriptObject implements I_Vie {
         }
         List<Element> elements = new ArrayList<Element>();
         for (int i = 0; i < results.length(); i++) {
-            elements.add(results.get(i));
+            // prevent duplicate entries
+            if (!elements.contains(results.get(i))) {
+                elements.add(results.get(i));
+            }
         }
         return elements;
     }
@@ -255,8 +258,8 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public native String getElementPredicate(Element element) /*-{
 
-        return this.services.rdfa.getElementPredicate(element);
-    }-*/;
+                                                              return this.services.rdfa.getElementPredicate(element);
+                                                              }-*/;
 
     /**
      * Returns the element subject.<p>
@@ -267,8 +270,8 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public native String getElementSubject(Element element) /*-{
 
-        return this.services.rdfa.getElementSubject(element);
-    }-*/;
+                                                            return this.services.rdfa.getElementSubject(element);
+                                                            }-*/;
 
     /**
      * Returns the entities of vie.<p>
@@ -277,8 +280,8 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public native I_EntityCollection getEntities() /*-{
 
-        return this.entities;
-    }-*/;
+                                                   return this.entities;
+                                                   }-*/;
 
     /**
      * Returns the entity with the given id.<p>
@@ -289,18 +292,18 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     public native I_Entity getEntity(String entityId) /*-{
 
-        return this.entities
-                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId));
-    }-*/;
+                                                      return this.entities
+                                                      .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId));
+                                                      }-*/;
 
     /**
      * @see com.alkacon.vie.client.I_Vie#getType(java.lang.String)
      */
     public native I_Type getType(String id) /*-{
 
-        return this.types
-                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(id));
-    }-*/;
+                                            return this.types
+                                            .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(id));
+                                            }-*/;
 
     /**
      * @see com.alkacon.vie.client.I_Vie#load(java.lang.String, java.lang.String, com.alkacon.vie.client.I_EntityArrayCallback)
@@ -359,28 +362,28 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @see com.alkacon.vie.client.I_Vie#removeEntity(java.lang.String)
      */
     public native void removeEntity(String entityId) /*-{
-        var self = this;
-        var removeEntity = function(entity) {
-            if (entity != null && entity.isEntity) {
-                var attributes = entity.attributes;
-                if (attributes != null) {
-                    for (key in attributes) {
-                        var attribute = entity.get(key);
-                        if (attribute != null && attribute.isCollection) {
-                            for ( var i = 0; i < attribute.size(); i++) {
-                                var child = attribute.at(i);
-                                removeEntity(child);
-                            }
-                        }
-                    }
-                }
-                self.entities.remove(entity);
-            }
-        }
-        var entity = self.entities
-                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId));
-        removeEntity(entity);
-    }-*/;
+                                                     var self = this;
+                                                     var removeEntity = function(entity) {
+                                                     if (entity != null && entity.isEntity) {
+                                                     var attributes = entity.attributes;
+                                                     if (attributes != null) {
+                                                     for (key in attributes) {
+                                                     var attribute = entity.get(key);
+                                                     if (attribute != null && attribute.isCollection) {
+                                                     for ( var i = 0; i < attribute.size(); i++) {
+                                                     var child = attribute.at(i);
+                                                     removeEntity(child);
+                                                     }
+                                                     }
+                                                     }
+                                                     }
+                                                     self.entities.remove(entity);
+                                                     }
+                                                     }
+                                                     var entity = self.entities
+                                                     .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId));
+                                                     removeEntity(entity);
+                                                     }-*/;
 
     /**
      * Returns a list of elements matching the given CSS selector.<p>
@@ -408,8 +411,8 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * Sets VIE to use the RDFA service.<p>
      */
     public native void useRdfaService() /*-{
-        this.use(new this.RdfaService());
-    }-*/;
+                                        this.use(new this.RdfaService());
+                                        }-*/;
 
     /**
      * Returns all descending elements and self that match the given selector.<p>
@@ -421,16 +424,16 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @return the element array
      */
     private native JsArray<Element> find(String selector, Element context, JsArray<Element> results) /*-{
-        if (context != null) {
-            this.jQuery(context).filter(selector).each(function() {
-                results.push(this);
-            });
-        }
-        this.jQuery(context).find(selector).each(function() {
-            results.push(this);
-        });
-        return results;
-    }-*/;
+                                                                                                     if (context != null) {
+                                                                                                     this.jQuery(context).filter(selector).each(function() {
+                                                                                                     results.push(this);
+                                                                                                     });
+                                                                                                     }
+                                                                                                     this.jQuery(context).find(selector).each(function() {
+                                                                                                     results.push(this);
+                                                                                                     });
+                                                                                                     return results;
+                                                                                                     }-*/;
 
     /**
      * Executes the load function on the VIE instance.<p>
@@ -443,14 +446,14 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     private native void loadInternal(String service, String selector, I_EntityArrayCallback callback) /*-{
 
-        var vie = @com.alkacon.vie.client.Vie::m_instance;
-        var call = function(entities) {
-            callback.@com.alkacon.vie.client.I_EntityArrayCallback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
-        }
-        vie.load({
-            element : $wnd.jQuery(selector)
-        }).using(service).execute().success(call);
-    }-*/;
+                                                                                                      var vie = @com.alkacon.vie.client.Vie::m_instance;
+                                                                                                      var call = function(entities) {
+                                                                                                      callback.@com.alkacon.vie.client.I_EntityArrayCallback::execute(Lcom/google/gwt/core/client/JsArray;)(entities);
+                                                                                                      }
+                                                                                                      vie.load({
+                                                                                                      element : $wnd.jQuery(selector)
+                                                                                                      }).using(service).execute().success(call);
+                                                                                                      }-*/;
 
     /**
      * Returns an array of elements matching the given CSS selector.<p>
@@ -463,9 +466,9 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      */
     private native JsArray<Element> select(String selector, Element context, JsArray<Element> results) /*-{
 
-        this.jQuery(selector, context).each(function() {
-            results.push(this);
-        });
-        return results;
-    }-*/;
+                                                                                                       this.jQuery(selector, context).each(function() {
+                                                                                                       results.push(this);
+                                                                                                       });
+                                                                                                       return results;
+                                                                                                       }-*/;
 }
