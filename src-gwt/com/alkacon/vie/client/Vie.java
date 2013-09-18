@@ -142,6 +142,25 @@ public final class Vie extends JavaScriptObject implements I_Vie {
                                                                                              }-*/;
 
     /**
+     * @see com.alkacon.vie.client.I_Vie#changeEntityContentValues(com.alkacon.vie.client.Entity, com.alkacon.vie.shared.I_Entity)
+     */
+    public void changeEntityContentValues(Entity original, I_Entity newContent) {
+
+        clearEntityAttributes(original);
+        for (I_EntityAttribute attribute : newContent.getAttributes()) {
+            if (attribute.isSimpleValue()) {
+                for (String value : attribute.getSimpleValues()) {
+                    original.addAttributeValue(attribute.getAttributeName(), value);
+                }
+            } else {
+                for (I_Entity value : attribute.getComplexValues()) {
+                    original.addAttributeValue(attribute.getAttributeName(), Vie.getInstance().registerEntity(value));
+                }
+            }
+        }
+    }
+
+    /**
      * @see com.alkacon.vie.client.I_Vie#clearEntities()
      */
     public native void clearEntities() /*-{
@@ -314,8 +333,8 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     }
 
     /**
-     * @see com.alkacon.vie.client.I_Vie#registerEntity(com.alkacon.vie.shared.I_Entity)
-     */
+    * @see com.alkacon.vie.client.I_Vie#registerEntity(com.alkacon.vie.shared.I_Entity)
+    */
     public I_Entity registerEntity(I_Entity entity) {
 
         I_Entity result = createEntity(entity.getId(), entity.getTypeName());
@@ -415,6 +434,24 @@ public final class Vie extends JavaScriptObject implements I_Vie {
                                         }-*/;
 
     /**
+     * Removes all attributes from the given entity.<p>
+     * 
+     * @param entity the entity
+     */
+    private void clearEntityAttributes(Entity entity) {
+
+        for (I_EntityAttribute attribute : entity.getAttributes()) {
+            if (attribute.isComplexValue()) {
+                for (I_Entity child : attribute.getComplexValues()) {
+                    clearEntityAttributes((Entity)child);
+                    removeEntity((Entity)child);
+                }
+            }
+            entity.removeAttributeSilent(attribute.getAttributeName());
+        }
+    }
+
+    /**
      * Returns all descending elements and self that match the given selector.<p>
      * 
      * @param selector the selector
@@ -454,6 +491,15 @@ public final class Vie extends JavaScriptObject implements I_Vie {
                                                                                                       element : $wnd.jQuery(selector)
                                                                                                       }).using(service).execute().success(call);
                                                                                                       }-*/;
+
+    /**
+     * Removes the entity.<p>
+     * 
+     * @param entity the entity
+     */
+    private native void removeEntity(Entity entity) /*-{
+                                                    this.entities.remove(entity);
+                                                    }-*/;
 
     /**
      * Returns an array of elements matching the given CSS selector.<p>

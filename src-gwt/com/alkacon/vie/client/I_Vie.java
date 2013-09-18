@@ -53,6 +53,14 @@ public interface I_Vie {
     void bindFunctionToEntities(String functionName, I_EntityCallback callback);
 
     /**
+     * Changes the original entities content to the given new content.<p>
+     * 
+     * @param original the original entity to change
+     * @param newContent the new content entity
+     */
+    void changeEntityContentValues(Entity original, I_Entity newContent);
+
+    /**
      * Clears all entities from VIE.<p>
      */
     void clearEntities();
