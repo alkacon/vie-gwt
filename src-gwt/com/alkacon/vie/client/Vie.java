@@ -172,28 +172,37 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * Creates a new entity registering it within VIE.<p>
      * 
      * @param entityId the entity id
-     * @param entityType the entity type
+     * @param entityTypeName the entity type
      * 
      * @return the new entity
      */
-    public native I_Entity createEntity(String entityId, String entityType) /*-{
+    public native I_Entity createEntity(String entityId, String entityTypeName) /*-{
                                                                             var entityType = this.types
-                                                                            .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityType));
+                                                                            .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityTypeName));
                                                                             var entityInstance;
                                                                             if (entityType != null) {
                                                                             // if the type is available, use it to create the new instance
                                                                             var attributes = {};
-                                                                            if (entityId != null) {
-                                                                            attributes['@subject'] = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId);
+                                                                            if (entityId == null) {
+                                                                            	// create a new generic id
+                                                                            	entityId=entityTypeName+"/"+(new Date()).getTime();
+                                                                            	var newIdStump=entityId;
+                                                                            	var i=0;
+                                                                            	// make sure the id has not een registered yet
+                                                                            	while (this.entities.get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId))!=null){
+                                                                            		entityId=newIdStump+"#"+i;
+                                                                            		i++;
+                                                                            	}
                                                                             }
+                                                                            attributes['@subject'] = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId);
                                                                             entityInstance = entityType.instance(attributes);
                                                                             } else {
                                                                             throw Error('Type has not been registered yet.');
                                                                             }
                                                                             return this.entities.addOrUpdate(entityInstance);
                                                                             }-*/;
-
-    /**
+    
+   /**
      * @see com.alkacon.vie.client.I_Vie#createType(java.lang.String)
      */
     public native I_Type createType(String id) /*-{
@@ -450,7 +459,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
             entity.removeAttributeSilent(attribute.getAttributeName());
         }
     }
-
+    
     /**
      * Returns all descending elements and self that match the given selector.<p>
      * 
