@@ -1,0 +1,138 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+product_name = "Vie GWT"
+sourceCompatibility = 1.6
+version = 2.0
+buildDir = "../../buildVieGWT"
+
+repositories {
+	   mavenCentral()
+}
+
+configurations {
+	compile {
+		description = 'Includes all dependencies required for compile and runtime'
+		transitive = false
+	}
+}
+
+dependencies {
+	compile group: 'com.google.gwt', name: 'gwt-dev', version: '2.5.1'
+	compile group: 'com.google.gwt', name: 'gwt-user', version: '2.5.1'
+	compile group: 'com.google.gwt', name: 'gwt-servlet', version: '2.5.1'
+}
+
+sourceSets{
+	main {
+		java.srcDir 'src'
+		java.srcDir 'src-gwt'
+		resources.srcDir 'src'
+		resources.srcDir 'src-gwt'
+	}
+}
+
+jar {
+	manifest {
+		attributes 'Implementation-Title': 'Alkacon Vie GWT',
+			'Implementation-Version': version
+	}
+	baseName 'wrapper-client'
+	from (sourceSets.main.allSource){
+        include '**/*.java'
+	}
+	exclude '**/.gitignore'
+}
+
+task serverJar (type: Jar, dependsOn: compileJava){
+    manifest {
+        attributes 'Implementation-Title': 'Alkacon Vie GWT',
+            'Implementation-Version': version
+    }
+    baseName 'wrapper'
+    from sourceSets.main.output
+    includeEmptyDirs false
+    exclude '**/.gitignore'
+    exclude '**/client/*'
+    exclude '**/*.gwt.xml'
+}
+
+javadoc {
+	project.configure(options) {
+		memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+		charSet = "UTF-8"
+		docTitle = "$product_name"
+		windowTitle = "$product_name"
+		header = "<b>$product_name</b>"
+		author = "true"
+		use = "true"
+	}
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from "${buildDir}/docs/javadoc"
+}
+
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allSource
+	classifier = 'sources'
+}
+
+artifacts {
+	archives jar
+    archives serverJar
+	archives javadocJar
+	archives sourcesJar
+}
+
+signing {
+	sign configurations.archives
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+ 
+			repository(url: "http://localhost:8081/nexus/content/repositories/releases") {
+			  authentication(userName: 'deployment', password: 'deployment123')
+			}
+ 
+			pom.project {
+			   name 'Geranium'
+			   packaging 'jar'
+			   description 'A GWT wrapper for the Vie javascript library.'
+			   url 'http://www.github.com/alkacon/geranium'
+			   groupId 'com.alkacon'
+			   scm {
+				   url 'scm:git@github.com:alkacon/vie-gwt.git'
+				   connection 'scm:git@github.com:alkacon/vie-gwt.git'
+				   developerConnection 'scm:git@github.com:alkacon/vie-gwt.git'
+			   }
+ 
+			   licenses {
+				   license {
+					   name 'The Apache Software License, Version 2.0'
+					   url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+					   distribution 'repo'
+				   }
+			   }
+ 
+			   developers {
+				   developer {
+					   id 'tHerrmann'
+					   name 'Tobias Herrmann'
+				   }
+			   }
+		   }
+		}
+	}
+}
+
+// fixed issue with libraries containing both .java and .class files
+tasks.withType(JavaCompile) {
+	options.compilerArgs += ["-sourcepath", ""]
+}
+
