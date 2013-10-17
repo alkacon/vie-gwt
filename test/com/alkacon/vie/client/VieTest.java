@@ -150,6 +150,35 @@ public class VieTest extends GWTTestCase {
     }
 
     /**
+     * Tests if an attribute with three identical values remains intact as a nested entity.<p> 
+     */
+    public void testSameValueAttributes() {
+
+        I_Vie vie = getVieInstance();
+        String mySimple = "simple:mySimple";
+        String myComplex = "complex:myComplex";
+        String myComplexNested = "complex:myComplexNested";
+        String nestedAttributeName = "http://complex/complexAttribute";
+        vie.createType(mySimple);
+        I_Type complexNested = vie.createType(myComplexNested);
+        complexNested.addAttribute(ATTRIBUTE_NAME, mySimple, 1, 3);
+        I_Type complex = vie.createType(myComplex);
+        complex.addAttribute(nestedAttributeName, myComplexNested, 1, 3);
+        // testing attribute values
+        I_Entity nestedEntity = vie.createEntity("my-same-value-entity", complexNested.getId());
+        String value = "test";
+        nestedEntity.addAttributeValue(ATTRIBUTE_NAME, value);
+        nestedEntity.addAttributeValue(ATTRIBUTE_NAME, value);
+        nestedEntity.addAttributeValue(ATTRIBUTE_NAME, value);
+        I_Entity mainEntity = vie.createEntity("kljsfh", complex.getId());
+        mainEntity.addAttributeValue(nestedAttributeName, nestedEntity);
+        assertEquals(
+            "There should be three attribute values",
+            3,
+            mainEntity.getAttribute(nestedAttributeName).getComplexValue().getAttribute(ATTRIBUTE_NAME).getValueCount());
+    }
+
+    /**
      * Tests the deep copy and remove methods.<p>
      */
     public void testCopyAndRemoveEntity() {
