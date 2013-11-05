@@ -116,6 +116,28 @@ public interface I_Vie {
     List<Element> getAttributeElements(String entityId, String attributeName, Element context);
 
     /**
+     * Returns DOM elements marked with the attribute name in the 'properties' tag attribute.<p>
+     * 
+     * @param entity the entity
+     * @param attributeName the attribute name
+     * @param context the context to search within
+     * 
+     * @return the elements
+     */
+    List<Element> getEditableElements(I_Entity entity, String attributeName, Element context);
+
+    /**
+     * Returns DOM elements marked with the attribute name in the 'properties' tag attribute.<p>
+     * 
+     * @param entityId the entity id/subject
+     * @param attributeName the attribute name
+     * @param context the context to search within
+     * 
+     * @return the elements
+     */
+    List<Element> getEditableElements(String entityId, String attributeName, Element context);
+
+    /**
      * Returns the element subject.<p>
      * 
      * @param element the DOM element

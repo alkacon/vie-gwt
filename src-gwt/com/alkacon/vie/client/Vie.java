@@ -177,34 +177,34 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @return the new entity
      */
     public native I_Entity createEntity(String entityId, String entityTypeName) /*-{
-                                                                            var entityType = this.types
-                                                                            .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityTypeName));
-                                                                            var entityInstance;
-                                                                            if (entityType != null) {
-                                                                            // if the type is available, use it to create the new instance
-                                                                            var attributes = {};
-                                                                            if (entityId == null) {
-                                                                            	// create a new generic id
-                                                                            	entityId=entityTypeName+"/"+(new Date()).getTime();
-                                                                            	var newIdStump=entityId;
-                                                                            	var i=0;
-                                                                            	// make sure the id has not een registered yet
-                                                                            	while (this.entities.get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId))!=null){
-                                                                            		entityId=newIdStump+"#"+i;
-                                                                            		i++;
-                                                                            	}
-                                                                            }
-                                                                            attributes['@subject'] = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId);
-                                                                            entityInstance = entityType.instance(attributes);
-                                                                            } else {
-                                                                            throw Error('Type has not been registered yet.');
-                                                                            }
-                                                                            return this.entities.addOrUpdate(entityInstance);
-                                                                            }-*/;
-    
-   /**
-     * @see com.alkacon.vie.client.I_Vie#createType(java.lang.String)
-     */
+                                                                                var entityType = this.types
+                                                                                .get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityTypeName));
+                                                                                var entityInstance;
+                                                                                if (entityType != null) {
+                                                                                // if the type is available, use it to create the new instance
+                                                                                var attributes = {};
+                                                                                if (entityId == null) {
+                                                                                // create a new generic id
+                                                                                entityId=entityTypeName+"/"+(new Date()).getTime();
+                                                                                var newIdStump=entityId;
+                                                                                var i=0;
+                                                                                // make sure the id has not een registered yet
+                                                                                while (this.entities.get(@com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId))!=null){
+                                                                                	entityId=newIdStump+"#"+i;
+                                                                                	i++;
+                                                                                }
+                                                                                }
+                                                                                attributes['@subject'] = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(entityId);
+                                                                                entityInstance = entityType.instance(attributes);
+                                                                                } else {
+                                                                                throw Error('Type has not been registered yet.');
+                                                                                }
+                                                                                return this.entities.addOrUpdate(entityInstance);
+                                                                                }-*/;
+
+    /**
+      * @see com.alkacon.vie.client.I_Vie#createType(java.lang.String)
+      */
     public native I_Type createType(String id) /*-{
                                                id = @com.alkacon.vie.client.Vie::addPointyBrackets(Ljava/lang/String;)(id);
                                                var type = new this.Type(id);
@@ -266,6 +266,39 @@ public final class Vie extends JavaScriptObject implements I_Vie {
         JsArray<Element> results = JavaScriptObject.createArray().cast();
         for (int i = 0; i < aboutElements.length(); i++) {
             find("[property='" + attributeName + "']", aboutElements.get(i), results);
+        }
+        List<Element> elements = new ArrayList<Element>();
+        for (int i = 0; i < results.length(); i++) {
+            // prevent duplicate entries
+            if (!elements.contains(results.get(i))) {
+                elements.add(results.get(i));
+            }
+        }
+        return elements;
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_Vie#getEditableElements(com.alkacon.vie.shared.I_Entity, java.lang.String, com.google.gwt.dom.client.Element)
+     */
+    public List<Element> getEditableElements(I_Entity entity, String attributeName, Element context) {
+
+        return getEditableElements(entity.getId(), attributeName, context);
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_Vie#getEditableElements(java.lang.String, java.lang.String, com.google.gwt.dom.client.Element)
+     */
+    public List<Element> getEditableElements(String entityId, String attributeName, Element context) {
+
+        JsArray<Element> aboutElements = JavaScriptObject.createArray().cast();
+        if (context == null) {
+            context = RootPanel.getBodyElement();
+        }
+        aboutElements = find("[about='" + entityId + "']", context, aboutElements);
+        JsArray<Element> results = JavaScriptObject.createArray().cast();
+        for (int i = 0; i < aboutElements.length(); i++) {
+            // using the attribute contains word selector
+            find("[properties~='" + attributeName + "']", aboutElements.get(i), results);
         }
         List<Element> elements = new ArrayList<Element>();
         for (int i = 0; i < results.length(); i++) {
@@ -459,7 +492,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
             entity.removeAttributeSilent(attribute.getAttributeName());
         }
     }
-    
+
     /**
      * Returns all descending elements and self that match the given selector.<p>
      * 
