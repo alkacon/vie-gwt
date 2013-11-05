@@ -265,40 +265,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
         aboutElements = find("[about='" + entityId + "']", context, aboutElements);
         JsArray<Element> results = JavaScriptObject.createArray().cast();
         for (int i = 0; i < aboutElements.length(); i++) {
-            find("[property='" + attributeName + "']", aboutElements.get(i), results);
-        }
-        List<Element> elements = new ArrayList<Element>();
-        for (int i = 0; i < results.length(); i++) {
-            // prevent duplicate entries
-            if (!elements.contains(results.get(i))) {
-                elements.add(results.get(i));
-            }
-        }
-        return elements;
-    }
-
-    /**
-     * @see com.alkacon.vie.client.I_Vie#getEditableElements(com.alkacon.vie.shared.I_Entity, java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public List<Element> getEditableElements(I_Entity entity, String attributeName, Element context) {
-
-        return getEditableElements(entity.getId(), attributeName, context);
-    }
-
-    /**
-     * @see com.alkacon.vie.client.I_Vie#getEditableElements(java.lang.String, java.lang.String, com.google.gwt.dom.client.Element)
-     */
-    public List<Element> getEditableElements(String entityId, String attributeName, Element context) {
-
-        JsArray<Element> aboutElements = JavaScriptObject.createArray().cast();
-        if (context == null) {
-            context = RootPanel.getBodyElement();
-        }
-        aboutElements = find("[about='" + entityId + "']", context, aboutElements);
-        JsArray<Element> results = JavaScriptObject.createArray().cast();
-        for (int i = 0; i < aboutElements.length(); i++) {
-            // using the attribute contains word selector
-            find("[properties~='" + attributeName + "']", aboutElements.get(i), results);
+            find("[property~='" + attributeName + "']", aboutElements.get(i), results);
         }
         List<Element> elements = new ArrayList<Element>();
         for (int i = 0; i < results.length(); i++) {
