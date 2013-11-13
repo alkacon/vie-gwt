@@ -1,0 +1,5 @@
+dependencies {
+    compile group: 'com.google.gwt', name: 'gwt-dev', version: '2.5.1'
+    compile group: 'com.google.gwt', name: 'gwt-user', version: '2.5.1'
+    compile group: 'com.google.gwt', name: 'gwt-servlet', version: '2.5.1'
+}
