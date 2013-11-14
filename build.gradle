@@ -1,6 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'maven'
-//apply plugin: 'signing'
+apply plugin: 'signing'
 
 repositories {
     if (project.hasProperty('additional_repositories')){
@@ -109,14 +109,14 @@ artifacts {
     }
 }
 
-//signing {
-//	sign configurations.archives
-//}
+signing {
+	sign configurations.archives
+}
 if (project.hasProperty('publish_repository')){
     uploadArchives {
         repositories {
             mavenDeployer {
-                //	beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
                 repository(url: publish_repository) {
                     authentication(userName: publish_user, password: publish_password)
@@ -149,7 +149,6 @@ if (project.hasProperty('publish_repository')){
                     artifacts.each{ arch ->
                         def filterName=arch.name
                         filterName=filterName.substring(0, filterName.lastIndexOf("-"))
-                        println "name: "+filterName
                         addFilter(filterName){artifact, file ->
                             artifact.name.startsWith(filterName)
                         }
