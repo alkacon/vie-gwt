@@ -109,9 +109,7 @@ artifacts {
     }
 }
 
-signing {
-	sign configurations.archives
-}
+signing { sign configurations.archives }
 if (project.hasProperty('publish_repository')){
     uploadArchives {
         repositories {
@@ -121,44 +119,47 @@ if (project.hasProperty('publish_repository')){
                 repository(url: publish_repository) {
                     authentication(userName: publish_user, password: publish_password)
                 }
-                pom.project {
-                    name artifact_name
-                    packaging 'jar'
-                    description product_description
-                    url "http://www.github.com/alkacon/${artifact_name}"
-                    scm {
-                        url "scm:git@github.com:alkacon/${artifact_name}.git"
-                        connection "scm:git@github.com:alkacon/${artifact_name}.git"
-                        developerConnection "scm:git@github.com:alkacon/${artifact_name}.git"
+                artifacts.each{ arch ->
+                    def filterName=arch.name
+                    filterName=filterName.substring(0, filterName.lastIndexOf("-"))
+                    addFilter(filterName){artifact, file ->
+                        artifact.name.startsWith(filterName)
                     }
-
-                    licenses {
-                        license {
-                            name 'GNU Lesser General Public License'
-                            url 'http://www.gnu.org/licenses/lgpl.html'
-                            distribution 'repo'
+                    pom(filterName).project {
+                        name product_name
+                        packaging 'jar'
+                        description product_description
+                        groupId group_id
+                        url "http://www.opencms.org"
+                        scm {
+                            url "scm:git@github.com:alkacon/${artifact_name}.git"
+                            connection "scm:git@github.com:alkacon/${artifact_name}.git"
+                            developerConnection "scm:git@github.com:alkacon/${artifact_name}.git"
                         }
-                    }
-
-                    developers {
-                        developer {
-                            id 'tHerrmann'
-                            name 'Tobias Herrmann'
+                        licenses {
+                            license {
+                                name 'GNU Lesser General Public License'
+                                url 'http://www.gnu.org/licenses/lgpl.html'
+                                distribution 'repo'
+                            }
                         }
-                    }
-                    artifacts.each{ arch ->
-                        def filterName=arch.name
-                        filterName=filterName.substring(0, filterName.lastIndexOf("-"))
-                        addFilter(filterName){artifact, file ->
-                            artifact.name.startsWith(filterName)
+                        organization {
+                            name 'Alkacon Software'
+                            url 'http://www.alkacon.com'
                         }
-                        pom(filterName).groupId= group_id
+                        developers {
+                            developer {
+                                name 'Alkacon Software'
+                                url 'http://www.alkacon.com'
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
+
 // fixed issue with libraries containing both .java and .class files
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["-sourcepath", ""]
