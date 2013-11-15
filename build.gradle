@@ -16,6 +16,11 @@ configurations {
         description = 'Includes all dependencies required for compile and runtime'
         transitive = false
     }
+    
+    testCompile {
+        description = 'Includes all dependencies required for testing'
+        transitive = false
+    }
 }
 
 // import dependencies
