@@ -59,6 +59,7 @@ task serverJar (type: Jar, dependsOn: compileJava){
 }
 
 javadoc {
+    options.addStringOption("sourcepath","")
     project.configure(options) {
         memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
         charSet = "UTF-8"
