@@ -346,7 +346,16 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     */
     public I_Entity registerEntity(I_Entity entity) {
 
-        I_Entity result = createEntity(entity.getId(), entity.getTypeName());
+        return registerEntity(entity, false);
+    }
+
+    /**
+     * @see com.alkacon.vie.client.I_Vie#registerEntity(com.alkacon.vie.shared.I_Entity, boolean)
+     */
+    public I_Entity registerEntity(I_Entity entity, boolean discardIds) {
+
+        String id = discardIds ? null : entity.getId();
+        I_Entity result = createEntity(id, entity.getTypeName());
         for (I_EntityAttribute attribute : entity.getAttributes()) {
             if (attribute.isSimpleValue()) {
                 for (String value : attribute.getSimpleValues()) {
@@ -354,7 +363,7 @@ public final class Vie extends JavaScriptObject implements I_Vie {
                 }
             } else {
                 for (I_Entity value : attribute.getComplexValues()) {
-                    result.addAttributeValue(attribute.getAttributeName(), registerEntity(value));
+                    result.addAttributeValue(attribute.getAttributeName(), registerEntity(value, discardIds));
                 }
             }
         }

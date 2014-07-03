@@ -177,6 +177,16 @@ public interface I_Vie {
     I_Entity registerEntity(I_Entity entity);
 
     /**
+     * Registers the given entity within the VIE model.<p>
+     * 
+     * @param entity the entity to register
+     * @param discardIds <code>true</code> to discard the entity ids and generate ids
+     * 
+     * @return the new registered entity object
+     */
+    I_Entity registerEntity(I_Entity entity, boolean discardIds);
+
+    /**
      * Registers the type and it's sub-types.<p>
      * 
      * @param type the type to register
