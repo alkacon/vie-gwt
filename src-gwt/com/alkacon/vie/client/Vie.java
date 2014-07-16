@@ -51,6 +51,9 @@ public final class Vie extends JavaScriptObject implements I_Vie {
     /** Flag indicating that id's should always be wrapped in '<>' brackets. */
     private static boolean OVERRIDE_BRACKET_WRAPPED_NAMES = true;
 
+    /** The global VIE instance variable name. */
+    private static final String VIE_INSTANCE = "comAlkaconVieClientVIE";
+
     /**
      * Protected constructor, needed for sub classes of GWT-JavaScriptObjects.<p>
      */
@@ -121,8 +124,13 @@ public final class Vie extends JavaScriptObject implements I_Vie {
      * @return the JS VIE object
      */
     private static native Vie createInstance() /*-{
-
-                                               return new $wnd.VIE();
+                                               if ($wnd[@com.alkacon.vie.client.Vie::VIE_INSTANCE]&&$wnd[@com.alkacon.vie.client.Vie::VIE_INSTANCE].types){
+                                               // there is already a VIE instance within the window context, use that one
+                                               return $wnd[@com.alkacon.vie.client.Vie::VIE_INSTANCE];
+                                               }else{
+                                               $wnd[@com.alkacon.vie.client.Vie::VIE_INSTANCE]=new $wnd.VIE();
+                                               return $wnd[@com.alkacon.vie.client.Vie::VIE_INSTANCE];
+                                               }
                                                }-*/;
 
     /**
